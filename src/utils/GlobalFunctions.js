@@ -148,6 +148,12 @@ const GF = {
     customToast: (type, msg) => {
         console.log('Fire!', type, msg);
         ToastEventBus.emit('add', { severity: (type > 0) ? 'success' : (type === -1) ? 'warn' : 'error', detail: msg, life: 4000 });
+    },
+    formatNumComma(x) {
+        return x >= 0 ? x.toLocaleString() : '-'
+    },
+    formatTwoDecimal(x) {
+        return x >= 0 ? parseFloat(x).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2}) : '-'
     }
 }
 

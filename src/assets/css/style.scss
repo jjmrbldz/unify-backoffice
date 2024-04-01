@@ -201,3 +201,27 @@ button {
 .p-toast-detail {
     margin: 0;
 }
+
+.p-menubar-start {
+    display: flex;
+    align-items: center;
+}
+
+.navSummary {
+    display: inline-block;
+    margin-left: 3rem;
+    .summItem {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 0 0 0.625rem;
+        border-radius: 4px;
+        background-color: var(--highlight-bg);
+        min-width: 164px;
+        .summContent {
+            min-width: 120px;
+            color: var(--highlight-text-color);
+            font-weight: 700;
+        }
+    }
+}

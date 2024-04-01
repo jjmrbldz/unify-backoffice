@@ -14,6 +14,7 @@ import DialogService from 'primevue/dialogservice'
 import DynamicDialog from 'primevue/dynamicdialog'
 import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
+import Ripple from "primevue/ripple"
 
 import GF from '@/utils/GlobalFunctions'
 import MODAL from '@/components/Modals'
@@ -31,6 +32,8 @@ app.component('DynamicDialog', DynamicDialog)
 app.component('IconField', IconField)
 app.component('InputIcon', InputIcon)
 app.component('StatusTag', StatusTag)
+
+app.directive('ripple', Ripple)
 
 app.config.globalProperties.$GF = GF; // GlobalFunctions.js
 app.config.globalProperties.$modalComponent = MODAL;

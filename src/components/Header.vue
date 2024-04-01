@@ -5,7 +5,13 @@
                 <img class="" src="@/assets/img/logo2.svg" alt="" height="40">
                 <span class="logo-title ml-2">UNIFY</span>
             </RouterLink>
-            {{ $store.state.userStore.realCash }}
+            <div class="navSummary">
+                <div class="summItem">
+                    <Skeleton v-if="$store.state.userStore.glblLoading" width="80px" />
+                    <div v-else class="summContent">{{ this.$GF.formatTwoDecimal($store.state.userStore.realCash) }}</div>
+                    <Button class="ml-auto" icon="mdi mdi-refresh" text @click="refresh()"/>
+                </div>
+            </div>
         </template>
         <template #end>
             <div class="flex align-items-center gap-2">
@@ -41,6 +47,9 @@ export default {
                 this.$primevue.changeTheme('aura-dark-purple', 'aura-light-purple', 'theme-link', () => {})
                 this.$store.dispatch('lightThemeStore/setLightTheme', true)
             }
+        },
+        refresh() {
+            this.$store.dispatch('userStore/agentDetails');
         }
     },
     components: {

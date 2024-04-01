@@ -65,7 +65,6 @@ export default {
             const selectedLang = this.$store.state.languageStore.lang
             switch (selectedLang) {
                 case "en":
-                    console.log('aa');
                     this.langIcon = en;
                     break;
                 case "kr":

@@ -59,13 +59,14 @@ axiosInstance.interceptors.response.use(
 export const api = {
   // AUTH
   // login           : (data, token)  => axiosInstance.post('login', data, {headers: {Authorization: `Bearer ${token}`}}),
-  login           : (data, token)  => axiosInstance.post('login', data),
-  logout          : (data, token)  => axiosInstance.post('logout', data, {headers: {Authorization: `Bearer ${token}`}}),
-  register        : (data)         => axiosInstance.post('register', data),
-  checkToken      : (data)  => axiosInstance.post('validatetoken', data),
+  login           : (data, token) => axiosInstance.post('login', data),
+  logout          : (data, token) => axiosInstance.post('logout', data, {headers: {Authorization: `Bearer ${token}`}}),
+  register        : (data)        => axiosInstance.post('register', data),
+  checkToken      : (data)        => axiosInstance.post('validatetoken', data),
   
   // USER
-  agentDetails    : (data, token)  => axiosInstance.post('agentdetails', data),
+  agentDetails    : (data)        => axiosInstance.post('agentdetails', data),
+  myRevenue       : (data)        => axiosInstance.post('myrevenue', data),
   
   // VIDEOS
   getVideoList    : (config)       => axiosInstance.get('videolist', config),
