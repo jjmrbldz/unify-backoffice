@@ -1,12 +1,31 @@
-import { api } from "@/axios/api"
+import { api, TOKEN } from "@/axios/api"
+import GF from "@/utils/GlobalFunctions"
+import store from '@/store/index'
+import router from "@/router"
+
+const userState = JSON.parse(localStorage.getItem('user'))
 
 const state     = {
-    user        : null
+    user_id     : userState ? userState.user_id : null,
+    username    : userState ? userState.username : null,
+    token       : userState ? userState.token : null,
+    realCash    : 0,
 }
 
 const mutations = {
     setUser(state, user) {
-        state.user = user
+        state.user_id   = user.user_id
+        state.username  = user.username
+        state.token     = user.token
+    },
+    setAgentDetails(state, user) {
+        state.realCash   = user.realCash
+    },
+    logout(state) {
+        state.user_id   = null
+        state.username  = null
+        state.token     = null
+        router.push('/login')
     },
 }
 
@@ -15,82 +34,81 @@ const actions   = {
         try {
 
             const res   = await api.login(data);
-            // const ecode = res.data.ecode;
-            // const msg   = res.data.message;
-            console.log(res);
-            
-            // if (ecode > 0) {
-            //     customToast(ecode, context.getters.translate(msg) ? context.getters.translate(msg) : msg);
-            //     context.commit('setLoading',  false);
-            // } else {
-            //     const userData      = res.data.data;
-            //     const request_id    = data.request_id;
-            //     const user_type     = data.user_type;
-            //     const user          = {
-            //         request_id      : request_id,
-            //         username        : userData.username,
-            //         user_type       : user_type,
-            //         login_token     : userData.login_token,
-            //         p_parentID      : userData.p_parentID,
-            //         t_partnerID     : userData.t_partnerID,
-            //         user_id         : userData.id,
-            //         path            : userData.path,
-            //         tp_parentid     : userData.partnerid,
-            //         partnerid       : userData.partnerid,
-            //         tp_website      : userData.tp_website,
-            //         tp_allow_partner: userData.tp_allow_partner,
-            //         tp_site_title   : userData.tp_site_title,
-            //         tp_favicon      : userData.tp_favicon,
-            //         tp_logo         : userData.tp_logo,
-            //     }
-
-            //     context.commit('setUser',  user);
-            //     customToast(ecode, context.getters.translate(msg) ? context.getters.translate(msg) : msg);
-            //     var s = setTimeout(() => {
-            //         router.push('/dashboard');
-            //         context.commit('setLoading',  false);
-            //         clearTimeout(s)
-            //     }, 300);
-
-            //     return user
-            // }
-            
+            const code  = res.data.code;
+            const msg   = res.data.message;
+            console.log(res)
+            if(code === 1) {
+                context.commit('setUser', res.data.data)
+                GF.customToast(code, store.getters['languageStore/translate'](`${msg}`))
+                router.push('/')
+            } else {
+                context.commit('logout')
+                GF.customToast(code, store.getters['languageStore/translate'](`${res.data.error_code}`))
+            }
 
         } catch (error) {
+            context.commit('logout')
             console.error('Login failed:', error);
-            // commit('setLoading',  false);
-            // commit('logout');
-
             throw error;
         }
     },
     async checkToken(context) {
-        if (context.state.login_token) {
+        if (context.state.token) {
             try {
                 const data = { 
-                    request_id: context.state.request_id, 
-                    user_type: context.state.user_type, 
-                    user_token: context.state.login_token, 
+                    Authorization: `Bearer ${TOKEN}`,
+                    token: context.state.token,
+                    username: context.state.username, 
                 }
-                
-                const response  = await api.checkToken(data);
-                console.log(response);
-                // if(response.data.ecode === 510){
-                //     customToast(response.data.ecode, context.getters.translate(response.data.message) ? context.getters.translate(response.data.message) : response.data.message);
-                //     context.commit('logout')
-                // }
+                const res  = await api.checkToken(data);
+                const code  = res.data.code;
+                const msg   = res.data.message;
+
+                if(code === 1) {
+                    await context.dispatch('agentDetails')
+                    return true
+                    // GF.customToast(code, store.getters['languageStore/translate'](`${msg}`))
+                } else {
+                    context.commit('logout')
+                    GF.customToast(code, store.getters['languageStore/translate'](`${res.data.error_code}`))
+                    return false
+                }
 
             } catch(error) {
                 console.error(error)
-                // context.commit('logout')
-                throw error
+                context.commit('logout')
+                return false
             }
+        }
+    },
+    async agentDetails(context) {
+        try {
+            const data = { 
+                Authorization   : `Bearer ${TOKEN}`,
+                token           : context.state.token,
+                username        : context.state.username, 
+                filter_agentid  : context.state.username, 
+            }
+            const res   = await api.agentDetails(data);
+            const code  = res.data.code;
+            const msg   = res.data.message;
+            console.log(res);
+
+            if(code === 1) {
+                context.commit('setAgentDetails', res.data.data)
+            } else {
+                
+            }
+
+        } catch (error) {
+            console.error(error);
+            throw error;
         }
     },
 }
 
 const getters = {
-    isLoggedIn: (state) => !!state.login_token,
+    isLoggedIn: (state) => !!state.token,
 }
 
 

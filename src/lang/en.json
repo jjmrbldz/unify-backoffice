@@ -813,6 +813,11 @@
     "noticeLang": "Notice",
     "apiDocumentationLang": "API Documentation",
 
+    "User not found": "User not found!",
+    "Username or password incorrect": "Username or password incorrect!",
+    "Please login first!": "Please login first!",
+    "Please login again!": "Please login again!",
+
     "totalPageLang": "Total Page",
     "loginError Lang!": "Login Failed!"
 }

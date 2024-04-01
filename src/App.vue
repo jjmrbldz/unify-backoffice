@@ -1,10 +1,11 @@
 <template>
-	<Header v-if="isLoggedIn && this.$route.path !== '/login'" />
-	<Sidebar v-if="isLoggedIn && this.$route.path !== '/login'" />
+	<Header v-if="isLoggedIn" />
+	<Sidebar v-if="isLoggedIn" />
 	<main :class="isLoggedIn && this.$route.path !== '/login' ? 'main min-h-screen' : ''">
-		<PageTitle v-if="isLoggedIn && this.$route.path !== '/login'" />
+		<PageTitle v-if="isLoggedIn" />
 		<RouterView />
 	</main>
+	<Toast />
 	<DynamicDialog />
 </template>
 
@@ -15,16 +16,21 @@ import Header from '@/components/Header.vue'
 import Sidebar from '@/components/Sidebar.vue'
 import PageTitle from '@/components/GlobalComponents/PageTitle.vue'
 import lightThemeStore from '@/store/theme'
+import { mapGetters } from 'vuex'
 
 export default {
 	data() {
 		return {
-			isLoggedIn: true,
+			// isLoggedIn: true
 		}
 	},
 	mounted() {
+		console.log(this.$store);
 		this.handleLang()
 		this.handleTheme()
+	},
+	computed:{
+		...mapGetters('userStore', ['isLoggedIn'])
 	},
 	methods: {
 		

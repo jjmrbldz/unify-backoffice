@@ -10,9 +10,9 @@ const axiosInstance = axios.create({
   baseURL: API_URL,
   headers: {
     // 'Content-Type': 'application/json',
-    'Accept': 'application/json, text/javascript, */*; q=0.01',
-    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8n',
-    'Authorization': `Bearer ${TOKEN}`,
+    // 'Accept': 'application/json, text/javascript, */*; q=0.01',
+    // 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8n',
+    // 'Authorization': `Bearer ${TOKEN}`,
     // 'Access-Control-Allow-Origin' : '*',
     // Add any other headers as needed
   },
@@ -40,15 +40,15 @@ axiosInstance.interceptors.response.use(
     // Add any logic for handling the response
     // console.log(response.status)
     if (response.data.ecode && response.data.ecode === 510) {
-      store.dispatch('logout');
+      store.commit('userStore/logout');
     }
     return response;
   },
   (error) => {
     // Add any logic for handling errors
 
-    if (error.config.url === 'token') {
-      this.$GF.customToast(1, `Please login again!`)
+    if (error.config.url === 'validatetoken') {
+      this.$GF.customToast(1, store.getters['languageStore/translate']('Please login again!'))
       store.dispatch('logout');
     } 
 
@@ -59,10 +59,13 @@ axiosInstance.interceptors.response.use(
 export const api = {
   // AUTH
   // login           : (data, token)  => axiosInstance.post('login', data, {headers: {Authorization: `Bearer ${token}`}}),
-  login           : (data, token)  => axiosInstance.post('signin', data),
+  login           : (data, token)  => axiosInstance.post('login', data),
   logout          : (data, token)  => axiosInstance.post('logout', data, {headers: {Authorization: `Bearer ${token}`}}),
   register        : (data)         => axiosInstance.post('register', data),
-  checkToken      : (data, token)  => axiosInstance.post('token', data, {headers: {Authorization: `Bearer ${token}`}}),
+  checkToken      : (data)  => axiosInstance.post('validatetoken', data),
+  
+  // USER
+  agentDetails    : (data, token)  => axiosInstance.post('agentdetails', data),
   
   // VIDEOS
   getVideoList    : (config)       => axiosInstance.get('videolist', config),

@@ -9,6 +9,7 @@ import store from './store'
 import router from './router'
 
 import PrimeVue from 'primevue/config'
+import Toast from 'primevue/toast'
 import DialogService from 'primevue/dialogservice'
 import DynamicDialog from 'primevue/dynamicdialog'
 import IconField from 'primevue/iconfield';
@@ -24,7 +25,8 @@ const app = createApp(App)
 app.use(store)
 app.use(router)
 app.use(PrimeVue, { ripple: true })
-app.use(DialogService);
+app.use(DialogService)
+app.component('Toast', Toast)
 app.component('DynamicDialog', DynamicDialog)
 app.component('IconField', IconField)
 app.component('InputIcon', InputIcon)

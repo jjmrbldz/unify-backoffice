@@ -16,7 +16,7 @@
                             <InputIcon>
                                 <i class="pi pi-user " style="left: 14px;" />
                             </InputIcon>
-                            <InputText v-model="params.username" class="w-full pl-6 py-3" placeholder="Enter your username" />
+                            <InputText v-model="params.username" class="w-full pl-6 py-3" placeholder="Enter your username" @keyup.enter="login()" />
                         </IconField>
                     </div>
                     <div class="flex flex-column gap-2 mb-5">
@@ -25,7 +25,7 @@
                             <InputIcon class="left-2 z-1">
                                 <i class="pi pi-lock " style="left: 14px;" />
                             </InputIcon>
-                            <Password v-model="params.password" class="w-full " inputClass="w-full pl-6 py-3" placeholder="Enter your password" :feedback="false" toggleMask />
+                            <Password v-model="params.password" class="w-full " inputClass="w-full pl-6 py-3" placeholder="Enter your password" :feedback="false" toggleMask  @keyup.enter="login()"/>
                         </IconField>
                     </div>
                     <Button label="Login" class="w-full p-3" @click="login()" />
@@ -45,7 +45,7 @@ export default {
                 Authorization: 'Bearer hr0|5StV10{£&4I>5dEw7]X$]hIq>AKMr0@y)]:£XQaf1cxSUz',
                 username: null,
                 password: null,
-                device  : 'test',
+                device  : navigator.userAgent,
             }
         }
     },
@@ -60,7 +60,11 @@ export default {
     methods: {
         async login() {
             try {
-                const ret  = await this.$store.dispatch('userStore/login', this.params);
+                if(this.params.username && this.params.password) {
+                    const ret  = await this.$store.dispatch('userStore/login', this.params);
+                } else {
+                    this.$GF.customToast(0, this.$store.getters['languageStore/translate']('Please complete all fields'))
+                }
             } catch(error) {
                 console.error(error)
                 throw error

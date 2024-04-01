@@ -16,7 +16,6 @@ const mutations = {
 
 const actions   = {
     setLightTheme({commit, state}, data) {
-        console.log(data);
         commit('setLightTheme', data)
     },
 }

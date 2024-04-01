@@ -146,7 +146,8 @@ const GF = {
         return x < 0 ? 'text-danger' : ''
     },
     customToast: (type, msg) => {
-        ToastEventBus.emit('add', { severity: (type > 0) ? 'error' : (type === -1) ? 'warn' : 'success', detail: msg, life: 4000 });
+        console.log('Fire!', type, msg);
+        ToastEventBus.emit('add', { severity: (type > 0) ? 'success' : (type === -1) ? 'warn' : 'error', detail: msg, life: 4000 });
     }
 }
 

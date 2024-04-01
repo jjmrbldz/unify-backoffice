@@ -5,6 +5,7 @@
                 <img class="" src="@/assets/img/logo2.svg" alt="" height="40">
                 <span class="logo-title ml-2">UNIFY</span>
             </RouterLink>
+            {{ $store.state.userStore.realCash }}
         </template>
         <template #end>
             <div class="flex align-items-center gap-2">
@@ -13,7 +14,7 @@
                 <Button :icon="!this.$store.state.lightThemeStore.lightTheme ? 'pi pi-sun' : 'pi pi-moon'" aria-label="Theme Toggle" @click="handleTheme" rounded text />
                 <span class="font-light mr-2">|</span>
                 <Button icon="pi pi-user" severity="secondary" rounded />
-                <Button icon="pi pi-sign-out" aria-label="Logout" rounded text />
+                <Button icon="pi pi-sign-out" aria-label="Logout" @click="this.$store.commit('userStore/logout')" rounded text />
             </div>
         </template>
     </Menubar>
