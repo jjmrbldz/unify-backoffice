@@ -938,6 +938,10 @@
     "Lower Agent Count" : "Lower Agent Count",
     "Seamless API URL": "Seamless API URL",
 
+    "Invalid parameter agent_share : ": "Invalid parameter: Agent Share",
+    "Invalid parameter username": "Invalid parameter: Username",
+    "Invalid parameter filter_agentid : ": "Invalid parameter: Agent ID",
+
     "totalPageLang": "Total Page",
     "loginError Lang!": "Login Failed!"
 }

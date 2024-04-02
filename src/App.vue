@@ -28,9 +28,20 @@ export default {
 		console.log(this.$store);
 		this.handleLang()
 		this.handleTheme()
+		if(this.isLoggedIn) {
+			this.$store.dispatch('userStore/agentDetails')
+		}
 	},
 	computed:{
 		...mapGetters('userStore', ['isLoggedIn'])
+	},
+	watch: {
+		isLoggedIn(newVal, oldVal) {
+			console.log('aa');
+			if(newVal) {
+				this.$store.dispatch('userStore/agentDetails')
+			}
+		}
 	},
 	methods: {
 		

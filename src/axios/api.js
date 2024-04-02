@@ -67,7 +67,11 @@ export const api = {
   // USER
   agentDetails    : (data)        => axiosInstance.post('agentdetails', data),
   myRevenue       : (data)        => axiosInstance.post('myrevenue', data),
+  saveUserDetails : (data)        => axiosInstance.post('updateagent', data),
   
+  // AGENTS
+  agentList       : (data)        => axiosInstance.post('agentlist', data),
+
   // VIDEOS
   getVideoList    : (config)       => axiosInstance.get('videolist', config),
   uploadVideo     : (data, token)  => axiosInstance.post('uploadvideo', data, {headers: {Authorization: `Bearer ${token}`, "Content-Type": 'multipart/form-data'}}),

@@ -12,7 +12,8 @@ const state     = {
     realCash    : null,
     glblLoading : false,
     currentDateTime: new Date(),
-    record      : null
+    record      : null,
+    userDetails : {},
 }
 
 const mutations = {
@@ -29,6 +30,7 @@ const mutations = {
     },
     setAgentDetails(state, user) {
         state.realCash   = user.realCash
+        state.userDetails= user
     },
     logout(state) {
         state.user_id   = null
@@ -77,8 +79,6 @@ const actions   = {
                 const msg   = res.data.message;
 
                 if(code === 1) {
-                    await context.dispatch('agentDetails')
-                    await context.dispatch('myRevenue')
                     return true
                     // GF.customToast(code, store.getters['languageStore/translate'](`${msg}`))
                 } else {
@@ -106,10 +106,10 @@ const actions   = {
             const res   = await api.agentDetails(data);
             const code  = res.data.code;
             const msg   = res.data.message;
-            console.log(res);
 
             if(code === 1) {
                 context.commit('setAgentDetails', res.data.data)
+                return res.data.data
             } else {
                 
             }
@@ -135,7 +135,6 @@ const actions   = {
             const res   = await api.myRevenue(data);
             const code  = res.data.code;
             const msg   = res.data.message;
-            console.log('Record:', res);
 
             if(code === 1) {
                 context.commit('setRecord', res.data.data[0])
@@ -154,6 +153,7 @@ const actions   = {
 
 const getters = {
     isLoggedIn: (state) => !!state.token,
+    isLoading: (state) => state.glblLoading,
 }
 
 

@@ -23,13 +23,28 @@ const router = createRouter({
       component: () => import('@/views/LoginView.vue')
     },
     {
-      path: '/video',
-      name: 'video',
+      path: '/mypage',
+      name: 'mypage',
       meta: {
-        title: 'Video List',
+        title: 'My Page',
         requiresAuth: true,
       },
-      component: () => import('@/views/VideoListView.vue')
+      component: () => import('@/views/MyPageView.vue')
+    },
+    {
+      path: '/list',
+      meta: {
+        requiresAuth: true,
+      },
+      children : [
+        {
+          path: 'agent',
+          meta: {
+            title: 'Agent List',
+          },
+          component: () => import('@/views/AgentTreeView.vue')
+        }
+      ]
     },
   ]
 })

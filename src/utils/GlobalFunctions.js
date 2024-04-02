@@ -150,10 +150,62 @@ const GF = {
         ToastEventBus.emit('add', { severity: (type > 0) ? 'success' : (type === -1) ? 'warn' : 'error', detail: msg, life: 4000 });
     },
     formatNumComma(x) {
-        return x >= 0 ? x.toLocaleString() : '-'
+        if (x !== '' && x !== null && x !== undefined) {
+            if(typeof x !== 'number' || isNaN(x)) {
+                console.warn(`${x} is not a number`);
+                return '-'
+            } else if(x >= 0) {
+                x.toLocaleString()
+            } else {
+                return '-'
+            }
+        } else {
+            return '-'
+        }
     },
     formatTwoDecimal(x) {
-        return x >= 0 ? parseFloat(x).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2}) : '-'
+        if (x !== '' && x !== null && x !== undefined) {
+            if(typeof x !== 'number' || isNaN(x)) {
+                console.warn(`${x} is ${typeof x}`);
+                return '-'
+            } else if(x >= 0) {
+                return parseFloat(x).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})
+            } else {
+                return '-'
+            }
+        } else {
+            return '-'
+        }
+    },
+    // handleLevelColor(x) {
+    //     if (x > 6) {
+    //         return 'background: #de3cec;'
+    //     } else if (x === 5) {
+    //         return 'background: #1d70e1;'
+    //     } else if (x === 4) {
+    //         return 'background: #027180;'
+    //     } else if (x === 3) {
+    //         return 'background: #2f8002;'
+    //     } else if (x === 2) {
+    //         return 'background: #fe9343;'
+    //     } else {
+    //         return 'background: #fe4343;'
+    //     }
+    // }
+    handleLevelColor(x) {
+        if (x > 6) {
+            return 'contrast'
+        } else if (x === 5) {
+            return 'secondary'
+        } else if (x === 4) {
+            return 'danger'
+        } else if (x === 3) {
+            return 'warning'
+        } else if (x === 2) {
+            return 'success'
+        } else {
+            return ''
+        }
     }
 }
 
