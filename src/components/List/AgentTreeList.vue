@@ -7,14 +7,18 @@
                         {{ slotProps.node.data.id }}
                     </span>
                     <Tag class="mx-2" :severity="this.$GF.handleLevelColor(slotProps.node.data.tp_grade)" :value="`Level ${slotProps.node.data.tp_grade}`" />
-                    <span>{{ slotProps.node.data.parent_username }}</span>
+                    <RouterLink class="text-blue-600" :to="slotProps.node.data.parent_username === $store.state.userStore.username ? { path: '/mypage' } : { name: 'agent', params: { subAgent: slotProps.node.data.parent_username } }">
+                        <span>{{ slotProps.node.data.parent_username }}</span>
+                    </RouterLink>
                 </template>
             </Column>
             <Column :header="$store.getters['languageStore/translate']('Agent ID')">
                 <template #body="slotProps">
                     <div class="flex align-items-center">
                         <Badge class="block" value="" :severity="slotProps.node.data.tp_status ? 'warning' : 'success'"></Badge>
-                        <span class="ml-1 text-wrap block" style="word-break: break-all;">{{ slotProps.node.data.username }}</span>
+                        <RouterLink class="text-blue-600" :to="slotProps.node.data.username === $store.state.userStore.username ? { path: '/mypage' } : { name: 'agent', params: { subAgent: slotProps.node.data.username } }">
+                            <span class="" style="word-break: break-all;">{{ slotProps.node.data.username }}</span>
+                        </RouterLink>
                     </div>
                 </template>
             </Column>
@@ -88,6 +92,7 @@
 import { defineAsyncComponent } from 'vue';
 import { api, TOKEN } from '@/axios/api';
 import {DynamicParentIdSorter, NestedConverter} from '@/utils/Class/agentListSorter'
+import { RouterLink } from 'vue-router';
 
 export default {
     data() {

@@ -164,18 +164,49 @@ const GF = {
         }
     },
     formatTwoDecimal(x) {
-        if (x !== '' && x !== null && x !== undefined) {
-            if(typeof x !== 'number' || isNaN(x)) {
-                console.warn(`${x} is ${typeof x}`);
-                return '-'
-            } else if(x >= 0) {
-                return parseFloat(x).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})
+        let z = x;
+        try {
+            if(z !== '' && z !== null && z !== undefined) {
+                z = parseFloat(z)
+                
+                if (isNaN(z)) {
+                    throw new Error(`Conversion error: ${z} is not a valid number.`);
+                } else if(z >= 0) {
+                    return z.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})
+                } else {
+                    return '-'
+                }
             } else {
                 return '-'
             }
-        } else {
+            
+        } catch (error) {
+            console.error(error)
             return '-'
         }
+
+        // if (z !== '' && z !== null && z !== undefined) {
+        //     try {
+        //         z = parseFloat(z).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})
+        //         if (isNaN(z)) {
+        //             throw new Error("Conversion error: Not a valid number.");
+        //         } 
+
+        //     } catch (error) {
+        //         console.error(error)
+        //         z = '-'
+        //     }
+        //     if(typeof z !== 'number' || isNaN(z)) {
+        //         console.warn(`${z} is ${typeof z}`);
+        //         return '-'
+        //     } else if(z >= 0) {
+        //         return parseFloat(z).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})
+        //     } else {
+        //         return '-'
+        //     }
+        // } else {
+        //     return '-'
+        // }
     },
     // handleLevelColor(x) {
     //     if (x > 6) {
