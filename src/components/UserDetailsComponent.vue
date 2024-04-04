@@ -88,7 +88,7 @@ import { api, TOKEN } from '@/axios/api';
  export default {
     data() {
         return {
-            buttonDisabled: true,
+            buttonDisabled: false,
             loading     : {},
             params      : {},
             subAgent    : null,
@@ -162,7 +162,7 @@ import { api, TOKEN } from '@/axios/api';
                     this.userStatus     = this.statusOptions.find(item => item.value === this.params.tp_status)
                     this.params.tp_share= this.params.tp_share * 100
                     this.params.password= ''
-                    this.buttonDisabled = true
+                    // this.buttonDisabled = true
                 } else {
                     
                 }
@@ -172,7 +172,7 @@ import { api, TOKEN } from '@/axios/api';
                 console.error(error);
                 throw error;
             } finally {
-                this.buttonDisabled = true
+                // this.buttonDisabled = true
                 this.loading    = false
             }
         },

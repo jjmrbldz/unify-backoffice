@@ -9,6 +9,7 @@ const state     = {
     user_id     : userState ? userState.user_id : null,
     username    : userState ? userState.username : null,
     token       : userState ? userState.token : null,
+    tp_grade    : null,
     realCash    : null,
     glblLoading : false,
     currentDateTime: new Date(),
@@ -27,6 +28,7 @@ const mutations = {
         state.user_id   = user.user_id
         state.username  = user.username
         state.token     = user.token
+        state.tp_grade  = user.tp_grade
     },
     setAgentDetails(state, user) {
         state.realCash   = user.realCash

@@ -865,7 +865,7 @@
     "LEVEL": "LEVEL",
     "ACTIVE": "ACTIVE",
     "INACTIVE": "INACTIVE",
-    "AGENT DETAILS": "AGENT DETAILS",
+    "AGENT DETAILS": "Agent Details",
     "Basic information of agent account.": "Basic information of agent account.",
     "Agent Name": "Agent Name",
     "CREDIT PAYMENT": "Increase Agent Balance",
@@ -882,7 +882,7 @@
     "Agent Password": "Agent Password",
     "Agent Email": "Agent Email",
     "Agent Nickname": "Agent Nickname",
-    "Agent Parentid": "Agent Parentid",
+    "Agent Parentid": "Agent Parent ID",
     "Agent Share": "Agent Share",
     "Agent Key": "Agent Key",
     "Agent Host": "Seamless API",
@@ -937,10 +937,15 @@
     "SAVE" : "SAVE",
     "Lower Agent Count" : "Lower Agent Count",
     "Seamless API URL": "Seamless API URL",
+    "SUM": "SUM",
+    "Withdrawal": "Withdraw",
+    "Deposit": "Deposit",
 
     "Invalid parameter agent_share : ": "Invalid parameter: Agent Share",
     "Invalid parameter username": "Invalid parameter: Username",
     "Invalid parameter filter_agentid : ": "Invalid parameter: Agent ID",
+
+    "addLevelLang": "Add Level",
 
     "totalPageLang": "Total Page",
     "loginError Lang!": "Login Failed!"

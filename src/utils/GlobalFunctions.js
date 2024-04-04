@@ -171,10 +171,8 @@ const GF = {
                 
                 if (isNaN(z)) {
                     throw new Error(`Conversion error: ${z} is not a valid number.`);
-                } else if(z >= 0) {
+                }  else {
                     return z.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})
-                } else {
-                    return '-'
                 }
             } else {
                 return '-'
@@ -236,6 +234,18 @@ const GF = {
             return 'success'
         } else {
             return ''
+        }
+    },
+    handleLevelTextColor(x) {
+        let lvl = x + 1;
+        if (lvl == 1) {
+            return 'text-red-500';
+        } else if (lvl == 2) {
+            return 'text-blue-500';
+        } else if (lvl == 3) {
+            return 'text-green-500';
+        } else {
+            return 'text-color-secondary';
         }
     }
 }

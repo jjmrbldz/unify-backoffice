@@ -7,7 +7,7 @@
                         {{ slotProps.node.data.id }}
                     </span>
                     <Tag class="mx-2" :severity="this.$GF.handleLevelColor(slotProps.node.data.tp_grade)" :value="`Level ${slotProps.node.data.tp_grade}`" />
-                    <RouterLink class="text-blue-600" :to="slotProps.node.data.parent_username === $store.state.userStore.username ? { path: '/mypage' } : { name: 'agent', params: { subAgent: slotProps.node.data.parent_username } }">
+                    <RouterLink class="text-blue-400" :to="slotProps.node.data.parent_username === $store.state.userStore.username ? { path: '/mypage' } : { name: 'agent', params: { subAgent: slotProps.node.data.parent_username } }">
                         <span>{{ slotProps.node.data.parent_username }}</span>
                     </RouterLink>
                 </template>
@@ -15,8 +15,8 @@
             <Column :header="$store.getters['languageStore/translate']('Agent ID')">
                 <template #body="slotProps">
                     <div class="flex align-items-center">
-                        <Badge class="block" value="" :severity="slotProps.node.data.tp_status ? 'warning' : 'success'"></Badge>
-                        <RouterLink class="text-blue-600" :to="slotProps.node.data.username === $store.state.userStore.username ? { path: '/mypage' } : { name: 'agent', params: { subAgent: slotProps.node.data.username } }">
+                        <Badge class="block mr-1" value="" :severity="slotProps.node.data.tp_status ? 'warning' : 'success'"></Badge>
+                        <RouterLink class="text-blue-400" :to="slotProps.node.data.username === $store.state.userStore.username ? { path: '/mypage' } : { name: 'agent', params: { subAgent: slotProps.node.data.username } }">
                             <span class="" style="word-break: break-all;">{{ slotProps.node.data.username }}</span>
                         </RouterLink>
                     </div>
@@ -45,47 +45,35 @@
             </Column>
             <Column :header="$store.getters['languageStore/translate']('Action')">
                 <template #body="slotProps">
-                   
+                    <Button icon="mdi mdi-pencil" @click="handleOP($event, slotProps.node.data)" rounded outlined/>
                 </template>
             </Column>
-            <!-- <Column field="tp_balance" :header="$store.getters['languageStore/translate']('balanceLang')"></Column>
-            <Column field="tp_slot_share" :header="$store.getters['languageStore/translate']('slotShareLang')">
-                <template #body="slotProps">
-                    {{ parseFloat(slotProps.node.data.tp_slot_share*100).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2}) }}%
-                </template>
-            </Column>
-            <Column field="userCount" :header="$store.getters['languageStore/translate']('userCountLang')">
-                <template #body="slotProps">
-                    <i class="fas fa-user text-success"></i>
-                    <span class="ms-1">
-                        {{ slotProps.node.data.userCount }}
-                    </span>
-                </template>
-            </Column>
-            <Column field="tp_reg_datetime" :header="$store.getters['languageStore/translate']('dateRegisteredLang')">
-                <template #body="slotProps">
-                    {{ getDateTime(slotProps.node.data.tp_reg_datetime) }}
-                </template>
-            </Column>
-            <Column field="tp_last_login" :header="$store.getters['languageStore/translate']('lastLoginLang')">
-                <template #body="slotProps">
-                    {{ getDateTime(slotProps.node.data.tp_last_login) }}
-                </template>
-            </Column>
-            <Column header="" field="" headerStyle="width: 10rem">
-                <template #body="slotProps">
-                    <div class="d-flex flex-nowrap">
-                        <Button class="btn btn-sm btn-success me-2" @click="userInfoWindow($event, `sub/information?user_account=${slotProps.node.data.username}`)">
-                            <i class="fas fa-eye"></i>
-                        </Button>
-                        <Button class="btn btn-sm btn-primary" @click="userInfoWindow($event, `sub/information?user_account=${slotProps.node.data.username}`)">
-                            <i class="fas fa-edit"></i>
-                        </Button>
-                    </div>
-                </template>
-            </Column> -->
             <template #empty> <div class="text-center text-danger"> {{ $store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
         </TreeTable>
+
+        <OverlayPanel ref="rowRef" @hide="hideCallBack()">
+            <RouterLink class="block mb-1 surface-0 hover:surface-100 text-color-secondary text-base text-left border-round-sm transition-colors transition-duration-200 py-2 px-3" :to="
+                rowData.username === $store.state.userStore.username ? 
+                { path: '/mypage' } : 
+                { name: 'agent', params: { subAgent: rowData.username } }"
+            >
+                <i class="mdi mdi-account mr-1"></i>
+                {{ rowData.username === $store.state.userStore.username ? 
+                    $store.getters['languageStore/translate']('myPageLang') : 
+                    $store.getters['languageStore/translate']('AGENT DETAILS')
+                }}
+            </RouterLink>
+            <RouterLink v-if="rowData.tp_grade + 1 <= 3 && rowData.tp_grade + 1 > 0"
+                class="block mb-1 surface-0 hover:surface-100 text-left border-round-sm transition-colors transition-duration-200 py-2 px-3"
+                :class="this.$GF.handleLevelTextColor(rowData.tp_grade)"
+                :to="{path: '/newagent', query: {level:2, id: rowData.id, username: rowData.username}}"
+            >
+                <i class="mdi mdi-account-multiple-plus text-color-secondary"></i>
+                {{ `${$store.getters['languageStore/translate']('addLevelLang')} ${rowData.tp_grade + 1}` }}
+            </RouterLink>
+            <Button class="block mb-1 surface-0 hover:surface-100 text-color-secondary text-base text-left border-round-sm transition-colors transition-duration-200 py-2 px-3" icon="mdi mdi-cog" :label="$store.getters['languageStore/translate']('Game Settings')" text />
+            
+        </OverlayPanel>
 </template>
 
 <script>
@@ -97,6 +85,7 @@ import { RouterLink } from 'vue-router';
 export default {
     data() {
         return {
+            rowData : {},
             loading : false,
             list    : [],
             expandedKeys: {},
@@ -112,6 +101,13 @@ export default {
         this.getList()
     },
     methods: {
+        hideCallBack() {
+            this.rowData = {};
+        },
+        handleOP($event, data) {
+            this.rowData = data;
+            this.$refs.rowRef.toggle($event);
+        },
         collectKeys(obj, result) {
             if (!obj || typeof obj !== 'object') return;
             if (obj.hasOwnProperty('key')) {
@@ -135,9 +131,21 @@ export default {
                     // this.$GF.customToast(code, this.$store.getters['languageStore/translate'](`${msg}`))
                     const sorter = new DynamicParentIdSorter(res.data.data);
                     const sortedData = sorter.sortData();
-
+                    console.log('Converted:', sortedData);
+                    let arr = [];
+                    for(var item of sortedData) {
+                        arr.push(
+                            {
+                                id: item.id,
+                                tp_parentid: item.tp_parentid,
+                                path: item.path
+                            }
+                        )
+                    }
+                    console.log('IDs: ',arr);
                     const converter = new NestedConverter(sortedData);
                     const nestedData = converter.getNestedData();
+                    
                     this.list = nestedData;
                     this.list.forEach(obj => this.collectKeys(obj, this.expandedKeys))
                     console.log('Converted', this.list);

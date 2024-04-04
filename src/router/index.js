@@ -32,6 +32,15 @@ const router = createRouter({
       component: () => import('@/views/MyPageView.vue')
     },
     {
+      path: '/newagent',
+      name: 'newagent',
+      meta: {
+        title: 'New Agent',
+        requiresAuth: true,
+      },
+      component: () => import('@/views/NewAgentView.vue')
+    },
+    {
       path: '/agent/:subAgent',
       name: 'agent',
       meta: {

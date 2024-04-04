@@ -80,7 +80,7 @@ import { mapGetters } from 'vuex';
                 {
                     icon    : 'mdi mdi-account-multiple-check',
                     title   : 'Gold Day Bet User',
-                    summ    : this.$store.state.userStore.record ? this.$GF.formatTwoDecimal(this.$store.state.userStore.record.betUser) : '-'
+                    summ    : this.$store.state.userStore.record ? this.$GF.formatTwoDecimal(this.$store.state.userStore.record.betCount) : '-'
                 },
                 {
                     icon    : 'mdi mdi-cards-spade',
