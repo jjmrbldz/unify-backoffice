@@ -61,7 +61,14 @@ const router = createRouter({
             title: 'Agent List',
           },
           component: () => import('@/views/AgentTreeView.vue')
-        }
+        },
+        {
+          path: 'user',
+          meta: {
+            title: 'User List',
+          },
+          component: () => import('@/views/UserListView.vue')
+        },
       ]
     },
   ]

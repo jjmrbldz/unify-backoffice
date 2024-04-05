@@ -1,4 +1,10 @@
 <template>
+    <div class="formgrid grid mt-4 mb-2">
+        <div class="field col-3">
+            <label>{{ $store.getters['languageStore/translate']('searchLang') }}</label>
+            <InputText type="search" v-model="params.filter_agentid" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" @keyup.enter="getList()" />
+        </div>
+    </div>
     <TreeTable v-model:expandedKeys="expandedKeys" :value="list" :indentation="0.425" :resizableColumns="false" columnResizeMode="expand"  :loading="loading">
             <!-- <Column field="id" header="ID" :expander="true"></Column> -->
             <Column :header="$store.getters['languageStore/translate']('Up Agent ID')" :expander="true" style="width: 300px; min-width: 300px;" class="not-col">
@@ -98,7 +104,17 @@ export default {
                 Authorization   : `Bearer ${TOKEN}`,
                 username        : this.$store.state.userStore.username,
                 token           : this.$store.state.userStore.token,
-                filter_agentid  : this.$store.state.userStore.username,
+                filter_agentid  : '',
+            }
+        }
+    },
+    watch: {
+        'params.filter_agentid'(newVal, oldVal) {
+            if(newVal) {
+
+            } else {
+                this.params.filter_agentid = this.$store.state.userStore.username
+                this.getList()
             }
         }
     },
@@ -127,6 +143,9 @@ export default {
         async getList() {
             this.loading = true
             try {
+
+                this.params.filter_agentid = this.params.filter_agentid ? this.params.filter_agentid : this.$store.state.userStore.username
+
                 const res   = await api.agentList(this.params);
                 const code  = res.data.code;
                 const msg   = res.data.message;
