@@ -66,7 +66,12 @@
             <RouterLink v-if="rowData.tp_grade + 1 <= 3 && rowData.tp_grade + 1 > 0"
                 class="block mb-1 surface-0 hover:surface-100 text-left border-round-sm transition-colors transition-duration-200 py-2 px-3"
                 :class="this.$GF.handleLevelTextColor(rowData.tp_grade)"
-                :to="{path: '/newagent', query: {level:2, id: rowData.id, username: rowData.username}}"
+                :to="{path: '/newagent', query: {
+                    tp_grade        : rowData.tp_grade, 
+                    agent_parentid  : rowData.id,
+                    agent_level     : rowData.tp_grade + 1,
+                    parent_username: rowData.username,
+                    }}"
             >
                 <i class="mdi mdi-account-multiple-plus text-color-secondary"></i>
                 {{ `${$store.getters['languageStore/translate']('addLevelLang')} ${rowData.tp_grade + 1}` }}
@@ -129,24 +134,51 @@ export default {
 
                 if(code === 1) {
                     // this.$GF.customToast(code, this.$store.getters['languageStore/translate'](`${msg}`))
+
                     const sorter = new DynamicParentIdSorter(res.data.data);
                     const sortedData = sorter.sortData();
-                    console.log('Converted:', sortedData);
-                    let arr = [];
-                    for(var item of sortedData) {
-                        arr.push(
-                            {
-                                id: item.id,
-                                tp_parentid: item.tp_parentid,
-                                path: item.path
-                            }
-                        )
-                    }
-                    console.log('IDs: ',arr);
-                    const converter = new NestedConverter(sortedData);
-                    const nestedData = converter.getNestedData();
+
+                    // console.log('Converted:', sortedData);
+                    // let arr = [];
+                    // for(var item of sortedData) {
+                    //     arr.push(
+                    //         {
+                    //             id: item.id,
+                    //             tp_parentid: item.tp_parentid,
+                    //             path: item.path
+                    //         }
+                    //     )
+                    // }
+                    // console.log('IDs: ',arr);
+                    // const converter = new NestedConverter(sortedData);
+                    // const nestedData = converter.getNestedData();
                     
-                    this.list = nestedData;
+                    // this.list = nestedData;
+
+                    const rawData = sortedData;
+                    const getParentDeep = (arr, targetId) => arr.find(({ id }) => id === targetId)
+                        ?? arr.flatMap(({ children }) => getParentDeep(children, targetId))
+                        .filter(e => e)
+                        .at(0);
+                    
+                    const result2 = rawData
+                        .sort(({ tp_parentid: a }, { tp_parentid: b }) => a - b)
+                        .reduce((acc, { id, tp_parentid, username, tp_casino_key, tp_api_token, tp_hostname, tp_balance, tp_email, tp_grade, tp_name, tp_nickname, tp_phone, tp_last_login, tp_reg_datetime, tp_reg_ip, tp_last_ip, tp_status, tp_memo, tp_share, tp_level, tp_white_ip, parent_username, realCash, userCount, path, }) => {
+                            let data = { id, tp_parentid, username, tp_casino_key, tp_api_token, tp_hostname, tp_balance, tp_email, tp_grade, tp_name, tp_nickname, tp_phone, tp_last_login, tp_reg_datetime, tp_reg_ip, tp_last_ip, tp_status, tp_memo, tp_share, tp_level, tp_white_ip, parent_username, realCash, userCount, path }
+                            const obj = { key : id,id, data, children: [] };
+                            const parentObj = getParentDeep(acc, tp_parentid);
+                            if (parentObj){
+                                obj.key = parentObj.key + "-" + obj.id;
+                                parentObj.children.push(obj);
+                            }
+                            else{
+                                acc.push(obj);
+                            }
+                        return acc;
+                    },[]);
+
+                    this.list = result2;
+
                     this.list.forEach(obj => this.collectKeys(obj, this.expandedKeys))
                     console.log('Converted', this.list);
                     

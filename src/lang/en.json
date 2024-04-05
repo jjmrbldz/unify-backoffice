@@ -941,11 +941,13 @@
     "Withdrawal": "Withdraw",
     "Deposit": "Deposit",
 
-    "Invalid parameter agent_share : ": "Invalid parameter: Agent Share",
-    "Invalid parameter username": "Invalid parameter: Username",
-    "Invalid parameter filter_agentid : ": "Invalid parameter: Agent ID",
+    "Invalid parameter agent_share : ": "Invalid Agent Share",
+    "Invalid parameter username": "Invalid Username",
+    "Invalid parameter filter_agentid : ": "Invalid Agent ID",
 
     "addLevelLang": "Add Level",
+
+    "Invalid parameter agent_white_ip : ": "Invalid Agent White IP",
 
     "totalPageLang": "Total Page",
     "loginError Lang!": "Login Failed!"

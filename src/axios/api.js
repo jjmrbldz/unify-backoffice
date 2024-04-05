@@ -71,6 +71,7 @@ export const api = {
   
   // AGENTS
   agentList       : (data)        => axiosInstance.post('agentlist', data),
+  createAgent     : (data)        => axiosInstance.post('createagent', data),
 
   // VIDEOS
   getVideoList    : (config)       => axiosInstance.get('videolist', config),

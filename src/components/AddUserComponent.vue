@@ -25,7 +25,7 @@
             <label>{{ $store.getters['languageStore/translate']('Agent Parentid') }}</label>
             <IconField iconPosition="left">
                 <InputIcon class="mdi mdi-account-multiple"></InputIcon>
-                <InputText v-model="parentUsername" class="py-2 pr-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :disabled="true" />
+                <InputText v-model="parent_username" class="py-2 pr-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :disabled="true" />
             </IconField>
         </div>
         <div class="field col-6">
@@ -87,59 +87,54 @@ import { v4 as uuidv4 } from 'uuid';
     data() {
         return {
             loading     : false,
-            params      : {
+            parent_username:   null,
+            params      : {},
+        }
+    },
+    mounted() {
+        this.initParams();
+    },
+    methods: {
+        initParams() {
+            this.params = {
                 Authorization   : `Bearer ${TOKEN}`,
                 username        : this.$store.state.userStore.username,
                 token           : this.$store.state.userStore.token,
-                tp_grade        : '',
+                tp_grade        : '', // Parent Grade (Agent List Row) -> Route Query
                 agent_username  : '',
                 agent_password  : '',
                 agent_nickname  : '',
-                agent_parentid  : '', // id
-                agent_share     : '',
+                agent_parentid  : '', // Parent ID (Agent List Row) -> Route Query
+                agent_share     : null,
                 agent_key       : uuidv4(), // uuid
                 agent_token     : uuidv4(), // uuid
                 agent_host      : '',
                 agent_white_ip  : '',
-                agent_level     : '',
-            },
-        }
-    },
-    mounted() {
-        if(this.$route.query) {
-            console.log(this.$route.query);
-            // this.params = this.$route.query
+                agent_level     : '', // New Agent Level + 1 -> Route Query
+            }
+            this.initQuery();
             console.log(this.params);
-        }
-    },
-    methods: {
+        },
+        initQuery() {
+            if(this.$route.query) {
+                const { agent_parentid, agent_level, tp_grade, parent_username } = this.$route.query
+                this.params.agent_parentid  = agent_parentid
+                this.params.agent_level     = parseInt(agent_level) + 1
+                this.params.tp_grade        = tp_grade
+                this.parent_username        = parent_username
+            }
+        },
         async submit() {
             try {
-                let reqBody = {
-                    Authorization   : `Bearer ${TOKEN}`,
-                    username        : this.$store.state.userStore.username,
-                    token           : this.$store.state.userStore.token,
-                    agent_share     : this.params.tp_share >= 0 ? this.params.tp_share : "",
-                    agent_email     : this.params.tp_email,
-                    agent_name      : this.params.tp_name,
-                    agent_nickname  : this.params.tp_nickname,
-                    agent_key       : this.params.tp_casino_key,
-                    agent_token     : this.params.tp_api_token,
-                    agent_host      : this.params.tp_hostname,
-                    agent_level     : this.params.tp_level,
-                    agent_password  : this.params.password === '' ? "xxxxxx" : this.params.password,
-                    agent_status    : this.params.tp_status >= 0 ? `${this.userStatus.value}` : "",
-                    agent_white_ip  : this.params.tp_white_ip ? this.params.tp_white_ip : "",
-                    filter_agentid  : this.params.username
-                }
 
-                const res   = await api.saveUserDetails(reqBody);
-                const code  = res.data.code;
-                const msg   = res.data.message;
+                const res   = await api.createAgent(this.params);
+                const code  = res.data.status;
+                const msg   = res.data.error_code;
                 console.log(res);
 
                 if(code === 1) {
                     this.$GF.customToast(code, this.$store.getters['languageStore/translate'](`${msg}`))
+                    this.initParams();
                 } else {
                     this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
                 }
@@ -148,41 +143,9 @@ import { v4 as uuidv4 } from 'uuid';
                 console.error(error)
                 throw error
             } finally {
-                this.getUserDetails()
+                
             }
-        },
-        async getUserDetails() {
-            this.loading    = true
-            try {
-                const data = { 
-                    Authorization   : `Bearer ${TOKEN}`,
-                    token           : this.$store.state.userStore.token,
-                    username        : this.$store.state.userStore.username, 
-                    filter_agentid  : this.subAgent ? this.subAgent : this.$store.state.userStore.username, 
-                }
-                const res   = await api.agentDetails(data);
-                const code  = res.data.code;
-                const msg   = res.data.message;
-                console.log(res.data.data);
-                if(code === 1) {
-                    this.params         = res.data.data
-                    this.userStatus     = this.statusOptions.find(item => item.value === this.params.tp_status)
-                    this.params.tp_share= this.params.tp_share * 100
-                    this.params.password= ''
-                    // this.buttonDisabled = true
-                } else {
-                    
-                }
-
-            } catch (error) {
-                this.params = {}
-                console.error(error);
-                throw error;
-            } finally {
-                // this.buttonDisabled = true
-                this.loading    = false
-            }
-        },
+        }
     }
  }
 </script>
