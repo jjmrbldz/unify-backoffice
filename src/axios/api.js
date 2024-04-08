@@ -74,7 +74,19 @@ export const api = {
   createAgent     : (data)        => axiosInstance.post('createagent', data),
   
   // USERS
-  userList     : (data)        => axiosInstance.post('userlist', data),
+  userList        : (data)        => axiosInstance.post('userlist', data),
+
+  // HISTORY
+  creditHIstoryList   : (data)        => axiosInstance.post('cashflow', data),
+
+  // REVENUE
+  getMyRevenueList    : (data)        => axiosInstance.post('myrevenue', data),
+  getAgentRevenueList : (data)        => axiosInstance.post('agentrevenue', data),
+  getByGameRevenueList: (data)        => axiosInstance.post('agentrevenuegames', data),
+
+  // SETTINGS
+  myCasinoLsit        : (data)        => axiosInstance.post('mycasinolist', data),
+  updateCasinoSettings: (data)    => axiosInstance.post('updatecasinosettings', data),
   
   
 };

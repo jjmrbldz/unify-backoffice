@@ -3,75 +3,134 @@ import store from '@/store';
 import GF from '@/utils/GlobalFunctions';
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      name: 'dashboard',
-      meta: {
-        title: 'Dashboard',
-        requiresAuth: true
-      },
-      component: () => import('@/views/DashboardView.vue')
-    },
-    {
-      path: '/login',
-      name: 'login',
-      meta: {
-        title: 'Login'
-      },
-      component: () => import('@/views/LoginView.vue')
-    },
-    {
-      path: '/mypage',
-      name: 'mypage',
-      meta: {
-        title: 'My Page',
-        requiresAuth: true,
-      },
-      component: () => import('@/views/MyPageView.vue')
-    },
-    {
-      path: '/newagent',
-      name: 'newagent',
-      meta: {
-        title: 'New Agent',
-        requiresAuth: true,
-      },
-      component: () => import('@/views/NewAgentView.vue')
-    },
-    {
-      path: '/agent/:subAgent',
-      name: 'agent',
-      meta: {
-        title: 'Agent Details',
-        requiresAuth: true,
-      },
-      component: () => import('@/views/AgentPageView.vue')
-    },
-    {
-      path: '/list',
-      meta: {
-        requiresAuth: true,
-      },
-      children : [
-        {
-          path: 'agent',
-          meta: {
-            title: 'Agent List',
-          },
-          component: () => import('@/views/AgentTreeView.vue')
-        },
-        {
-          path: 'user',
-          meta: {
-            title: 'User List',
-          },
-          component: () => import('@/views/UserListView.vue')
-        },
-      ]
-    },
-  ]
+	history: createWebHistory(import.meta.env.BASE_URL),
+	routes: [
+		{
+			path: '/',
+			name: 'dashboard',
+			meta: {
+				title: 'Dashboard',
+				requiresAuth: true
+			},
+			component: () => import('@/views/DashboardView.vue')
+		},
+		{
+			path: '/login',
+			name: 'login',
+			meta: {
+				title: 'Login'
+			},
+			component: () => import('@/views/LoginView.vue')
+		},
+		{
+			path: '/mypage',
+			name: 'mypage',
+			meta: {
+				title: 'My Page',
+				requiresAuth: true,
+			},
+			component: () => import('@/views/MyPageView.vue')
+		},
+		{
+			path: '/newagent',
+			name: 'newagent',
+			meta: {
+				title: 'New Agent',
+				requiresAuth: true,
+			},
+			component: () => import('@/views/NewAgentView.vue')
+		},
+		{
+			path: '/agent/:subAgent',
+			name: 'agent',
+			meta: {
+				title: 'Agent Details',
+				requiresAuth: true,
+			},
+			component: () => import('@/views/AgentPageView.vue')
+		},
+		{
+			path: '/list',
+			meta: {
+				requiresAuth: true,
+			},
+			children : [
+				{
+					path: 'agent',
+					meta: {
+						title: 'Agent List',
+					},
+					component: () => import('@/views/AgentTreeView.vue')
+				},
+				{
+					path: 'user',
+					meta: {
+						title: 'User List',
+					},
+					component: () => import('@/views/UserListView.vue')
+				},
+				{
+					path: 'revenue/myrevenue',
+					meta: {
+						title: 'My Revenue List',
+					},
+					component: () => import('@/views/MyRevenueView.vue')
+				},
+				{
+					path: 'revenue/loweragent',
+					meta: {
+						title: 'My Revenue List',
+					},
+					component: () => import('@/views/LowerAgentRevenueView.vue')
+				},
+				{
+					path: 'revenue/bygame',
+					meta: {
+						title: 'Revenue List by Game',
+					},
+					component: () => import('@/views/ByGameRevenueView.vue')
+				},
+			]
+		},
+		{
+			path: '/history',
+			meta: {
+				requiresAuth: true,
+			},
+			children : [
+				{
+					path: 'credit',
+					meta: {
+						title: 'Credit History List',
+					},
+					component: () => import('@/views/CreditHistoryView.vue')
+				},
+			]
+		},
+		{
+			path: '/settings',
+			meta: {
+				requiresAuth: true,
+			},
+			children : [
+				{
+					path: 'vendor',
+					meta: {
+						title: 'Vendor Settings',
+					},
+					component: () => import('@/views/VendorSettingsView.vue')
+				},
+			]
+		},
+		{
+			path: '/apidocumentation',
+			meta: {
+				requiresAuth: true,
+				title: 'API Documentation',
+			},
+			component: () => import('@/views/APIDocumentationView.vue')
+		},
+	]
 })
 
 router.beforeEach((to, from, next) => {

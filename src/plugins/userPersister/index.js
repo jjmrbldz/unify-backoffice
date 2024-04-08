@@ -5,6 +5,7 @@ export const userPersister = store => {
 				user_id		: state.userStore.user_id,
 				username	: state.userStore.username,
 				token		: state.userStore.token,
+				tp_level	: state.userStore.tp_level,
 			}
 		))
 	});

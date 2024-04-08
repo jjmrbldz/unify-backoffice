@@ -1,0 +1,158 @@
+<template>
+    <div class="grid">
+        <div class="sm:col-2 md:col-4" v-for="item in list">
+            <Card class="w-full overflow-hidden">
+                <template v-if="image" #header>
+                    <img alt="user header" :src="handleCasinoImage(item.gameCode)" />
+                </template>
+                <template #content>
+                    <div class="flex align-items-center justify-content-between">
+                        <h3 class="title">{{item.casinoName}}</h3>
+                        <InputSwitch v-model="item.status" :true-value="1" :false-value="0" :checked="item.status" @change="handleStatusChange(item.gameCode, item.status)" />
+                    </div>
+                </template>
+            </Card>
+        </div>
+    </div>
+    <Button class="mt-3" :label="$store.getters['languageStore/translate']('SAVE')" @click="submit()" :loading="loading" :disabled="disabled"  />
+</template>
+
+<style lang="scss" scoped>
+    :deep(.p-card-header) {
+        min-height: 120px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--surface-100);
+        img {
+            max-width: 200px;
+            max-height: 80px
+        }
+    }
+    :deep(.p-card-body) {
+        padding: 1rem;
+    }
+</style>
+
+<script>
+import { api, TOKEN } from '@/axios/api';
+import evo from '@/assets/img/providers/evolution.svg'
+import bti from '@/assets/img/providers/bti.svg'
+import pragmatic from '@/assets/img/providers/pragmatic.png'
+
+export default {
+    inject: ['dialogRef'],
+    data() {
+        return {
+            image   : this.dialogRef ? this.dialogRef.data.image : true,
+            disabled: true,
+            loading : false,
+            checked : false,
+            list    : [],
+            params: {
+                Authorization   : `Bearer ${TOKEN}`,
+                username        : this.$store.state.userStore.username,
+                token           : this.$store.state.userStore.token,
+                filter_agentid  : this.dialogRef ? this.dialogRef.data.agentID :this.$store.state.userStore.username,
+            },
+            updateData: []
+        }
+    },
+    watch: {
+        updateData: {
+            handler(newVal, oldVal) {
+                if(newVal) {
+                    this.disabled = false
+                } else {
+                    this.disabled = true
+                }
+            },
+            deep: true
+        }
+    },
+    mounted() {
+        // if(this.dialogRef) {
+        //     this.image                  = this.dialogRef.data.image
+        //     this.params.filter_agentid  = this.dialogRef.data.agentID
+        // }
+        this.getList();
+    },
+    methods: {
+        async submit() {
+            this.loading = true
+            try {
+                let reqBody = {
+                    Authorization   : `Bearer ${TOKEN}`,
+                    username        : this.$store.state.userStore.username,
+                    token           : this.$store.state.userStore.token,
+                    filter_agentid  : this.params.filter_agentid,
+                    settings        : this.updateData
+                }
+                const res   = await api.updateCasinoSettings(reqBody);
+                const code  = res.data.code;
+                const msg   = res.data.message;
+                console.log(res);
+
+                if(code === 1) {
+                    this.$GF.customToast(code, this.$store.getters['languageStore/translate'](`${msg}`))
+                } else {
+                    this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
+                }
+            } catch (error) {
+                console.error(error)
+                throw error
+            } finally {
+                this.loading    = false;
+                this.getList();
+            }
+        },
+        updateSwitchArray(id, status) {
+            var index = this.updateData.findIndex(function (item) {
+                return item.gamecode === id;
+            });
+            if (index !== -1) {
+                this.updateData[index].status = status;
+            } else {
+                this.updateData.push({ gamecode: id, status: status });
+            }
+            console.log(this.updateData);
+        },
+        handleStatusChange(id, status) {
+            this.updateSwitchArray(id, status);
+        },
+        handleCasinoImage(img) {
+            if(img === 'evo') {
+                return evo
+            } else if(img === 'bti') {
+                return bti
+            } else if(img === 'pp') {
+                return pragmatic
+            }
+        },
+        async getList() {
+            this.loading = true
+            try {
+                const res   = await api.myCasinoLsit(this.params);
+                const code  = res.data.code;
+                const msg   = res.data.message;
+                console.log(res);
+
+                if(code === 1) {
+                    // this.$GF.customToast(code, this.$store.getters['languageStore/translate'](`${msg}`))
+                    this.list = res.data.data;
+                } else {
+                    this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
+                    this.list = []
+                }
+            } catch (error) {
+                console.error(error)
+                throw error
+            } finally {
+                this.disabled   = true;
+                this.loading    = false
+                this.updateData = [];
+            }
+        },
+    }
+}
+</script>

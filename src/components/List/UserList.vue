@@ -68,10 +68,10 @@
                 <StatusTag :status="data.tu_status" />
             </template>
         </Column>
-        <template #empty> <div class="text-center text-danger"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
+        <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
     </DataTable>
     <Paginator
-        template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink JumpToPageInput JumpToPageDropdown "
+        template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink JumpToPageInput RowsPerPageDropdown "
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
         :rows="params.items_count"
         :totalRecords="totalCount"

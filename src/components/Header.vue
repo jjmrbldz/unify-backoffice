@@ -1,5 +1,5 @@
 <template>
-    <Menubar class="fixed top-0 m-2 header" style="height: 68px;">
+    <Menubar class="fixed top-0 m-2 header z-5" style="height: 68px;">
         <template #start>
             <RouterLink class="inline-flex max-h-full align-items-center" to="/">
                 <img class="" src="@/assets/img/logo2.svg" alt="" height="40">
@@ -19,7 +19,7 @@
                 <LanguageToggle />
                 <Button :icon="!this.$store.state.lightThemeStore.lightTheme ? 'pi pi-sun' : 'pi pi-moon'" aria-label="Theme Toggle" @click="handleTheme" rounded text />
                 <span class="font-light mr-2">|</span>
-                <Button icon="pi pi-user" severity="secondary" rounded />
+                <Button icon="pi pi-user" severity="secondary" rounded @click="$router.push({path: '/mypage'})" />
                 <Button icon="pi pi-sign-out" aria-label="Logout" @click="this.$store.commit('userStore/logout')" rounded text />
             </div>
         </template>

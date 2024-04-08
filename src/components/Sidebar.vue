@@ -42,12 +42,14 @@
                     <router-link v-ripple class="jb-item-link" to="/history/bet">
                         <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('betHistoryLang') }} </span>
                     </router-link>
-                    <router-link v-ripple class="jb-item-link" to="/settings/game">
-                        <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('gameSettingsLang') }} </span>
-                    </router-link>
-                    <router-link v-ripple class="jb-item-link" to="/settings/vendor">
-                        <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('vendorSettingsLang') }} </span>
-                    </router-link>
+                    <template v-if="$store.state.userStore.tp_level === 'T'">
+                        <router-link v-ripple class="jb-item-link" to="/settings/game">
+                            <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('gameSettingsLang') }} </span>
+                        </router-link>
+                        <router-link v-ripple class="jb-item-link" to="/settings/vendor">
+                            <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('vendorSettingsLang') }} </span>
+                        </router-link>
+                    </template>
                 </div>
             </div>
             <div class="jb-menu-item has-submenu">
@@ -57,13 +59,13 @@
                     <span class="pi arrow ml-auto" :class="expand[2] ? 'pi-angle-down' : 'pi-angle-right'" />
                 </a>
                 <div class="jb-submenu" ref="settlement" :class="expand[2] ? 'active' : ''">
-                    <router-link v-ripple class="jb-item-link" to="/list/revenue/my">
+                    <router-link v-ripple class="jb-item-link" to="/list/revenue/myrevenue">
                         <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('myRevenueListLang') }} </span>
                     </router-link>
                     <router-link v-ripple class="jb-item-link" to="/list/revenue/loweragent">
                         <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('lowerAgentRevenueListLang') }} </span>
                     </router-link>
-                    <router-link v-ripple class="jb-item-link" to="/settings/revenue/bygame">
+                    <router-link v-ripple class="jb-item-link" to="/list/revenue/bygame">
                         <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('revenueListByGameLang') }} </span>
                     </router-link>
                 </div>

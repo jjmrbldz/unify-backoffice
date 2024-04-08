@@ -143,7 +143,7 @@ const GF = {
         }
     },
     handleTextColor: (x) => {
-        return x < 0 ? 'text-danger' : ''
+        return x < 0 ? 'text-red-500' : ''
     },
     customToast: (type, msg) => {
         console.log('Fire!', type, msg);

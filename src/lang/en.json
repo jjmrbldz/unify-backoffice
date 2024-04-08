@@ -929,7 +929,7 @@
     "Result Amount Sum": "Result Amount Sum",
     "Tie Betting": "Tie Betting",
     "Win Loss": "Win Loss",
-    "Bet Return Rate": "Bet Return ate",
+    "Bet Return Rate": "Bet Return Rate",
     "Lower Agent Name": "Lower Agent Name",
     "Game Vendor": "Game Vendor",
     "User ID" : "User ID",
@@ -948,6 +948,9 @@
     "addLevelLang": "Add Level",
 
     "Invalid parameter agent_white_ip : ": "Invalid Agent White IP",
+    "Invalid parameter settings": "Invalid Parameter: Settings",
+    "Expired token": "Expired Token!",
+    "User no list": "No results found",
 
     "totalPageLang": "Total Page",
     "loginError Lang!": "Login Failed!"
