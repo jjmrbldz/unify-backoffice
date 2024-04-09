@@ -823,7 +823,7 @@
     "User List": "User List",
     "DASHBOARD": "DASHBOARD",
     "Dashboard": "Dashboard",
-    "MY PAGE": "MY PAGE",
+    "MY PAGE": "My Page",
     "AGENT": "AGENT",
     "Credit History": "Credit History",
     "Agent List": "Agent List",
@@ -921,6 +921,7 @@
     "Game Type": "Game Type",
     "Table ID": "Table ID",
     "Type": "Type",
+    "Seamless API": "Seamless API",
     "Agent ID": "Agent ID",
     "Credit History List": "Credit History List",
     "Up Agent ID": "Up Agent ID",
@@ -951,6 +952,12 @@
     "Invalid parameter settings": "Invalid Parameter: Settings",
     "Expired token": "Expired Token!",
     "User no list": "No results found",
+
+    "FAILED": "FAILED",
+    "Invalid Game ID": "Invalid Game ID!",
+    "Invalid parameter filter_game_id : ": "Invalid Game ID!",
+
+    "Amount must be greater than 0 (zero)": "Amount must be greater than 0 (zero)",
 
     "totalPageLang": "Total Page",
     "loginError Lang!": "Login Failed!"

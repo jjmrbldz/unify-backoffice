@@ -78,12 +78,17 @@ export const api = {
 
   // HISTORY
   creditHIstoryList   : (data)        => axiosInstance.post('cashflow', data),
+  recordHistoryList   : (data)        => axiosInstance.post('recordlist', data),
 
   // REVENUE
   getMyRevenueList    : (data)        => axiosInstance.post('myrevenue', data),
   getAgentRevenueList : (data)        => axiosInstance.post('agentrevenue', data),
   getByGameRevenueList: (data)        => axiosInstance.post('agentrevenuegames', data),
 
+  // BALANCE
+  addCash             : (data)        => axiosInstance.post('addcash', data),
+  deductCash          : (data)        => axiosInstance.post('deductcash', data),
+  
   // SETTINGS
   myCasinoLsit        : (data)        => axiosInstance.post('mycasinolist', data),
   updateCasinoSettings: (data)    => axiosInstance.post('updatecasinosettings', data),

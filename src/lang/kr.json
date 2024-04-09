@@ -814,6 +814,9 @@
     "apiDocumentationLang": "API 문서",
 
     "User not found": "사용자를 찾을 수 없습니다!",
+	"Username or password incorrect": "사용자 이름 또는 비밀번호가 잘못되었습니다!",
+    "Please login first!": "먼저 로그인하세요!",
+    "Please login again!": "다시 로그인하세요!",
 
 	"Lower Agent": "하위 에이전트",
 	"New Agent": "신규 에이전트",
@@ -841,7 +844,7 @@
 	"Number": "IDX",
 	"Agent Name": "에이전트 이름",
 	"Exibition Name": "에이전트 이름",
-	"ID": "에이전트 아이디",
+	"ID": "아이디",
 	"Password": "에이전트 비밀번호",
 	"Level": "레벨",
 	"API Key": "API 키",
@@ -922,6 +925,7 @@
 	"Game Type": "게임 유형",
 	"Table ID": "테이블 ID",
 	"Type": "유형",
+	"Seamless API": "Seamless API",
 	"Agent ID": "에이전트 ID",
 	"Credit History List": "에이전트 보유금 기록",
 	"Up Agent ID": "상부 에이전트 ID",
@@ -941,6 +945,26 @@
 	"SAVE": "저장",
 	"Lower Agent Count": "하부 에이전트 수",
 	"Seamless API URL": "Seamless API URL",
+	"SUM": "합계",
+	"Withdrawal": "환전",
+	"Deposit": "충전",
+
+    "Invalid parameter agent_share : ": "잘못된 에이전트 쉐어",
+    "Invalid parameter username": "잘못된 사용자 이름",
+    "Invalid parameter filter_agentid : ": "잘못된 에이전트 ID",
+
+    "addLevelLang": "레벨 추가",
+
+    "Invalid parameter agent_white_ip : ": "잘못된 에이전트 화이트 IP",
+    "Invalid parameter settings": "잘못된 매개변수: 설정",
+    "Expired token": "토큰 만료됨!",
+    "User no list": "결과 없음",
+
+    "FAILED": "실패",
+    "Invalid Game ID": "잘못된 게임 ID!",
+	"Invalid parameter filter_game_id : ": "잘못된 게임 ID!",
+
+	"Amount must be greater than 0 (zero)": "금액은 0보다 커야 합니다",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"

@@ -1,7 +1,7 @@
 import { defineAsyncComponent } from 'vue';
 
 const MODAL = {
-    AddEditVideo : defineAsyncComponent(() => import('./AddEditVideoModal/AddEditVideoModal.vue')),
+    AddDeductBalance : defineAsyncComponent(() => import('./AddDeductBalanceModal/AddDeductBalanceModal.vue')),
 }
 
 export default MODAL

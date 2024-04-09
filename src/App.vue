@@ -2,8 +2,19 @@
 	<Header v-if="isLoggedIn" />
 	<Sidebar v-if="isLoggedIn" />
 	<main :class="isLoggedIn && this.$route.path !== '/login' ? 'main min-h-screen' : ''">
-		<PageTitle v-if="isLoggedIn" />
-		<RouterView />
+		<template v-if="isLoggedIn">
+			<Card>
+				<template #header>
+					<PageTitle />
+				</template>
+				<template #content>
+					<RouterView />
+				</template>
+			</Card>
+		</template>
+		<template v-else>
+			<RouterView />
+		</template>
 	</main>
 	<Toast />
 	<DynamicDialog />

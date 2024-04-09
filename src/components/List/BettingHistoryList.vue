@@ -5,12 +5,16 @@
             <PartnerSelect v-model="params.filter_agentid" />
         </div>
         <div class="field col-2">
-            <label>{{ $store.getters['languageStore/translate']('searchByLang') }}</label>
-            <Dropdown v-model="searchBy" :options="searchByOptions" optionLabel="label" optionValue="value" placeholder="Search by" checkmark :highlightOnSelect="false" class="w-full" @change="handleSearchBy()" />
+            <label>{{ $store.getters['languageStore/translate']('providerLang') }}</label>
+            <GameSelect v-model="params.filter_game_id" />
         </div>
         <div class="field col-2">
-            <label>&nbsp;</label>
-            <InputText type="search" v-model="searchValue" class="text-base text-color p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :disabled="disabled" @keyup.enter="getList()" />
+            <label>{{ $store.getters['languageStore/translate']('startDateLang') }}</label>
+            <Calendar v-model="startDate" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :maxDate="currDate" showIcon iconDisplay="input" inputId="icondisplay" />
+        </div>
+        <div class="field col-2">
+            <label>{{ $store.getters['languageStore/translate']('endDateLang') }}</label>
+            <Calendar v-model="endDate" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :minData="startDate" :maxDate="currDate" showIcon iconDisplay="input" inputId="icondisplay" />
         </div>
         <div class="field col-1">
             <label>&nbsp;</label>
@@ -20,52 +24,48 @@
     <DataTable :value="list" scrollable class="mt-4" stripedRows :loading="loading">
         <Column :header="this.$store.getters['languageStore/translate'](`Number`)" style="min-width: 100px">
             <template #body="{ data }">
-                <span>{{ data.id }}</span>
+                <span>{{ data.idx }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Parent Agent ID`)" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Transaction ID`)" style="min-width: 100px">
             <template #body="{ data }">
-                <span>{{ data.partner_parent }}</span>
+                <span>{{ data.txid }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Agent`)" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Game Type`)" style="min-width: 100px; text-transform: capitalize;">
+            <template #body="{ data }">
+                <span>{{ data.game_type }}</span>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Table ID`)" style="min-width: 100px">
+            <template #body="{ data }">
+                <span>{{ data.table_id }}</span>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Type`)" style="min-width: 100px; text-transform: capitalize;">
+            <template #body="{ data }">
+                <span>{{ $store.getters['languageStore/translate'](`${data.type === 'credit' ? 'creditLang' : 'debitLang'}`) }}</span>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Agent Name`)" style="min-width: 100px">
             <template #body="{ data }">
                 <span>{{ data.partner_username }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`ID`)" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Amount`)" class="text-right" style="min-width: 100px">
             <template #body="{ data }">
-                <span>{{ data.tu_user_id }}</span>
+                <span :class="this.$GF.handleTextColor(data.amount)">{{ this.$GF.formatTwoDecimal(data.amount) }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Current Holding Amount`)" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`dateLang`)" style="min-width: 100px">
             <template #body="{ data }">
-                <span>{{ this.$GF.formatTwoDecimal(data.tu_balance) }}</span>
-            </template>
-        </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Today Betting Amount`)" style="min-width: 100px">
-            <template #body="{ data }">
-                <span>{{ this.$GF.formatTwoDecimal(data.todayBetting) }}</span>
-            </template>
-        </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Registered Date Time`)" style="min-width: 100px">
-            <template #body="{ data }">
-                <span>{{ this.$GF.getDateTime(data.tu_reg_datetime) }}</span>
-            </template>
-        </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Last Login Date Time`)" style="min-width: 100px">
-            <template #body="{ data }">
-                <span>{{ this.$GF.getDateTime(data.tu_last_login) }}</span>
-            </template>
-        </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Last Login IP`)" style="min-width: 100px">
-            <template #body="{ data }">
-                <span>{{ data.tu_last_ip }}</span>
+                <span >{{ this.$GF.getDateTime(data.reg_datetime) }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Status`)" style="min-width: 100px">
             <template #body="{ data }">
-                <StatusTag :status="data.tu_status" />
+                <Tag v-if="status === 1" severity="success" :value="$store.getters['languageStore/translate'](`NORMAL`)"></Tag>
+                <Tag v-else severity="danger" :value="$store.getters['languageStore/translate'](`FAILED`)"></Tag>
             </template>
         </Column>
         <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
@@ -82,51 +82,42 @@
 </template>
 
 <script>
-import { defineAsyncComponent } from 'vue';
 import { api, TOKEN } from '@/axios/api';
-import {DynamicParentIdSorter, NestedConverter} from '@/utils/Class/agentListSorter'
-import { RouterLink } from 'vue-router';
 
 export default {
     data() {
         return {
-            disabled    : true,
-            searchBy    : null,
-            searchValue : '',
-            searchByOptions: [
-                // { label: 'Agent ID', value: 'filter_agentid' },
-                { label: 'User ID', value: 'filter_username' },
-                // { label: '', value: 'filter_username' },
-            ],
+            currDate    : new Date(),
             totalCount: null,
             rowData : {},
             loading : false,
             list    : [],
-            expandedKeys: {},
             params: {
                 Authorization   : `Bearer ${TOKEN}`,
                 username        : this.$store.state.userStore.username,
                 token           : this.$store.state.userStore.token,
                 filter_agentid  : '',
-                filter_user_id  : '',
-                filter_username : '',
+                filter_game_id  : 'evo',
+                filter_startdate: null,
+                filter_enddate  : null,
                 page            : 1,
                 items_count     : 10,
-            }
+            },
+            startDate   : null,
+            endDate     : null
         }
     },
     watch: {
-        searchValue: {
-            handler(newValue, oldValue) {
-                // console.log(newValue);
-                if(!newValue) {
-                    this.params[`${this.searchBy}`] = newValue
-                    this.getList()
-                }
-            }
-        },
         'params.filter_agentid'(){
-            this.params.page = 1
+            this.params.page    = 1
+            this.startDate      = null
+            this.endDate        = null
+            this.getList()
+        },
+        'params.filter_game_id'(){
+            this.params.page    = 1
+            this.startDate      = null
+            this.endDate        = null
             this.getList()
         },
     },
@@ -134,10 +125,9 @@ export default {
         this.getList()
     },
     methods: {
-        handleSearchBy() {
-            this.disabled       = false;
-            this.searchValue    = '';
-            this.params[`${this.searchBy}`] = this.searchValue
+        handleDateChange() {
+            this.params.page = 1
+            this.getPartnerCash()
         },
         handlePagination(data) {
             this.params.page = data.page+1;
@@ -147,12 +137,11 @@ export default {
         async getList() {
             this.loading = true
             try {
-                if(this.searchBy) {
-                    this.params[`${this.searchBy}`] = this.searchValue
-                }
                 this.params.filter_agentid = this.params.filter_agentid ? this.params.filter_agentid : this.$store.state.userStore.username
-
-                const res   = await api.userList(this.params);
+                this.params.filter_startdate = this.startDate ? `${this.$GF.getDateTime(this.startDate, 'date')} 00:00:00` : null;
+                this.params.filter_enddate = this.endDate ? `${this.$GF.getDateTime(this.endDate, 'date')} 23:59:59` : null;
+                
+                const res   = await api.recordHistoryList(this.params);
                 const code  = res.data.code;
                 const msg   = res.data.message;
                 console.log(res);

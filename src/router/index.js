@@ -26,7 +26,7 @@ const router = createRouter({
 			path: '/mypage',
 			name: 'mypage',
 			meta: {
-				title: 'My Page',
+				title: 'MY PAGE',
 				requiresAuth: true,
 			},
 			component: () => import('@/views/MyPageView.vue')
@@ -79,7 +79,7 @@ const router = createRouter({
 				{
 					path: 'revenue/loweragent',
 					meta: {
-						title: 'My Revenue List',
+						title: 'Lower Agent Revenue List',
 					},
 					component: () => import('@/views/LowerAgentRevenueView.vue')
 				},
@@ -104,6 +104,13 @@ const router = createRouter({
 						title: 'Credit History List',
 					},
 					component: () => import('@/views/CreditHistoryView.vue')
+				},
+				{
+					path: 'bet',
+					meta: {
+						title: 'Betting History List',
+					},
+					component: () => import('@/views/BettingHistoryView.vue')
 				},
 			]
 		},

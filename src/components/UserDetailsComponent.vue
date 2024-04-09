@@ -72,7 +72,13 @@
         </div>
     </div>
     <div class="flex">
-        <Button class="mx-auto py-3 w-2" label="Save" @click="submit()" :disabled="buttonDisabled" />
+        <div class="mx-auto flex w-6">
+            <Button class="py-3 w-full" :label="$store.getters['languageStore/translate']('SAVE')" @click="submit()" :disabled="buttonDisabled" />
+            <template v-if="subAgent">
+                <Button class="mx-3 py-3 font-bold w-full bg-blue-500 hover:bg-blue-600 border-none" :label="$store.getters['languageStore/translate']('CREDIT PAYMENT')" @click="showAddDeduct('add')" :disabled="buttonDisabled" />
+                <Button class="py-3 font-bold w-full bg-red-500 hover:bg-red-600 border-none" :label=" $store.getters['languageStore/translate']('PAYBACK')" @click="showAddDeduct('deduct')" :disabled="buttonDisabled" />
+            </template>
+        </div>
     </div>
 </template>
 
@@ -85,7 +91,7 @@ label {
 <script>
 import { mapState } from 'vuex';
 import { api, TOKEN } from '@/axios/api';
- export default {
+export default {
     data() {
         return {
             buttonDisabled: false,
@@ -103,9 +109,29 @@ import { api, TOKEN } from '@/axios/api';
         if(this.$route.params.subAgent) {
             this.subAgent = this.$route.params.subAgent
         }
-        this.getUserDetails()
+        this.getUserDetails();
+        console.log(this.params);
     },
     methods: {
+        showAddDeduct(type) {
+            this.$dialog.open(this.$modalComponent.AddDeductBalance, {
+                props: {
+                    header: this.$store.getters['languageStore/translate'](`${type === 'add' ? 'CREDIT PAYMENT' : 'PAYBACK'}`),
+                    style: {
+                        width: '40vw'
+                    },
+                    modal: true,
+                },
+                data: {
+                    type: type,
+                    balance: this.params.realCash,
+                    filter_agentid: this.subAgent,
+                },
+                onClose: (options) => {
+                    this.getUserDetails();
+                }
+            });
+        },
         async submit() {
             try {
                 let reqBody = {
@@ -177,5 +203,5 @@ import { api, TOKEN } from '@/axios/api';
             }
         },
     }
- }
+}
 </script>

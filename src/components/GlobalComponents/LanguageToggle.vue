@@ -11,22 +11,6 @@
             <Image :src="krIcon" class="lang-icon" />
             <span class="lang-title">한국인</span>   
         </Button>
-        <Button text @click="handleLang('cn', cnIcon, $event)" class="lang-btn text-body" label col="中国人">
-            <Image :src="cnIcon" class="lang-icon" />
-            <span class="lang-title">中国人</span>     
-        </Button>
-        <Button text @click="handleLang('jp', jpIcon, $event)" class="lang-btn text-body" label col="日本語">
-            <Image :src="jpIcon" class="lang-icon" /> 
-            <span class="lang-title">日本語</span>      
-        </Button>
-        <Button text @click="handleLang('vn', vnIcon, $event)" class="lang-btn text-body" label col="Tiếng Việt">
-            <Image :src="vnIcon" class="lang-icon" />    
-            <span class="lang-title">Tiếng Việt</span>   
-        </Button>
-        <Button text @click="handleLang('la', laIcon, $event)" class="lang-btn text-body" label col="ຄົນລາວ">
-            <Image :src="laIcon" class="lang-icon" />    
-            <span class="lang-title">ຄົນລາວ</span>   
-        </Button>
     </OverlayPanel>
 </template>
 
