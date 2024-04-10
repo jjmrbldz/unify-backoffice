@@ -146,8 +146,13 @@ button {
     }
 }
 
-input:disabled {
-    cursor: not-allowed;
+input:disabled, button:disabled {
+    pointer-events: auto;
+    cursor: not-allowed !important;
+}
+
+.p-disabled, .p-component:disabled {
+    cursor: not-allowed !important;
 }
 
 .jb-item-link {

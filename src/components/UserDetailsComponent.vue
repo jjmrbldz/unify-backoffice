@@ -1,83 +1,95 @@
 <template>
-    <div class="p-2">
-        <div class="field grid" v-if="!subAgent">
-            <label class="col-2">{{ $store.getters['languageStore/translate']('Number') }}</label>
-            <InputText v-model="params.id" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :disabled="true" />
+    <div class="grid">
+        <div class="col-6">
+            <div class="p-2">
+                <div class="field grid" v-if="!subAgent">
+                    <label class="col-3">{{ $store.getters['languageStore/translate']('Number') }}</label>
+                    <InputText v-model="params.id" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :disabled="true" />
+                </div>
+                <div class="field grid">
+                    <label class="col-3">{{ $store.getters['languageStore/translate']('Agent Name') }}</label>
+                    <InputText v-model="params.tp_name" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :disabled="true" />
+                </div>
+                <div class="field grid">
+                    <label class="col-3">{{ $store.getters['languageStore/translate']('ID') }}</label>
+                    <InputText v-model="params.username" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :disabled="true" />
+                </div>
+                <div class="field grid">
+                    <label class="col-3">{{ $store.getters['languageStore/translate']('Password') }}</label>
+                    <Password v-model="params.password" class="col p-0" inputClass="p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" placeholder="••••••" toggleMask :feedback="false" />
+                </div>
+                <div class="field grid">
+                    <label class="col-3">{{ $store.getters['languageStore/translate']('Level') }}</label>
+                    <InputText v-model="params.tp_level" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :disabled="true" />
+                </div>
+                <div class="field grid">
+                    <label class="col-3">{{ $store.getters['languageStore/translate']('API Key') }}</label>
+                    <InputText v-model="params.tp_casino_key" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :disabled="true" />
+                </div>
+                <div class="field grid">
+                    <label class="col-3">{{ $store.getters['languageStore/translate']('Token') }}</label>
+                    <InputText v-model="params.tp_api_token" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :disabled="true" />
+                </div>
+                <div class="field grid">
+                    <label class="col-3">{{ $store.getters['languageStore/translate']('Seamless API URL') }}</label>
+                    <InputText v-model="params.tp_hostname" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+                </div>
+                <div class="field grid" v-if="!subAgent">
+                    <label class="col-3">{{ $store.getters['languageStore/translate']('White IP') }}</label>
+                    <InputText v-model="params.tp_white_ip" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+                </div>
+                <div class="field grid">
+                    <label class="col-3">{{ $store.getters['languageStore/translate']('Fee Rate') }}</label>
+                    <InputNumber v-model="params.tp_share" class="col p-0" inputClass="p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :useGrouping="false" suffix="%" :min="0" :max="100" :minFractionDigits="2" :maxFractionDigits="2" :disabled="true" />
+                </div>
+                <div class="field grid">
+                    <label class="col-3">{{ $store.getters['languageStore/translate']('Lower Agent Count') }}</label>
+                    <InputText v-model="params.agentCount" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :disabled="true" />
+                </div>
+                <div class="field grid">
+                    <label class="col-3">{{ $store.getters['languageStore/translate']('Lower User Count') }}</label>
+                    <InputText v-model="params.userCount" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :disabled="true" />
+                </div>
+                <div class="field grid" v-if="!subAgent">
+                    <label class="col-3">{{ $store.getters['languageStore/translate']('Total Holdings') }}</label>
+                    <InputNumber v-model="params.realCash" class="col p-0" inputClass="p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :useGrouping="true" :minFractionDigits="2" :maxFractionDigits="2" :disabled="true" />
+                </div>
+                <div class="field grid" v-if="!subAgent">
+                    <label class="col-3">{{ $store.getters['languageStore/translate']('Registered Date Time') }}</label>
+                    <InputText v-model="params.tp_reg_datetime" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :disabled="true" />
+                </div>
+                <div class="field grid" v-if="subAgent">
+                    <label class="col-3">{{ $store.getters['languageStore/translate']('Status') }}</label>
+                    <Dropdown v-model="userStatus" :options="statusOptions" optionLabel="label" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        <template #value="slotProps">
+                            <span  v-if="slotProps.value" class="">{{ $store.getters['languageStore/translate'](`${slotProps.value.label}`) }}</span>
+                            <span v-else>
+                                {{ slotProps.placeholder }}
+                            </span>
+                        </template>
+                        <template #option="slotProps">
+                            <span class="">{{ $store.getters['languageStore/translate'](slotProps.option.label )}}</span>
+                        </template>
+                    </Dropdown>
+                </div>
+            </div>
+            <div class="flex">
+                <div class="mx-auto flex w-6">
+                    <Button class="py-3 w-full" :label="$store.getters['languageStore/translate']('SAVE')" @click="submit()" :disabled="buttonDisabled" />
+                    <template v-if="subAgent">
+                        <Button class="mx-3 py-3 font-bold w-full bg-blue-500 hover:bg-blue-600 border-none" :label="$store.getters['languageStore/translate']('CREDIT PAYMENT')" @click="showAddDeduct('add')" :disabled="buttonDisabled" />
+                        <Button class="py-3 font-bold w-full bg-red-500 hover:bg-red-600 border-none" :label=" $store.getters['languageStore/translate']('PAYBACK')" @click="showAddDeduct('deduct')" :disabled="buttonDisabled" />
+                    </template>
+                </div>
+            </div>
         </div>
-        <div class="field grid">
-            <label class="col-2">{{ $store.getters['languageStore/translate']('Agent Name') }}</label>
-            <InputText v-model="params.tp_name" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :disabled="true" />
-        </div>
-        <div class="field grid">
-            <label class="col-2">{{ $store.getters['languageStore/translate']('ID') }}</label>
-            <InputText v-model="params.username" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :disabled="true" />
-        </div>
-        <div class="field grid">
-            <label class="col-2">{{ $store.getters['languageStore/translate']('Password') }}</label>
-            <Password v-model="params.password" class="col p-0" inputClass="p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" placeholder="••••••" toggleMask :feedback="false" />
-        </div>
-        <div class="field grid">
-            <label class="col-2">{{ $store.getters['languageStore/translate']('Level') }}</label>
-            <InputText v-model="params.tp_level" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :disabled="true" />
-        </div>
-        <div class="field grid">
-            <label class="col-2">{{ $store.getters['languageStore/translate']('API Key') }}</label>
-            <InputText v-model="params.tp_casino_key" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :disabled="true" />
-        </div>
-        <div class="field grid">
-            <label class="col-2">{{ $store.getters['languageStore/translate']('Token') }}</label>
-            <InputText v-model="params.tp_api_token" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :disabled="true" />
-        </div>
-        <div class="field grid">
-            <label class="col-2">{{ $store.getters['languageStore/translate']('Seamless API URL') }}</label>
-            <InputText v-model="params.tp_hostname" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
-        </div>
-        <div class="field grid" v-if="!subAgent">
-            <label class="col-2">{{ $store.getters['languageStore/translate']('White IP') }}</label>
-            <InputText v-model="params.tp_white_ip" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
-        </div>
-        <div class="field grid">
-            <label class="col-2">{{ $store.getters['languageStore/translate']('Fee Rate') }}</label>
-            <InputNumber v-model="params.tp_share" class="col p-0" inputClass="p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :useGrouping="false" suffix="%" :min="0" :max="100" :minFractionDigits="2" :maxFractionDigits="2" :disabled="true" />
-        </div>
-        <div class="field grid">
-            <label class="col-2">{{ $store.getters['languageStore/translate']('Lower Agent Count') }}</label>
-            <InputText v-model="params.agentCount" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :disabled="true" />
-        </div>
-        <div class="field grid">
-            <label class="col-2">{{ $store.getters['languageStore/translate']('Lower User Count') }}</label>
-            <InputText v-model="params.userCount" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :disabled="true" />
-        </div>
-        <div class="field grid" v-if="!subAgent">
-            <label class="col-2">{{ $store.getters['languageStore/translate']('Total Holdings') }}</label>
-            <InputNumber v-model="params.realCash" class="col p-0" inputClass="p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :useGrouping="true" :minFractionDigits="2" :maxFractionDigits="2" :disabled="true" />
-        </div>
-        <div class="field grid" v-if="!subAgent">
-            <label class="col-2">{{ $store.getters['languageStore/translate']('Registered Date Time') }}</label>
-            <InputText v-model="params.tp_reg_datetime" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :disabled="true" />
-        </div>
-        <div class="field grid" v-if="subAgent">
-            <label class="col-2">{{ $store.getters['languageStore/translate']('Status') }}</label>
-            <Dropdown v-model="userStatus" :options="statusOptions" optionLabel="label" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                <template #value="slotProps">
-                    <span  v-if="slotProps.value" class="">{{ $store.getters['languageStore/translate'](`${slotProps.value.label}`) }}</span>
-                    <span v-else>
-                        {{ slotProps.placeholder }}
-                    </span>
-                </template>
-                <template #option="slotProps">
-                    <span class="">{{ $store.getters['languageStore/translate'](slotProps.option.label )}}</span>
-                </template>
-            </Dropdown>
-        </div>
-    </div>
-    <div class="flex">
-        <div class="mx-auto flex w-6">
-            <Button class="py-3 w-full" :label="$store.getters['languageStore/translate']('SAVE')" @click="submit()" :disabled="buttonDisabled" />
-            <template v-if="subAgent">
-                <Button class="mx-3 py-3 font-bold w-full bg-blue-500 hover:bg-blue-600 border-none" :label="$store.getters['languageStore/translate']('CREDIT PAYMENT')" @click="showAddDeduct('add')" :disabled="buttonDisabled" />
-                <Button class="py-3 font-bold w-full bg-red-500 hover:bg-red-600 border-none" :label=" $store.getters['languageStore/translate']('PAYBACK')" @click="showAddDeduct('deduct')" :disabled="buttonDisabled" />
-            </template>
+        <Divider layout="vertical" />
+        <div class="col pt-0">
+            <div class="flex justify-content-between">
+                <h3>{{ $store.getters['languageStore/translate']('casinoListLang') }}</h3>
+                <Button class="text-xl" icon="mdi mdi-cog" @click="$router.push({ path: '/settings/vendor', query: { filter_agentid: this.$route.params.subAgent ? this.$route.params.subAgent : this.$store.state.userStore.username } })" text rounded />
+            </div>
+            <CasinoGameList />
         </div>
     </div>
 </template>
@@ -85,13 +97,27 @@
 <style lang="scss" scoped>
 label {
     margin: 0;
+    display: block;
+    text-wrap: nowrap;
 }
 </style>
 
 <script>
 import { mapState } from 'vuex';
 import { api, TOKEN } from '@/axios/api';
+import CasinoGameList from './List/CasinoGameList.vue';
+
 export default {
+    provide() {
+        return {
+            mypage: true,
+            dialogRef: {
+                data: {
+                    agentID: this.$route.params.subAgent ? this.$route.params.subAgent : this.$store.state.userStore.username
+                }
+            }
+        }
+    },
     data() {
         return {
             buttonDisabled: false,

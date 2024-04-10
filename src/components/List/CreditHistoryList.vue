@@ -23,6 +23,11 @@
                 <span>{{ data.ipcf_move_type === 'deduct' ? $store.getters['languageStore/translate']('Withdrawal') : $store.getters['languageStore/translate']('Deposit') }}</span>
             </template>
         </Column>
+        <Column :header="`${this.$store.getters['languageStore/translate'](`Agent ID`)} ->`" style="min-width: 100px">
+            <template #body="{ data }">
+                <span>{{ mapSender(data.tp_partnerid_sender) }}</span>
+            </template>
+        </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Agent ID`)" style="min-width: 100px">
             <template #body="{ data }">
                 <span>{{ data.partner_username }}</span>
@@ -68,6 +73,7 @@
 
 <script>
 import { api, TOKEN } from '@/axios/api';
+import {DynamicParentIdSorter, NestedConverter} from '@/utils/Class/agentListSorter'
 
 export default {
     data() {
@@ -77,6 +83,7 @@ export default {
             rowData : {},
             loading : false,
             list    : [],
+            agentList: [],
             params: {
                 Authorization   : `Bearer ${TOKEN}`,
                 username        : this.$store.state.userStore.username,
@@ -100,6 +107,7 @@ export default {
         },
     },
     mounted() {
+        this.getAgentList()
         this.getList()
     },
     methods: {
@@ -140,6 +148,37 @@ export default {
                 this.loading = false
             }
         },
+        async getAgentList() {
+            try {
+
+                let reqBody = {
+                    Authorization   : `Bearer ${TOKEN}`,
+                    username        : this.$store.state.userStore.username,
+                    token           : this.$store.state.userStore.token,
+                    filter_agentid  : this.$store.state.userStore.username,
+                }
+
+                const res   = await api.agentList(reqBody);
+                const code  = res.data.code;
+                const msg   = res.data.message;
+                console.log(res);
+
+                if(code === 1) {
+                    const sorter = new DynamicParentIdSorter(res.data.data);
+                    const sortedData = sorter.sortData();
+                    this.agentList = sortedData;
+                } else {
+                    this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
+                }
+            } catch (error) {
+                console.error(error)
+                throw error
+            } 
+        },
+        mapSender(id) {
+            const sender = this.agentList.find(i => i.id === id)
+            return sender ? sender.username : 'admin'
+        }
     }
 }
 </script>

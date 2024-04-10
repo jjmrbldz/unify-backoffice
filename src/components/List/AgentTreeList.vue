@@ -13,7 +13,7 @@
                         {{ slotProps.node.data.id }}
                     </span>
                     <Tag class="mx-2" :severity="this.$GF.handleLevelColor(slotProps.node.data.tp_grade)" :value="`Level ${slotProps.node.data.tp_grade}`" />
-                    <RouterLink class="text-blue-400" :to="slotProps.node.data.parent_username === $store.state.userStore.username ? { path: '/mypage' } : { name: 'agent', params: { subAgent: slotProps.node.data.parent_username } }">
+                    <RouterLink class="text-blue-400" :to="{ name: 'agent', params: { subAgent: slotProps.node.data.parent_username }, query: { parent_username: slotProps.node.data.parent_username } }">
                         <span>{{ slotProps.node.data.parent_username }}</span>
                     </RouterLink>
                 </template>
@@ -22,7 +22,7 @@
                 <template #body="slotProps">
                     <div class="flex align-items-center">
                         <Badge class="block mr-1" value="" :severity="slotProps.node.data.tp_status ? 'warning' : 'success'"></Badge>
-                        <RouterLink class="text-blue-400" :to="slotProps.node.data.username === $store.state.userStore.username ? { path: '/mypage' } : { name: 'agent', params: { subAgent: slotProps.node.data.username } }">
+                        <RouterLink class="text-blue-400" :to="{ name: 'agent', params: { subAgent: slotProps.node.data.username }, query: { parent_username: slotProps.node.data.parent_username } }">
                             <span class="" style="word-break: break-all;">{{ slotProps.node.data.username }}</span>
                         </RouterLink>
                     </div>
@@ -58,16 +58,12 @@
         </TreeTable>
 
         <OverlayPanel ref="rowRef" @hide="hideCallBack()">
-            <RouterLink class="block mb-1 surface-0 hover:surface-100 text-color-secondary text-base text-left border-round-sm transition-colors transition-duration-200 py-2 px-3" :to="
-                rowData.username === $store.state.userStore.username ? 
-                { path: '/mypage' } : 
-                { name: 'agent', params: { subAgent: rowData.username } }"
+            <RouterLink class="block mb-1 surface-0 hover:surface-100 text-color-secondary text-base text-left border-round-sm transition-colors transition-duration-200 py-2 px-3"
+                :to="
+                { name: 'agent', params: { subAgent: rowData.username }, query: { parent_username: rowData.parent_username } }"
             >
                 <i class="mdi mdi-account mr-1"></i>
-                {{ rowData.username === $store.state.userStore.username ? 
-                    $store.getters['languageStore/translate']('myPageLang') : 
-                    $store.getters['languageStore/translate']('AGENT DETAILS')
-                }}
+                {{ $store.getters['languageStore/translate']('AGENT DETAILS') }}
             </RouterLink>
             <RouterLink v-if="rowData.tp_grade + 1 <= 3 && rowData.tp_grade + 1 > 0"
                 class="block mb-1 surface-0 hover:surface-100 text-left border-round-sm transition-colors transition-duration-200 py-2 px-3"

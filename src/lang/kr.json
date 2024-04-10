@@ -952,19 +952,23 @@
     "Invalid parameter agent_share : ": "잘못된 에이전트 쉐어",
     "Invalid parameter username": "잘못된 사용자 이름",
     "Invalid parameter filter_agentid : ": "잘못된 에이전트 ID",
-
+	
     "addLevelLang": "레벨 추가",
-
+	
     "Invalid parameter agent_white_ip : ": "잘못된 에이전트 화이트 IP",
     "Invalid parameter settings": "잘못된 매개변수: 설정",
     "Expired token": "토큰 만료됨!",
     "User no list": "결과 없음",
-
+	
     "FAILED": "실패",
     "Invalid Game ID": "잘못된 게임 ID!",
 	"Invalid parameter filter_game_id : ": "잘못된 게임 ID!",
-
+	
 	"Amount must be greater than 0 (zero)": "금액은 0보다 커야 합니다",
+    
+	"Invalid parameter filter_agentid": "잘못된 에이전트 ID",
+	"Your upper agent doesn't have enough balance.": "상위 에이전트의 보유금이 충분하지 않습니다.",
+	"Upper Agent Balance": "상위 에이전트 보유금",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"

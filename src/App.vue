@@ -8,7 +8,7 @@
 					<PageTitle />
 				</template>
 				<template #content>
-					<RouterView />
+					<RouterView :key="$route.fullPath" />
 				</template>
 			</Card>
 		</template>
@@ -48,7 +48,6 @@ export default {
 	},
 	watch: {
 		isLoggedIn(newVal, oldVal) {
-			console.log('aa');
 			if(newVal) {
 				this.$store.dispatch('userStore/agentDetails')
 			}

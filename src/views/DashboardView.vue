@@ -48,7 +48,6 @@ import { mapGetters } from 'vuex';
         ...mapGetters('userStore', ['isLoading'])
     },
     mounted() {
-        console.log('aa');
         this.initUserStore();
     },
     methods: {

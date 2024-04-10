@@ -1,20 +1,29 @@
 <template>
     <div class="grid">
-        <div class="sm:col-2 md:col-4" v-for="item in list">
+        <template v-if="loading">
+            <div v-for="key in 3" class="col game-item">
+                <Skeleton v-if="image" width="245px" height="120px" />
+                <div class="flex align-items-center justify-content-between">
+                    <Skeleton class="my-3" width="120px" height="20px" />
+                    <Skeleton v-if="isVisible" class="" width="35px" height="21px" />
+                </div>
+            </div>
+        </template>
+        <div v-else class="col game-item" v-for="item in list">
             <Card class="w-full overflow-hidden">
                 <template v-if="image" #header>
-                    <img alt="user header" :src="handleCasinoImage(item.gameCode)" />
+                    <img alt="user header" :style="item.status === 0 ? 'filter: grayscale(1);' : ''" :src="handleCasinoImage(item.gameCode)" />
                 </template>
                 <template #content>
                     <div class="flex align-items-center justify-content-between">
                         <h3 class="title">{{item.casinoName}}</h3>
-                        <InputSwitch v-model="item.status" :true-value="1" :false-value="0" :checked="item.status" @change="handleStatusChange(item.gameCode, item.status)" />
+                        <InputSwitch v-if="isVisible" v-model="item.status" :true-value="1" :false-value="0" :checked="item.status" @change="handleStatusChange(item.gameCode, item.status)" />
                     </div>
                 </template>
             </Card>
         </div>
     </div>
-    <Button class="mt-3" :label="$store.getters['languageStore/translate']('SAVE')" @click="submit()" :loading="loading" :disabled="disabled"  />
+    <Button v-if="isVisible" class="mt-3" :label="$store.getters['languageStore/translate']('SAVE')" @click="submit()" :loading="loading" :disabled="disabled"  />
 </template>
 
 <style lang="scss" scoped>
@@ -32,6 +41,10 @@
     :deep(.p-card-body) {
         padding: 1rem;
     }
+    .game-item {
+        max-width: 270px;
+        min-width: 245px;
+    }
 </style>
 
 <script>
@@ -41,9 +54,10 @@ import bti from '@/assets/img/providers/bti.svg'
 import pragmatic from '@/assets/img/providers/pragmatic.png'
 
 export default {
-    inject: ['dialogRef'],
+    inject: ['dialogRef', 'mypage'],
     data() {
         return {
+            isVisible: true, 
             image   : this.dialogRef ? this.dialogRef.data.image : true,
             disabled: true,
             loading : false,
@@ -71,10 +85,9 @@ export default {
         }
     },
     mounted() {
-        // if(this.dialogRef) {
-        //     this.image                  = this.dialogRef.data.image
-        //     this.params.filter_agentid  = this.dialogRef.data.agentID
-        // }
+        if(this.$route.query.filter_agentid) {
+            this.params.filter_agentid = this.$route.query.filter_agentid
+        }
         this.getList();
     },
     methods: {
@@ -140,6 +153,10 @@ export default {
                 if(code === 1) {
                     // this.$GF.customToast(code, this.$store.getters['languageStore/translate'](`${msg}`))
                     this.list = res.data.data;
+
+                    if(this.mypage) {
+                        this.filterActiveCasino();
+                    }
                 } else {
                     this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
                     this.list = []
@@ -153,6 +170,19 @@ export default {
                 this.updateData = [];
             }
         },
+        filterActiveCasino() {
+            this.isVisible = false;
+            let oldList = this.list
+            let newList = [];
+            oldList.forEach((item) => {
+                console.log(item);
+                if(item.status === 1) {
+                    newList.push(item);
+                }
+            });
+            console.log(this.list);
+            this.list = newList;
+        }
     }
 }
 </script>

@@ -9,7 +9,7 @@
         </Button>
         <Button text @click="handleLang('kr', krIcon, $event)" class="lang-btn text-body" label col="한국인">
             <Image :src="krIcon" class="lang-icon" />
-            <span class="lang-title">한국인</span>   
+            <span class="lang-title">한국어</span>   
         </Button>
     </OverlayPanel>
 </template>

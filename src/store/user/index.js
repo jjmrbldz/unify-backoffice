@@ -40,7 +40,11 @@ const mutations = {
         state.user_id   = null
         state.username  = null
         state.token     = null
+        state.tp_level  = null
         router.push('/login')
+        setTimeout(()=> {
+            router.go();
+        }, 100);
     },
 }
 
@@ -58,12 +62,12 @@ const actions   = {
                 GF.customToast(code, store.getters['languageStore/translate'](`${msg}`))
                 router.push('/')
             } else {
-                context.commit('logout')
+                // context.commit('logout')
                 GF.customToast(code, store.getters['languageStore/translate'](`${res.data.error_code}`))
             }
 
         } catch (error) {
-            context.commit('logout')
+            // context.commit('logout')
             console.error('Login failed:', error);
             throw error;
         } finally {
