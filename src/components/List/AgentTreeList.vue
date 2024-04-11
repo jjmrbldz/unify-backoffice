@@ -13,9 +13,7 @@
                         {{ slotProps.node.data.id }}
                     </span>
                     <Tag class="mx-2" :severity="this.$GF.handleLevelColor(slotProps.node.data.tp_grade)" :value="`Level ${slotProps.node.data.tp_grade}`" />
-                    <RouterLink class="text-blue-400" :to="{ name: 'agent', params: { subAgent: slotProps.node.data.parent_username }, query: { parent_username: slotProps.node.data.parent_username } }">
-                        <span>{{ slotProps.node.data.parent_username }}</span>
-                    </RouterLink>
+                    <span>{{ slotProps.node.data.parent_username }}</span>
                 </template>
             </Column>
             <Column :header="$store.getters['languageStore/translate']('Agent ID')">

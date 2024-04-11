@@ -25,7 +25,7 @@
         </Column>
         <Column :header="`${this.$store.getters['languageStore/translate'](`Agent ID`)} ->`" style="min-width: 100px">
             <template #body="{ data }">
-                <span>{{ mapSender(data.tp_partnerid_sender) }}</span>
+                <span>{{ data.partner_sender_username }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Agent ID`)" style="min-width: 100px">
@@ -107,7 +107,7 @@ export default {
         },
     },
     mounted() {
-        this.getAgentList()
+        // this.getAgentList()
         this.getList()
     },
     methods: {
