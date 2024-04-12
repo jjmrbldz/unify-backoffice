@@ -73,11 +73,11 @@
                     parent_username: rowData.username,
                     }}"
             >
-                <i class="mdi mdi-account-multiple-plus text-color-secondary"></i>
+                <i class="mdi mdi-account-multiple-plus text-color-secondary mr-1"></i>
                 {{ `${$store.getters['languageStore/translate']('addLevelLang')} ${rowData.tp_grade + 1}` }}
             </RouterLink>
             <template v-if="$store.state.userStore.tp_level === 'T'">
-                <Button class="block mb-1 surface-0 hover:surface-100 text-color-secondary text-base text-left border-round-sm transition-colors transition-duration-200 py-2 px-3" icon="mdi mdi-cog" :label="$store.getters['languageStore/translate']('vendorSettingsLang')" @click="handleGameSettings(rowData.username)" text />
+                <Button class="block mb-1 surface-0 hover:surface-100 text-color-secondary text-base text-left border-round-sm transition-colors transition-duration-200 py-2 px-3" icon="mdi mdi-cog" :label="$store.getters['languageStore/translate']('gameDeliverSettingsLang')" @click="handleGameSettings(rowData.username)" text />
             </template>
             
         </OverlayPanel>
@@ -122,7 +122,7 @@ export default {
             const CasinoGameList = defineAsyncComponent(() => import('@/components/List/CasinoGameList.vue'))
             this.$dialog.open(CasinoGameList, {
                 props: {
-                    header: this.$store.getters['languageStore/translate']('vendorSettingsLang'),
+                    header: this.$store.getters['languageStore/translate']('gameDeliverSettingsLang'),
                     style: {
                         width: '40vw'
                     },
@@ -130,7 +130,7 @@ export default {
                 },
                 data: {
                     agentID: agentID,
-                    image: false,
+                    image: true,
                 },
                 onClose: (options) => {
                     this.getList()

@@ -1,6 +1,6 @@
 <template>
     <div class="grid">
-        <div class="col-6">
+        <div class="col" :class="{'col-6': !hide}">
             <div class="p-2">
                 <div class="field grid" v-if="!subAgent">
                     <label class="col-3">{{ $store.getters['languageStore/translate']('Number') }}</label>
@@ -84,12 +84,12 @@
             </div>
         </div>
         <Divider layout="vertical" />
-        <div class="col pt-0">
+        <div class="pt-0" :class="{col: !hide}">
             <div class="flex justify-content-between">
-                <h3>{{ $store.getters['languageStore/translate']('casinoListLang') }}</h3>
-                <Button class="text-xl" icon="mdi mdi-cog" @click="$router.push({ path: '/settings/vendor', query: { filter_agentid: this.$route.params.subAgent ? this.$route.params.subAgent : this.$store.state.userStore.username } })" text rounded />
+                <h3 v-if="!hide">{{ $store.getters['languageStore/translate']('gameOfferingListLang') }}</h3>
+                <Button class="text-xl" :icon="hide ? 'mdi mdi-open-in-new' : 'mdi mdi-close-circle'" @click="hide = !hide" text rounded />
             </div>
-            <CasinoGameList />
+            <CasinoGameList v-if="!hide" />
         </div>
     </div>
 </template>
@@ -110,16 +110,18 @@ import CasinoGameList from './List/CasinoGameList.vue';
 export default {
     provide() {
         return {
-            mypage: true,
+            mypage  : true,
             dialogRef: {
                 data: {
-                    agentID: this.$route.params.subAgent ? this.$route.params.subAgent : this.$store.state.userStore.username
+                    agentID: this.$route.params.subAgent ? this.$route.params.subAgent : this.$store.state.userStore.username,
+                    image: true,
                 }
             }
         }
     },
     data() {
         return {
+            hide    : false,
             buttonDisabled: false,
             loading     : {},
             params      : {},

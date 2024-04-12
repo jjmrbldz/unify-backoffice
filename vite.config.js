@@ -23,4 +23,7 @@ export default defineConfig({
   esbuild: {
     drop: ['console', 'debugger'],
   },
+  // build: {
+  //   outDir: '/var/www/BACKOFFICEV2/src/dist',
+  // },
 })

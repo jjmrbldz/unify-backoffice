@@ -963,6 +963,9 @@
     "Your upper agent doesn't have enough balance.": "Your upper agent doesn't have enough balance.",
     "Upper Agent Balance": "Upper Agent Balance",
 
+    "gameDeliverSettingsLang" : "Game Delivery Settngs",
+    "gameOfferingListLang" : "Game Offering List",
+
     "totalPageLang": "Total Page",
     "loginError Lang!": "Login Failed!"
 }

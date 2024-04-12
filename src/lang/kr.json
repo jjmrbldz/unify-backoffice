@@ -969,6 +969,9 @@
 	"Invalid parameter filter_agentid": "잘못된 에이전트 ID",
 	"Your upper agent doesn't have enough balance.": "상위 에이전트의 보유금이 충분하지 않습니다.",
 	"Upper Agent Balance": "상위 에이전트 보유금",
+
+	"gameDeliverSettingsLang" : "게임 제공 설정",
+	"gameOfferingListLang" : "게임 제공 목록",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"
