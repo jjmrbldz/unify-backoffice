@@ -1,6 +1,6 @@
 import axios from 'axios';
 import store from '@/store';
-// import { this.$GF.customToast } from '@/utils/responseFormatter';
+import GF from '@/utils/GlobalFunctions';
 
 export const API_URL = `${import.meta.env.VITE_API_URL}/`; // Replace with your actual API base URL
 export const TOKEN   = 'hr0|5StV10{£&4I>5dEw7]X$]hIq>AKMr0@y)]:£XQaf1cxSUz';
@@ -29,7 +29,7 @@ axiosInstance.interceptors.request.use(
 	return config;
   },
   (error) => {
-    this.$GF.customToast(1, `${store.getters.translate(error.message) ? store.getters.translate(error.message) : error.message}`)
+    // GF.customToast(1, `${store.getters.translate(error.message) ? store.getters.translate(error.message) : error.message}`)
     return Promise.reject(error);
   }
 );
@@ -38,9 +38,13 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => {
     // Add any logic for handling the response
-    // console.log(response.status)
-    if (response.data.ecode && response.data.ecode === 510) {
-      store.commit('userStore/logout');
+    console.log(response.data)
+    if (response.data.status && response.data.status === -8) {
+      GF.customToast(-1, store.getters['languageStore/translate']('Please login again!'));
+      var s = setTimeout(() => {
+        store.commit('userStore/logout');
+        clearTimeout(s)
+      }, 1000)
     }
     return response;
   },
@@ -48,8 +52,11 @@ axiosInstance.interceptors.response.use(
     // Add any logic for handling errors
 
     if (error.config.url === 'validatetoken') {
-      this.$GF.customToast(1, store.getters['languageStore/translate']('Please login again!'))
-      store.dispatch('logout');
+      GF.customToast(-1, store.getters['languageStore/translate']('Please login again!'))
+      var s = setTimeout(() => {
+        store.commit('userStore/logout');
+        clearTimeout(s)
+      }, 1000)
     } 
 
     return Promise.reject(error);

@@ -119,6 +119,7 @@ export default {
     },
     methods: {
         handleSubmenu(refName, index, $event) {
+            $event.preventDefault();
             this.expand[index] = !this.expand[index];
         },
         activeLink() {
