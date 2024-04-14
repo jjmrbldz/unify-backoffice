@@ -2,8 +2,8 @@
     <Menubar class="fixed top-0 m-2 header z-5" style="height: 68px;">
         <template #start>
             <RouterLink class="inline-flex max-h-full align-items-center" to="/">
-                <img class="" src="@/assets/img/logo2.svg" alt="" height="40">
-                <span class="logo-title ml-2">UNIFY</span>
+                <img class="" src="@/assets/img/smartapi-logo.png" alt="" height="40">
+                <!-- <span class="logo-title ml-2">UNIFY</span> -->
             </RouterLink>
             <div class="navSummary">
                 <div class="summItem">

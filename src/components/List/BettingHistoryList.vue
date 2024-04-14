@@ -27,6 +27,11 @@
                 <span>{{ data.idx }}</span>
             </template>
         </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`User ID`)" style="min-width: 100px">
+            <template #body="{ data }">
+                <span>{{ data.details ? JSON.parse(data.details).username : '-' }}</span>
+            </template>
+        </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Transaction ID`)" style="min-width: 100px">
             <template #body="{ data }">
                 <span>{{ data.txid }}</span>
@@ -44,7 +49,10 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Type`)" style="min-width: 100px; text-transform: capitalize;">
             <template #body="{ data }">
-                <span>{{ $store.getters['languageStore/translate'](`${data.type === 'credit' ? 'creditLang' : 'debitLang'}`) }}</span>
+                <Tag v-if="data.type === 'credit'" severity="danger" :value="$store.getters['languageStore/translate'](`creditLang`)"></Tag>
+                <Tag v-else severity="info" :value="$store.getters['languageStore/translate'](`debitLang`)"></Tag>
+
+                <!-- <span :class="data.type === 'credit' ? 'text-red-500' : 'text-blue-500'">{{ $store.getters['languageStore/translate'](`${data.type === 'credit' ? 'creditLang' : 'debitLang'}`) }}</span> -->
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Agent Name`)" style="min-width: 100px">
@@ -64,7 +72,7 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Status`)" style="min-width: 100px">
             <template #body="{ data }">
-                <Tag v-if="status === 1" severity="success" :value="$store.getters['languageStore/translate'](`NORMAL`)"></Tag>
+                <Tag v-if="data.status === 1" severity="success" :value="$store.getters['languageStore/translate'](`NORMAL`)"></Tag>
                 <Tag v-else severity="danger" :value="$store.getters['languageStore/translate'](`FAILED`)"></Tag>
             </template>
         </Column>

@@ -3,9 +3,9 @@
 	"passwordLang": "비밀번호",
   
 	"amountLang": "보유금액",
-	"creditLang": "출금신청",
+	"creditLang": "결과",
 	"waitCreditLang": "출금대기",
-	"debitLang": "입금신청",
+	"debitLang": "배팅",
 	"waitDebitLang": "입금대기",
 	"partnerLang": "총판",
 	"chatLang": "실시간문의",
@@ -842,7 +842,7 @@
 	"MY PAGE": "내 정보",
 	"Basic information of your account.": "기본 에이전트 정보",
 	"Number": "IDX",
-	"Agent Name": "에이전트 이름",
+	"Agent Name": "에이전트명",
 	"Exibition Name": "에이전트 이름",
 	"ID": "아이디",
 	"Password": "에이전트 비밀번호",
@@ -880,7 +880,7 @@
 	"Reserves": "예약",
 	"ADD": "추가",
 	"CANCEL": "취소",
-	"NORMAL": "정상",
+	"NORMAL": "성공",
 	"STOP": "정지",
 	"ADD NEW AGENT": "새 에이전트 추가",
 	"Agent Username": "에이전트 아이디",
@@ -940,7 +940,7 @@
 	"Lower Agent Name": "하부 에이전트 이름",
 	"Game Vendor": "게임 공급업체",
 	"Revenue List by Game": "게임별 수익 목록",
-	"User ID": "사용자 ID",
+	"User ID": "유저 ID",
 	"Parent Agent ID": "상위 에이전트 ID",
 	"SAVE": "저장",
 	"Lower Agent Count": "하부 에이전트 수",
@@ -972,6 +972,8 @@
 
 	"gameDeliverSettingsLang" : "게임 제공 설정",
 	"gameOfferingListLang" : "게임 제공 목록",
+
+	"Bet History - Sport" : "베팅 내역 - Sport",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"

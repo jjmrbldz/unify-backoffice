@@ -2,9 +2,9 @@
     <div class="min-h-screen min-w-screen flex align-items-center justify-content-center flex-column">
         <Card class="w-3 h-auto">
             <template #header>
-                <div ref="logo" class="logo max-w-18rem mx-auto mt-4">
-                    <!-- <img ref="logo" class="w-full" alt="user header" src="../assets/img/rg-logo-hr1.png" /> -->
-                    <span class="logo-placeholder ml-3 text-center">SMART API</span>
+                <div class="logo max-w-18rem mx-auto mt-4">
+                    <img ref="logo" class="w-full" alt="user header" src="../assets/img/smartapi-logo.png" />
+                    <!-- <span class="logo-placeholder ml-3 text-center">SMART API</span> -->
                 </div>
             </template>
             <template #title><div class="font-bold text-center">Administrator Login</div></template>
