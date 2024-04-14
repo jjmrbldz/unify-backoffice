@@ -39,10 +39,10 @@
                     <span class="pi arrow ml-auto" :class="expand[1] ? 'pi-angle-down' : 'pi-angle-right'" />
                 </a>
                 <div class="jb-submenu" ref="games" :class="expand[1] ? 'active' : ''">
-                    <router-link v-ripple class="jb-item-link" to="/history/bet">
+                    <router-link v-ripple class="jb-item-link" :class="this.$route.query.bettype === '' ? 'custom-active' : ''" activeClass="" exactActiveClass="" :to="{path: '/history/bet', query: {bettype: '', filter_game_id: 'evo'}}">
                         <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('betHistoryLang') }} </span>
                     </router-link>
-                    <router-link v-ripple class="jb-item-link" to="/history/bet-sport">
+                    <router-link v-ripple class="jb-item-link" :class="this.$route.query.bettype === 'sport' ? 'custom-active' : ''" activeClass="" exactActiveClass="" :to="{path: '/history/bet', query: {bettype: 'sport', filter_game_id: 'bti'}}">
                         <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('Bet History - Sport') }} </span>
                     </router-link>
                     <template v-if="$store.state.userStore.tp_level === 'T'">
