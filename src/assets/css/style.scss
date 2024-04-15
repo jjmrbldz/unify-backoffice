@@ -1,11 +1,11 @@
 :root {
-
-    --font-family: "GongGothicMedium";
+    --font-family: "GongGothicLight";
 }
 
 @font-face {
-    font-family: 'GongGothicMedium';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10@1.0/GongGothicMedium.woff') format('woff');
+    font-family: "GongGothicLight";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10@1.0/GongGothicLight.woff")
+        format("woff");
     font-weight: normal;
     font-style: normal;
 }
@@ -13,7 +13,7 @@ html {
     font-size: 14px;
     body {
         margin: 0;
-        font-family: 'GongGothicMedium' !important;
+        font-family: "GongGothicLight" !important;
         // background-color: var(--gray-50);
     }
 }
@@ -158,12 +158,14 @@ button {
     }
 }
 
-input:disabled, button:disabled {
+input:disabled,
+button:disabled {
     pointer-events: auto;
     cursor: not-allowed !important;
 }
 
-.p-disabled, .p-component:disabled {
+.p-disabled,
+.p-component:disabled {
     cursor: not-allowed !important;
 }
 
@@ -247,7 +249,6 @@ input:disabled, button:disabled {
         }
     }
 }
-
 
 .dashSummList {
     display: flex;
