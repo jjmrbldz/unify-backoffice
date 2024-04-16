@@ -29,7 +29,7 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`User ID`)" style="min-width: 100px">
             <template #body="{ data }">
-                <span>{{ data.details ? JSON.parse(data.details).username : '-' }}</span>
+                <span>{{ data.user_username }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Transaction ID`)" style="min-width: 100px">
@@ -146,7 +146,7 @@ export default {
 
             this.$dialog.open(this.$modalComponent.BetDetails, {
                 props: {
-                    header: `${this.$store.getters['languageStore/translate'](`detailLang`)} - ${details.username}`,
+                    header: `${this.$store.getters['languageStore/translate'](`detailLang`)} - ${_data.user_username}`,
                     style: {
                         width: '70vw'
                     },

@@ -7,7 +7,7 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`User ID`)" style="min-width: 100px">
             <template #body="{ data }">
-                <span>{{ data.details ? JSON.parse(data.details).username : '-' }}</span>
+                <span>{{ data.user_username }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Transaction ID`)" style="min-width: 100px">
@@ -62,7 +62,7 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`User ID`)" style="min-width: 100px">
             <template #body="{ data }">
-                <span>{{ data.details ? JSON.parse(data.details).username : '-' }}</span>
+                <span>{{ data.user_username }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Transaction ID`)" style="min-width: 100px">
