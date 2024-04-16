@@ -36,7 +36,7 @@ const actions   = {
 }
 
 const getters = {
-    translate: (state) => key => state.translate[key],
+    translate: (state) => key => state.translate[key] ? state.translate[key] : key,
 }
 
 

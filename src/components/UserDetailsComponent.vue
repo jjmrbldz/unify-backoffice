@@ -72,6 +72,12 @@
                         </template>
                     </Dropdown>
                 </div>
+                <div class="field grid">
+                    <label class="col-3">{{ $store.getters['languageStore/translate']('allowAddPartnerLang') }}</label>
+                    <div class="col">
+                        <InputSwitch v-model="params.tp_allowed_child" :true-value="1" :false-value="0" :checked="params.agent_allowed_child" />
+                    </div>
+                </div>
             </div>
             <div class="flex">
                 <div class="mx-auto flex w-6">
@@ -177,7 +183,8 @@ export default {
                     agent_password  : this.params.password === '' ? "xxxxxx" : this.params.password,
                     agent_status    : this.params.tp_status >= 0 ? `${this.userStatus.value}` : "",
                     agent_white_ip  : this.params.tp_white_ip ? this.params.tp_white_ip : "",
-                    filter_agentid  : this.params.username
+                    filter_agentid  : this.params.username,
+                    agent_allowed_child: this.params.tp_allowed_child
                 }
 
                 const res   = await api.saveUserDetails(reqBody);

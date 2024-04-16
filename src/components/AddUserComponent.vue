@@ -3,9 +3,13 @@
         <div class="field col-6">
             <label>{{ $store.getters['languageStore/translate']('ID') }}</label>
             <IconField iconPosition="left">
-                <InputIcon class="mdi mdi-account"></InputIcon>
-                <InputText v-model="params.agent_username" class="py-2 pr-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+                <InputIcon v-if="duplicateID >= 0 && duplicateID !== null" class="mdi mdi-close text-red-500"></InputIcon>
+                <InputIcon v-else-if="duplicateID < 0" class="mdi mdi-check text-green-500"></InputIcon>
+                <InputIcon v-else class="mdi mdi-account"></InputIcon>
+                <InputText v-model="params.agent_username" class="py-2 pr-2 border-1 border-solid border-round outline-none appearance-none w-full" :class="duplicateID >= 0 && duplicateID !== null ? 'border-red-500' : duplicateID < 0 ? 'border-green-500' : 'surface-border'" @keyup="handleCheckDuplicateID" />
             </IconField>
+            <small v-if="duplicateID >= 0 && duplicateID !== null" class="mt-1 text-red-500">ID already taken!</small>
+            <small v-else-if="duplicateID < 0" class="mt-1 text-green-500">ID is available!</small>
         </div>
         <div class="field col-6">
             <label>{{ $store.getters['languageStore/translate']('Password') }}</label>
@@ -70,6 +74,12 @@
                 <InputText v-model="params.agent_white_ip" class="py-2 pr-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
             </IconField>
         </div>
+        <div class="field col-6">
+            <label>{{ $store.getters['languageStore/translate']('allowAddPartnerLang') }}</label>
+            <div class="w-full">
+                <InputSwitch v-model="params.agent_allowed_child" :true-value="1" :false-value="0" />
+            </div>
+        </div>
         
     </div>
     <div class="flex">
@@ -89,12 +99,32 @@ import { v4 as uuidv4 } from 'uuid';
             loading     : false,
             parent_username:   null,
             params      : {},
+            timeoutID   : null,
+            list        : [],
+            duplicateID : null,
         }
     },
     mounted() {
         this.initParams();
+        this.getAgentList();
     },
     methods: {
+        handleCheckDuplicateID() {
+            clearTimeout(this.timeoutID);
+            this.timeoutID = setTimeout(() => {
+                // Call your method here
+                this.checkDuplicatedID();
+            }, 500);
+        },
+        checkDuplicatedID() {
+            if(this.params.agent_username) {
+                this.duplicateID = this.list.indexOf(this.params.agent_username)
+                console.log(this.duplicateID);
+            } else {
+                this.duplicateID = null
+                clearTimeout(this.timeoutID)
+            }
+        },
         initParams() {
             this.params = {
                 Authorization   : `Bearer ${TOKEN}`,
@@ -111,6 +141,7 @@ import { v4 as uuidv4 } from 'uuid';
                 agent_host      : '',
                 agent_white_ip  : '',
                 agent_level     : '', // New Agent Level + 1 -> Route Query
+                agent_allowed_child: 1,
             }
             this.initQuery();
             console.log(this.params);
@@ -119,7 +150,7 @@ import { v4 as uuidv4 } from 'uuid';
             if(this.$route.query) {
                 const { agent_parentid, agent_level, tp_grade, parent_username } = this.$route.query
                 this.params.agent_parentid  = agent_parentid
-                this.params.agent_level     = parseInt(agent_level) + 1
+                this.params.agent_level     = parseInt(agent_level)
                 this.params.tp_grade        = tp_grade
                 this.parent_username        = parent_username
             }
@@ -135,6 +166,8 @@ import { v4 as uuidv4 } from 'uuid';
                 if(code === 1) {
                     this.$GF.customToast(code, this.$store.getters['languageStore/translate'](`${msg}`))
                     this.initParams();
+                    this.duplicateID = null
+                    clearTimeout(this.timeoutID)
                 } else {
                     this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
                 }
@@ -145,7 +178,41 @@ import { v4 as uuidv4 } from 'uuid';
             } finally {
                 
             }
-        }
+        },
+        async getAgentList() {
+            this.loading = true
+            try {
+                const  reqParams = {
+                    Authorization   : `Bearer ${TOKEN}`,
+                    username        : this.$store.state.userStore.username,
+                    token           : this.$store.state.userStore.token,
+                    filter_agentid  : this.$store.state.userStore.username,
+                }
+
+                const res   = await api.agentList(reqParams);
+                const code  = res.data.code;
+                const msg   = res.data.message;
+                console.log(res);
+
+                if(code === 1) {
+
+                    let _data = res.data.data
+
+                    _data.forEach((item) => {
+                        this.list.push(item.username)
+                    })
+                    console.log(this.list);
+                    
+                } else {
+                    this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
+                }
+            } catch (error) {
+                console.error(error)
+                throw error
+            } finally {
+                this.loading = false
+            }
+        },
     }
  }
 </script>

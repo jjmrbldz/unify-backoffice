@@ -1,110 +1,141 @@
 <template>
-    <DataTable :value="[betData]" scrollable class="mt-4" stripedRows>
-        <Column :header="this.$store.getters['languageStore/translate'](`Number`)" style="min-width: 100px">
+    <DataTable :value="[betData]" class="mt-4" stripedRows :loading="loading">
+        <Column :header="this.$store.getters['languageStore/translate'](`Number`)" style="">
             <template #body="{ data }">
                 <span>{{ data.idx }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`User ID`)" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`User ID`)" style="">
             <template #body="{ data }">
                 <span>{{ data.user_username }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Transaction ID`)" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Reserve ID`)" style="">
             <template #body="{ data }">
-                <span>{{ data.txid }}</span>
+                <span>{{ data.reserveID }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Game Type`)" style="min-width: 100px; text-transform: capitalize;">
+        <Column :header="this.$store.getters['languageStore/translate'](`Bet Type`)" style="">
             <template #body="{ data }">
-                <span>{{ data.game_type }}</span>
+                <span>{{ data.betType }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Table ID`)" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Live?`)" style="text-transform: capitalize;">
             <template #body="{ data }">
-                <span>{{ data.table_id }}</span>
+                <Tag v-if="data.isLive === 1" severity="success" :value="$store.getters['languageStore/translate'](`Live`)"></Tag>
+                <Tag v-else severity="warning" :value="$store.getters['languageStore/translate'](`Not Live`)"></Tag>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Type`)" style="min-width: 100px; text-transform: capitalize;">
+        <Column :header="this.$store.getters['languageStore/translate'](`Odds Total`)" style="">
             <template #body="{ data }">
-                <Tag v-if="data.type === 'credit'" severity="danger" :value="$store.getters['languageStore/translate'](`creditLang`)"></Tag>
-                <Tag v-else severity="info" :value="$store.getters['languageStore/translate'](`debitLang`)"></Tag>
+                <Tag severity="secondary" :value="data.oddsTotal"></Tag>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Agent Name`)" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Amount`)" style="">
             <template #body="{ data }">
-                <span>{{ data.partner_username }}</span>
+                <div class="text-xs white-space-nowrap">
+                    <span class="text-red-500">{{ this.$store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
+                    <span class="font-semibold" :class="this.$GF.handleTextColor(data.betAmount)">{{ this.$GF.formatTwoDecimal(data.betAmount) }}</span>
+                </div>
+                <div class="text-xs my-1 white-space-nowrap">
+                    <span class="text-blue-500">{{ this.$store.getters['languageStore/translate'](`expectedAmountLang`) }}: </span>
+                    <span class="font-semibold" :class="this.$GF.handleTextColor(data.expectedAmount)">{{ this.$GF.formatTwoDecimal(data.expectedAmount) }}</span>
+                </div>
+                <div class="text-xs white-space-nowrap">
+                    <span class="text-green-500">{{ this.$store.getters['languageStore/translate'](`winningAmountLang`) }}: </span>
+                    <span class="font-semibold" :class="this.$GF.handleTextColor(data.winningAmount)">{{ this.$GF.formatTwoDecimal(data.winningAmount) }}</span>
+                </div>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Amount`)" class="text-right" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Status`)" style="">
             <template #body="{ data }">
-                <span :class="this.$GF.handleTextColor(data.amount)">{{ this.$GF.formatTwoDecimal(data.amount) }}</span>
+                <Tag v-if="data.status === 'Opened'" severity="info" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
+                <Tag v-else severity="danger" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`dateLang`)" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`dateLang`)" style="">
             <template #body="{ data }">
                 <span >{{ this.$GF.getDateTime(data.reg_datetime) }}</span>
-            </template>
-        </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Status`)" style="min-width: 100px">
-            <template #body="{ data }">
-                <Tag v-if="data.status === 1" severity="success" :value="$store.getters['languageStore/translate'](`NORMAL`)"></Tag>
-                <Tag v-else severity="danger" :value="$store.getters['languageStore/translate'](`FAILED`)"></Tag>
             </template>
         </Column>
         <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
     </DataTable>
-    <DataTable :value="[betDetails]" scrollable class="mt-4" stripedRows>
-        <Column :header="this.$store.getters['languageStore/translate'](`Number`)" style="min-width: 100px">
+    <DataTable :value="betDetails" class="mt-4 text-xs" stripedRows :loading="loading">
+        <Column :header="this.$store.getters['languageStore/translate'](`Number`)">
             <template #body="{ data }">
                 <span>{{ data.idx }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`User ID`)" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Sport`)">
             <template #body="{ data }">
-                <span>{{ data.user_username }}</span>
+                <span>{{ data.sportsName }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Transaction ID`)" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`League`)">
             <template #body="{ data }">
-                <span>{{ data.txid }}</span>
+                <span>{{ data.leagueName }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Game Type`)" style="min-width: 100px; text-transform: capitalize;">
+        <Column :header="this.$store.getters['languageStore/translate'](`Match Name`)">
             <template #body="{ data }">
-                <span>{{ data.game_type }}</span>
+                <span>{{ data.matchName }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Table ID`)" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Home`)">
             <template #body="{ data }">
-                <span>{{ data.table_id }}</span>
+                <span>{{ data.homeName }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Type`)" style="min-width: 100px; text-transform: capitalize;">
+        <Column :header="this.$store.getters['languageStore/translate'](`Score`)">
             <template #body="{ data }">
-                <Tag v-if="data.type === 'credit'" severity="danger" :value="$store.getters['languageStore/translate'](`creditLang`)"></Tag>
-                <Tag v-else severity="info" :value="$store.getters['languageStore/translate'](`debitLang`)"></Tag>
+                <span>{{ data.score }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Agent Name`)" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Betting Score`)">
             <template #body="{ data }">
-                <span>{{ data.partner_username }}</span>
+                <span>{{ data.bettingScore }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Amount`)" class="text-right" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Away`)">
             <template #body="{ data }">
-                <span :class="this.$GF.handleTextColor(data.amount)">{{ this.$GF.formatTwoDecimal(data.amount) }}</span>
+                <span>{{ data.awayName }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`dateLang`)" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Betting Name`)">
             <template #body="{ data }">
-                <span >{{ this.$GF.getDateTime(data.reg_datetime) }}</span>
+                <span>{{ data.bettingName }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Status`)" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Bet Value`)">
             <template #body="{ data }">
-                <Tag v-if="data.status === 1" severity="success" :value="$store.getters['languageStore/translate'](`NORMAL`)"></Tag>
-                <Tag v-else severity="danger" :value="$store.getters['languageStore/translate'](`FAILED`)"></Tag>
+                <span>{{ data.betVal }}</span>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Allocation`)">
+            <template #body="{ data }">
+                <Tag severity="secondary" :value="data.allocation"></Tag>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Benchmark`)">
+            <template #body="{ data }">
+                <span :class="this.$GF.handleTextColor(data.bechmark)">{{ data.bechmark }}</span>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Live?`)" style="text-transform: capitalize; min-width: 100px;">
+            <template #body="{ data }">
+                <Tag v-if="data.matchType === 1" severity="success" :value="$store.getters['languageStore/translate'](`Live`)"></Tag>
+                <Tag v-else severity="warning" :value="$store.getters['languageStore/translate'](`Not Live`)"></Tag>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Status`)">
+            <template #body="{ data }">
+                <Tag v-if="data.status === 'Opened'" severity="info" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
+                <Tag v-else severity="danger" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`dateLang`)">
+            <template #body="{ data }">
+                <span >{{ this.$GF.getDateTime(data.matchDateTime) }}</span>
             </template>
         </Column>
         <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
@@ -119,10 +150,12 @@ export default {
         return {
             betData     : this.dialogRef.data ? this.dialogRef.data.betData : null,
             betDetails  : this.dialogRef.data ? this.dialogRef.data.betDetails : null,
+            loading     : this.dialogRef.data ? this.dialogRef.data.loading : false,
         }
     },
     mounted() {
         console.log(this.betData, this.betDetails);
+        this.loading = false
     },
     methods: {
         

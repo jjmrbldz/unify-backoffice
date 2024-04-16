@@ -1,5 +1,9 @@
 <template>
     <div class="formgrid grid mt-4 mb-2">
+        <div class="field col-2">
+            <label>{{ $store.getters['languageStore/translate']('levelLang') }}</label>
+            <Dropdown v-model="params.filter_level_num" :options="levelOptions" optionLabel="label" optionValue="value" placeholder="Search by Level" checkmark :highlightOnSelect="false" class="w-full" showClear @change="handleFilterLevel()" />
+        </div>
         <div class="field col-3">
             <label>{{ $store.getters['languageStore/translate']('searchLang') }}</label>
             <InputText type="search" v-model="params.filter_agentid" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" @keyup.enter="getList()" />
@@ -16,22 +20,32 @@
                     <span>{{ slotProps.node.data.parent_username }}</span>
                 </template>
             </Column>
+            <Column :header="$store.getters['languageStore/translate']('Top Agent Name')">
+                <template #body="slotProps">
+                    {{ slotProps.node.data.parent_nickname ? slotProps.node.data.parent_nickname : '-' }}
+                </template>
+            </Column>
             <Column :header="$store.getters['languageStore/translate']('Agent ID')">
                 <template #body="slotProps">
                     <div class="flex align-items-center">
-                        <Badge class="block mr-1" value="" :severity="slotProps.node.data.tp_status ? 'warning' : 'success'"></Badge>
+                        <Badge class="block mr-1" value="" :severity="slotProps.node.data.tp_status ? 'success' : 'warning'"></Badge>
                         <RouterLink class="text-blue-400" :to="{ name: 'agent', params: { subAgent: slotProps.node.data.username }, query: { parent_username: slotProps.node.data.parent_username } }">
                             <span class="" style="word-break: break-all;">{{ slotProps.node.data.username }}</span>
                         </RouterLink>
                     </div>
                 </template>
             </Column>
-            <Column :header="$store.getters['languageStore/translate']('Current Holding Amount')">
+            <Column :header="$store.getters['languageStore/translate']('Agent Name')">
+                <template #body="slotProps">
+                    {{ slotProps.node.data.tp_nickname }}
+                </template>
+            </Column>
+            <Column :header="$store.getters['languageStore/translate']('Current Holding Amount')" style="width: 200px; min-width: 200px; text-align: right;">
                 <template #body="slotProps">
                     {{ this.$GF.formatTwoDecimal(slotProps.node.data.realCash) }}
                 </template>
             </Column>
-            <Column :header="$store.getters['languageStore/translate']('Fee Rate')">
+            <Column :header="$store.getters['languageStore/translate']('Fee Rate')" style="text-align: right;">
                 <template #body="slotProps">
                     {{ this.$GF.formatTwoDecimal(slotProps.node.data.tp_share) }}%
                 </template>
@@ -40,6 +54,12 @@
                 <template #body="slotProps">
                     <span class="mdi mdi-account-multiple mr-2"></span>
                     {{ slotProps.node.data.userCount }}
+                </template>
+            </Column>
+            <Column :header="$store.getters['languageStore/translate']('Number of Bettors')">
+                <template #body="slotProps">
+                    <span class="mdi mdi-poker-chip mr-2"></span>
+                    {{ slotProps.node.data.bettorCount ? lotProps.node.data.bettorCount : '-' }}
                 </template>
             </Column>
             <Column :header="$store.getters['languageStore/translate']('Registered Date Time')">
@@ -101,7 +121,13 @@ export default {
                 username        : this.$store.state.userStore.username,
                 token           : this.$store.state.userStore.token,
                 filter_agentid  : '',
-            }
+                filter_level_num: null,
+            },
+            levelOptions    : [
+                { label: 'Level 1', value: 1},
+                { label: 'Level 2', value: 2},
+                { label: 'Level 3', value: 3},
+            ]
         }
     },
     watch: {
@@ -118,6 +144,10 @@ export default {
         this.getList()
     },
     methods: {
+        handleFilterLevel() {
+            this.params.filter_agentid = ''
+            this.getList()
+        },
         handleGameSettings(agentID) {
             const CasinoGameList = defineAsyncComponent(() => import('@/components/List/CasinoGameList.vue'))
             this.$dialog.open(CasinoGameList, {
@@ -157,6 +187,7 @@ export default {
         },
         async getList() {
             this.loading = true
+            this.list = []
             try {
 
                 this.params.filter_agentid = this.params.filter_agentid ? this.params.filter_agentid : this.$store.state.userStore.username
@@ -167,29 +198,12 @@ export default {
                 console.log(res);
 
                 if(code === 1) {
-                    // this.$GF.customToast(code, this.$store.getters['languageStore/translate'](`${msg}`))
 
                     const sorter = new DynamicParentIdSorter(res.data.data);
                     const sortedData = sorter.sortData();
 
-                    // console.log('Converted:', sortedData);
-                    // let arr = [];
-                    // for(var item of sortedData) {
-                    //     arr.push(
-                    //         {
-                    //             id: item.id,
-                    //             tp_parentid: item.tp_parentid,
-                    //             path: item.path
-                    //         }
-                    //     )
-                    // }
-                    // console.log('IDs: ',arr);
-                    // const converter = new NestedConverter(sortedData);
-                    // const nestedData = converter.getNestedData();
-                    
-                    // this.list = nestedData;
-
-                    const rawData = sortedData;
+                    // const rawData = sortedData;
+                    const rawData = res.data.data;
                     const getParentDeep = (arr, targetId) => arr.find(({ id }) => id === targetId)
                         ?? arr.flatMap(({ children }) => getParentDeep(children, targetId))
                         .filter(e => e)
@@ -197,8 +211,8 @@ export default {
                     
                     const result2 = rawData
                         .sort(({ tp_parentid: a }, { tp_parentid: b }) => a - b)
-                        .reduce((acc, { id, tp_parentid, username, tp_casino_key, tp_api_token, tp_hostname, tp_balance, tp_email, tp_grade, tp_name, tp_nickname, tp_phone, tp_last_login, tp_reg_datetime, tp_reg_ip, tp_last_ip, tp_status, tp_memo, tp_share, tp_level, tp_white_ip, parent_username, realCash, userCount, path, }) => {
-                            let data = { id, tp_parentid, username, tp_casino_key, tp_api_token, tp_hostname, tp_balance, tp_email, tp_grade, tp_name, tp_nickname, tp_phone, tp_last_login, tp_reg_datetime, tp_reg_ip, tp_last_ip, tp_status, tp_memo, tp_share, tp_level, tp_white_ip, parent_username, realCash, userCount, path }
+                        .reduce((acc, { id, tp_parentid, username, tp_casino_key, tp_api_token, tp_hostname, tp_balance, tp_email, tp_grade, tp_name, tp_nickname, tp_phone, tp_last_login, tp_reg_datetime, tp_reg_ip, tp_last_ip, tp_status, tp_memo, tp_share, tp_level, tp_white_ip, parent_username, realCash, userCount, path, parent_nickname }) => {
+                            let data = { id, tp_parentid, username, tp_casino_key, tp_api_token, tp_hostname, tp_balance, tp_email, tp_grade, tp_name, tp_nickname, tp_phone, tp_last_login, tp_reg_datetime, tp_reg_ip, tp_last_ip, tp_status, tp_memo, tp_share, tp_level, tp_white_ip, parent_username, realCash, userCount, path, parent_nickname}
                             const obj = { key : id,id, data, children: [] };
                             const parentObj = getParentDeep(acc, tp_parentid);
                             if (parentObj){
@@ -217,9 +231,11 @@ export default {
                     console.log('Converted', this.list);
                     
                 } else {
+                    this.list = []
                     this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
                 }
             } catch (error) {
+                this.list = []
                 console.error(error)
                 throw error
             } finally {

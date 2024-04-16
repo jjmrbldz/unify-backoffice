@@ -21,7 +21,84 @@
             <Button class="w-full" label="Search" @click="getList()" />
         </div>
     </div>
-    <DataTable :value="list" scrollable class="mt-4" stripedRows :loading="loading">
+    <DataTable v-if="$route.query.bettype === 'sport'" :value="list" scrollable class="mt-4" stripedRows :loading="loading">
+        <Column :header="this.$store.getters['languageStore/translate'](`Number`)" style="min-width: 100px">
+            <template #body="{ data }">
+                <span>{{ data.idx }}</span>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Agent Name`)" style="min-width: 100px">
+            <template #body="{ data }">
+                <span>{{ data.partner_username }}</span>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`User ID`)" style="min-width: 100px">
+            <template #body="{ data }">
+                <span>{{ data.user_username }}</span>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Purchase ID`)" style="min-width: 100px; text-transform: capitalize;">
+            <template #body="{ data }">
+                <span>{{ data.purchaseID }}</span>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Bet ID`)" style="min-width: 100px">
+            <template #body="{ data }">
+                <span>{{ data.betID }}</span>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Bet Type`)" style="min-width: 100px">
+            <template #body="{ data }">
+                <span>{{ data.betType }}</span>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Live?`)" style="min-width: 100px; text-transform: capitalize;">
+            <template #body="{ data }">
+                <Tag v-if="data.isLive === 1" severity="success" :value="$store.getters['languageStore/translate'](`Live`)"></Tag>
+                <Tag v-else severity="warning" :value="$store.getters['languageStore/translate'](`Not Live`)"></Tag>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Odds Total`)" style="min-width: 100px">
+            <template #body="{ data }">
+                <Tag severity="secondary" :value="data.oddsTotal"></Tag>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Amount`)" style="min-width: 100px">
+            <template #body="{ data }">
+                <div class="text-xs white-space-nowrap">
+                    <span class="text-red-500">{{ this.$store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
+                    <span class="font-semibold" :class="this.$GF.handleTextColor(data.betAmount)">{{ this.$GF.formatTwoDecimal(data.betAmount) }}</span>
+                </div>
+                <div class="text-xs my-1 white-space-nowrap">
+                    <span class="text-blue-500">{{ this.$store.getters['languageStore/translate'](`expectedAmountLang`) }}: </span>
+                    <span class="font-semibold" :class="this.$GF.handleTextColor(data.expectedAmount)">{{ this.$GF.formatTwoDecimal(data.expectedAmount) }}</span>
+                </div>
+                <div class="text-xs white-space-nowrap">
+                    <span class="text-green-500">{{ this.$store.getters['languageStore/translate'](`winningAmountLang`) }}: </span>
+                    <span class="font-semibold" :class="this.$GF.handleTextColor(data.winningAmount)">{{ this.$GF.formatTwoDecimal(data.winningAmount) }}</span>
+                </div>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Status`)" style="min-width: 100px">
+            <template #body="{ data }">
+                <Tag v-if="data.status === 'Opened'" severity="info" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
+                <Tag v-else severity="danger" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`dateLang`)" style="min-width: 100px">
+            <template #body="{ data }">
+                <span >{{ this.$GF.getDateTime(data.reg_datetime) }}</span>
+            </template>
+        </Column>
+        <Column v-if="$route.query.bettype === 'sport'" :header="this.$store.getters['languageStore/translate'](`actionLang`)" style="min-width: 100px">
+            <template #body="{ data }">
+                <Button icon="mdi mdi-eye" severity="info" @click="showBetDetails(data)" />
+            </template>
+        </Column>
+        <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
+    </DataTable>
+
+    <DataTable v-else :value="list" scrollable class="mt-4" stripedRows :loading="loading">
         <Column :header="this.$store.getters['languageStore/translate'](`Number`)" style="min-width: 100px">
             <template #body="{ data }">
                 <span>{{ data.idx }}</span>
@@ -74,11 +151,6 @@
                 <Tag v-else severity="danger" :value="$store.getters['languageStore/translate'](`FAILED`)"></Tag>
             </template>
         </Column>
-        <Column v-if="$route.query.bettype === 'sport'" :header="this.$store.getters['languageStore/translate'](`actionLang`)" style="min-width: 100px">
-            <template #body="{ data }">
-                <Button icon="mdi mdi-eye" severity="info" :label="$store.getters['languageStore/translate'](`detailLang`)" @click="showBetDetails(data)" />
-            </template>
-        </Column>
         <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
     </DataTable>
     <Paginator
@@ -108,7 +180,7 @@ export default {
                 username        : this.$store.state.userStore.username,
                 token           : this.$store.state.userStore.token,
                 filter_agentid  : '',
-                filter_game_id  : 'evo',
+                filter_game_id  : this.$route.query.filter_game_id,
                 filter_startdate: null,
                 filter_enddate  : null,
                 page            : 1,
@@ -125,7 +197,12 @@ export default {
             this.endDate        = null
             this.getList()
         },
-        'params.filter_game_id'(){
+        'params.filter_game_id'(newVal, oldVal){
+            if (newVal === 'bti') {
+                this.$router.replace({query: {bettype: 'sport', filter_game_id: newVal}})
+            } else {
+                this.$router.replace({query: {bettype: '', filter_game_id: newVal}})
+            }
             this.params.page    = 1
             this.startDate      = null
             this.endDate        = null
@@ -141,14 +218,14 @@ export default {
     methods: {
         showBetDetails(data) {
             const _data     = data;
-            const details   = JSON.parse(data.details);
+            const details   = data.betDetails;
             console.log(_data, details);
 
             this.$dialog.open(this.$modalComponent.BetDetails, {
                 props: {
                     header: `${this.$store.getters['languageStore/translate'](`detailLang`)} - ${_data.user_username}`,
                     style: {
-                        width: '70vw'
+                        width: '80vw'
                     },
                     modal: true,
                     maximizable: true,
@@ -157,6 +234,7 @@ export default {
                 data: {
                     betData     : _data,
                     betDetails  : details,
+                    loading     : true,
                 },
                 onClose: (options) => {
                     // this.getList();

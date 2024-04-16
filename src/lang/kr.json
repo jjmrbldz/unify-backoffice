@@ -426,7 +426,7 @@
     "siteIconLang": "사이트 아이콘",
     "siteLogoLang": "사이트 로고",
 
-	"allowAddPartnerLang": "파트너 추가 허용",
+	"allowAddPartnerLang": "상담원 추가 허용",
 
 	"minimum_deposit_amount": "최소 입금 금액",
     "maximum_deposit_amount": "최대 입금 금액",
@@ -974,6 +974,32 @@
 	"gameOfferingListLang" : "게임 제공 목록",
 
 	"Bet History - Sport" : "베팅 내역 - Sport",
+
+	"Top Agent Name" : "최고 상담원 이름",
+	"Number of Bettors": "베팅자 수",
+    "Invalid parameter agent_username : ": "잘못된 상담원 사용자 이름",
+    "Reserve ID": "예약 ID",
+    "Purchase ID": "구매 ID",
+    "Bet Type": "베팅 유형",
+    "Live": "실시간",
+    "Not Live": "실시간 아님",
+    "expectedAmountLang": "예상 금액",
+    "winningAmountLang": "당첨 금액",
+    "Odds Total": "확률 총계",
+    "Bet ID": "베팅 ID",
+    "Live?": "실시간?",
+    "Sport": "스포츠",
+    "League": "리그",
+    "Match Name": "경기명",
+    "Home": "홈",
+    "Score": "점수",
+    "Betting Score": "베팅 점수",
+    "Away": "원정",
+    "Betting Name": "베팅 이름",
+    "Bet Value": "베팅 값",
+    "Allocation": "할당",
+    "Benchmark": "벤치마크",
+	"Opened" : "개설됨",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"
