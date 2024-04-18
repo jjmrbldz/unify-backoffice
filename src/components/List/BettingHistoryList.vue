@@ -63,7 +63,7 @@
                 <Tag severity="secondary" :value="data.oddsTotal"></Tag>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Amount`)" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Winnings`)" style="min-width: 100px">
             <template #body="{ data }">
                 <div class="text-xs white-space-nowrap">
                     <span class="text-red-500">{{ this.$store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
@@ -90,7 +90,7 @@
                 <span >{{ this.$GF.getDateTime(data.reg_datetime) }}</span>
             </template>
         </Column>
-        <Column v-if="$route.query.bettype === 'sport'" :header="this.$store.getters['languageStore/translate'](`actionLang`)" style="min-width: 100px">
+        <Column v-if="$route.query.bettype === 'sport'" :header="this.$store.getters['languageStore/translate'](`Bet Details`)" style="min-width: 100px">
             <template #body="{ data }">
                 <Button icon="mdi mdi-eye" severity="info" @click="showBetDetails(data)" />
             </template>

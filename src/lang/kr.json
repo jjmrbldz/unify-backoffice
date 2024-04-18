@@ -980,14 +980,14 @@
     "Invalid parameter agent_username : ": "잘못된 상담원 사용자 이름",
     "Reserve ID": "예약 ID",
     "Purchase ID": "구매 ID",
-    "Bet Type": "베팅 유형",
-    "Live": "실시간",
+    "Bet Type": "베팅종류",
+    "Live": "라이브 유무",
     "Not Live": "실시간 아님",
     "expectedAmountLang": "예상 금액",
     "winningAmountLang": "당첨 금액",
-    "Odds Total": "확률 총계",
+    "Odds Total": "배당",
     "Bet ID": "베팅 ID",
-    "Live?": "실시간?",
+    "Live?": "라이브 유무",
     "Sport": "스포츠",
     "League": "리그",
     "Match Name": "경기명",
@@ -1000,6 +1000,9 @@
     "Allocation": "할당",
     "Benchmark": "벤치마크",
 	"Opened" : "개설됨",
+
+	"Winnings" : "당첨금",
+	"Bet Details" : "베팅 상세",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"

@@ -59,7 +59,7 @@
             <Column :header="$store.getters['languageStore/translate']('Number of Bettors')">
                 <template #body="slotProps">
                     <span class="mdi mdi-poker-chip mr-2"></span>
-                    {{ slotProps.node.data.bettorCount ? lotProps.node.data.bettorCount : '-' }}
+                    {{ slotProps.node.data.bettorCount ? slotProps.node.data.bettorCount : '-' }}
                 </template>
             </Column>
             <Column :header="$store.getters['languageStore/translate']('Registered Date Time')">
@@ -211,8 +211,8 @@ export default {
                     
                     const result2 = rawData
                         .sort(({ tp_parentid: a }, { tp_parentid: b }) => a - b)
-                        .reduce((acc, { id, tp_parentid, username, tp_casino_key, tp_api_token, tp_hostname, tp_balance, tp_email, tp_grade, tp_name, tp_nickname, tp_phone, tp_last_login, tp_reg_datetime, tp_reg_ip, tp_last_ip, tp_status, tp_memo, tp_share, tp_level, tp_white_ip, parent_username, realCash, userCount, path, parent_nickname }) => {
-                            let data = { id, tp_parentid, username, tp_casino_key, tp_api_token, tp_hostname, tp_balance, tp_email, tp_grade, tp_name, tp_nickname, tp_phone, tp_last_login, tp_reg_datetime, tp_reg_ip, tp_last_ip, tp_status, tp_memo, tp_share, tp_level, tp_white_ip, parent_username, realCash, userCount, path, parent_nickname}
+                        .reduce((acc, { id, tp_parentid, username, tp_casino_key, tp_api_token, tp_hostname, tp_balance, tp_email, tp_grade, tp_name, tp_nickname, tp_phone, tp_last_login, tp_reg_datetime, tp_reg_ip, tp_last_ip, tp_status, tp_memo, tp_share, tp_level, tp_white_ip, parent_username, realCash, userCount, path, parent_nickname, bettorCount }) => {
+                            let data = { id, tp_parentid, username, tp_casino_key, tp_api_token, tp_hostname, tp_balance, tp_email, tp_grade, tp_name, tp_nickname, tp_phone, tp_last_login, tp_reg_datetime, tp_reg_ip, tp_last_ip, tp_status, tp_memo, tp_share, tp_level, tp_white_ip, parent_username, realCash, userCount, path, parent_nickname, bettorCount}
                             const obj = { key : id,id, data, children: [] };
                             const parentObj = getParentDeep(acc, tp_parentid);
                             if (parentObj){
