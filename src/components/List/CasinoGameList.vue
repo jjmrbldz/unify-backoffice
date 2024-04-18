@@ -54,7 +54,7 @@ import bti from '@/assets/img/providers/bti.svg'
 import pragmatic from '@/assets/img/providers/pragmatic.png'
 
 export default {
-    inject: ['dialogRef', 'mypage'],
+    inject: ['dialogRef', 'mypage', 'subEdit'],
     data() {
         return {
             isVisible: true, 
@@ -82,11 +82,24 @@ export default {
                 }
             },
             deep: true
+        },
+        subEdit(newVal, oldVal) {
+            console.log('subEdit?', newVal);
+            if(newVal) {
+                this.isVisible = true
+            } else {
+                this.isVisible = false
+            }
         }
     },
     mounted() {
         if(this.$route.query.filter_agentid) {
             this.params.filter_agentid = this.$route.query.filter_agentid
+        }
+        if(this.subEdit) {
+            this.isVisible = true
+        } else {
+            this.isVisible = false
         }
         this.getList();
     },
@@ -154,9 +167,9 @@ export default {
                     // this.$GF.customToast(code, this.$store.getters['languageStore/translate'](`${msg}`))
                     this.list = res.data.data;
 
-                    if(this.mypage) {
-                        this.filterActiveCasino();
-                    }
+                    // if(this.mypage) {
+                    //     this.filterActiveCasino();
+                    // }
                 } else {
                     this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
                     this.list = []

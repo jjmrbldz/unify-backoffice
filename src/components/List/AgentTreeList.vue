@@ -40,12 +40,12 @@
                     {{ slotProps.node.data.tp_nickname }}
                 </template>
             </Column>
-            <Column :header="$store.getters['languageStore/translate']('Current Holding Amount')" style="width: 200px; min-width: 200px; text-align: right;">
+            <Column :header="$store.getters['languageStore/translate']('Current Holding Amount')" style="width: 200px; min-width: 200px; text-align: left;">
                 <template #body="slotProps">
                     {{ this.$GF.formatTwoDecimal(slotProps.node.data.realCash) }}
                 </template>
             </Column>
-            <Column :header="$store.getters['languageStore/translate']('Fee Rate')" style="text-align: right;">
+            <Column :header="$store.getters['languageStore/translate']('Fee Rate')" style="text-align: left;">
                 <template #body="slotProps">
                     {{ this.$GF.formatTwoDecimal(slotProps.node.data.tp_share) }}%
                 </template>

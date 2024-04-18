@@ -9,6 +9,10 @@
             <GameSelect v-model="params.filter_game_id" />
         </div>
         <div class="field col-2">
+            <label>{{ $store.getters['languageStore/translate']('Transaction ID') }}</label>
+            <InputText type="search" v-model="params.filter_trans_id" class="text-base text-color p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" @keyup.enter="handleFilterTrans()" />
+        </div>
+        <div class="field col-2">
             <label>{{ $store.getters['languageStore/translate']('startDateLang') }}</label>
             <Calendar v-model="startDate" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :maxDate="currDate" showIcon iconDisplay="input" inputId="icondisplay" />
         </div>
@@ -82,7 +86,12 @@
         <Column :header="this.$store.getters['languageStore/translate'](`Status`)" style="min-width: 100px">
             <template #body="{ data }">
                 <Tag v-if="data.status === 'Opened'" severity="info" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
-                <Tag v-else severity="danger" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
+                <Tag v-else-if="data.status === 'Lost'" severity="danger" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
+                <Tag v-else-if="data.status === 'Won'" severity="success" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
+                <Tag v-else-if="data.status === 'Canceled'" severity="warning" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
+                <Tag v-else-if="data.status === 'Cashout'" severity="primary" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
+                <Tag v-else-if="data.status === 'Half Lost'" style="background: color-mix(in srgb, var(--pink-500), transparent 80%); color: var(--pink-500);" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
+                <Tag v-else severity="secondary" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`dateLang`)" style="min-width: 100px">
@@ -135,7 +144,7 @@
                 <span>{{ data.partner_username }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Amount`)" class="text-right" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Amount`)" class="text-left" style="min-width: 100px">
             <template #body="{ data }">
                 <span :class="this.$GF.handleTextColor(data.amount)">{{ this.$GF.formatTwoDecimal(data.amount) }}</span>
             </template>
@@ -180,6 +189,7 @@ export default {
                 username        : this.$store.state.userStore.username,
                 token           : this.$store.state.userStore.token,
                 filter_agentid  : '',
+                filter_trans_id : '',
                 filter_game_id  : this.$route.query.filter_game_id,
                 filter_startdate: null,
                 filter_enddate  : null,
@@ -216,6 +226,12 @@ export default {
         this.getList()
     },
     methods: {
+        handleFilterTrans() {
+            this.params.page    = 1
+            this.startDate      = null
+            this.endDate        = null
+            this.getList()
+        },
         showBetDetails(data) {
             const _data     = data;
             const details   = data.betDetails;

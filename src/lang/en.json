@@ -993,9 +993,17 @@
     "Allocation" : "Allocation",
     "Benchmark" : "Benchmark",
     "Opened" : "Opened",
-
+    
     "Winnings" : "Winnings",
     "Bet Details" : "Bet Details",
+
+    "Lost" : "Lost",
+    "Won" : "Won",
+    "Canceled" : "Canceled",
+    "Cashout" : "Cashout",
+    "Half Lost" : "Half Lost",
+    "Edit" : "Edit",
+    "All Games" : "All Games",
 
     "totalPageLang": "Total Page",
     "loginError Lang!": "Login Failed!"

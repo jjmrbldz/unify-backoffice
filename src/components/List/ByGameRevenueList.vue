@@ -17,50 +17,56 @@
             <Button class="w-full" label="Search" @click="getList()" />
         </div>
     </div>
+    <Button class="font-bold bg-blue-500 hover:bg-blue-600 border-none  text-white" :label="$store.getters['languageStore/translate']('All Games')" @click="showAllGames()" />
     <DataTable :value="list" scrollable class="mt-4" stripedRows :loading="loading">
         <Column :header="this.$store.getters['languageStore/translate'](`Agent`)" style="min-width: 100px">
             <template #body="{ data }">
                 <span >{{data.partner_username }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Game Vendor`)" style="min-width: 100px">
+        <Column v-if="showAll" :header="this.$store.getters['languageStore/translate'](`Agent Level`)" style="min-width: 100px">
+            <template #body="{ data }">
+                <span >{{data.agent_level ? data.agent_level : '-' }}</span>
+            </template>
+        </Column>
+        <Column v-if="false" :header="this.$store.getters['languageStore/translate'](`Game Vendor`)" style="min-width: 100px">
             <template #body="{ data }">
                 <span >{{data.provider }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Bet Amount Sum`)" class="text-right" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Bet Amount Sum`)" class="text-left" style="min-width: 100px">
             <template #body="{ data }">
                 <span :class="this.$GF.handleTextColor(data.totalBetAmount)">{{ this.$GF.formatTwoDecimal(data.totalBetAmount) }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Result Amount Sum`)" class="text-right" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Result Amount Sum`)" class="text-left" style="min-width: 100px">
             <template #body="{ data }">
                 <span :class="this.$GF.handleTextColor(data.totalWinAmount)">{{ this.$GF.formatTwoDecimal(data.totalWinAmount) }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Tie Betting`)" class="text-right" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Tie Betting`)" class="text-left" style="min-width: 100px">
             <template #body="{ data }">
                 <span :class="this.$GF.handleTextColor(data.totalTieAmount)">{{ this.$GF.formatTwoDecimal(data.totalTieAmount) }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Win Loss`)" class="text-right" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Win Loss`)" class="text-left" style="min-width: 100px">
             <template #body="{ data }">
                 <span :class="this.$GF.handleTextColor(data.winLose)">{{ this.$GF.formatTwoDecimal(data.winLose) }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Bet Return Rate`)" class="text-right" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Bet Return Rate`)" class="text-left" style="min-width: 100px">
             <template #body="{ data }">
                 <span :class="this.$GF.handleTextColor(data.bettingRate)">{{ this.$GF.formatTwoDecimal(data.bettingRate) }}</span>
             </template>
         </Column>
         <ColumnGroup type="footer">
             <Row>
-                <Column :footer="$store.getters['languageStore/translate'](`SUM`)" :colspan="2" footerStyle="text-align:center"/>
-                <Column :footer="this.$GF.formatTwoDecimal(totalBetAmount)" :footerClass="`${this.$GF.handleTextColor(totalBetAmount)} text-right`" />
-                <Column :footer="this.$GF.formatTwoDecimal(totalWinAmount)" :footerClass="`${this.$GF.handleTextColor(totalWinAmount)} text-right`" />
-                <Column :footer="this.$GF.formatTwoDecimal(totalTieAmount)" :footerClass="`${this.$GF.handleTextColor(totalTieAmount)} text-right`" />
-                <Column :footer="this.$GF.formatTwoDecimal(totalwinLose)" :footerClass="`${this.$GF.handleTextColor(totalwinLose)} text-right`" />
-                <Column :footer="this.$GF.formatTwoDecimal(totalbettingRate)" :footerClass="`${this.$GF.handleTextColor(totalbettingRate)} text-right`" />
+                <Column :footer="$store.getters['languageStore/translate'](`SUM`)" :colspan="showAll ? 2 : null" footerStyle="text-align:left"/>
+                <Column :footer="this.$GF.formatTwoDecimal(totalBetAmount)" :footerClass="`${this.$GF.handleTextColor(totalBetAmount)} text-left`" />
+                <Column :footer="this.$GF.formatTwoDecimal(totalWinAmount)" :footerClass="`${this.$GF.handleTextColor(totalWinAmount)} text-left`" />
+                <Column :footer="this.$GF.formatTwoDecimal(totalTieAmount)" :footerClass="`${this.$GF.handleTextColor(totalTieAmount)} text-left`" />
+                <Column :footer="this.$GF.formatTwoDecimal(totalwinLose)" :footerClass="`${this.$GF.handleTextColor(totalwinLose)} text-left`" />
+                <Column :footer="this.$GF.formatTwoDecimal(totalbettingRate)" :footerClass="`${this.$GF.handleTextColor(totalbettingRate)} text-left`" />
             </Row>
         </ColumnGroup>
         <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
@@ -82,11 +88,12 @@ import { api, TOKEN } from '@/axios/api';
 export default {
     data() {
         return {
+            showAll     : false,
             currDate    : new Date(),
-            totalCount: null,
-            rowData : {},
-            loading : false,
-            list    : [],
+            totalCount  : null,
+            rowData     : {},
+            loading     : false,
+            list        : [],
             params: {
                 Authorization   : `Bearer ${TOKEN}`,
                 username        : this.$store.state.userStore.username,
@@ -153,12 +160,18 @@ export default {
         },
     },
     mounted() {
+        if(this.$route.params.subAgent) {
+            this.params.filter_agentid = this.$route.params.subAgent
+        }
         let cDate = new Date();
         this.startDate = new Date(cDate.setDate(1));
         this.endDate   = this.currDate;
         this.getList()
     },
     methods: {
+        showAllGames() {
+            this.showAll = !this.showAll
+        },
         handleDateChange() {
             this.params.page = 1
             this.getPartnerCash()

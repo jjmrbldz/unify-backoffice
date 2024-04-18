@@ -1003,6 +1003,14 @@
 
 	"Winnings" : "당첨금",
 	"Bet Details" : "베팅 상세",
+
+    "Lost": "패배",
+    "Won": "승리",
+    "Canceled": "취소됨",
+    "Cashout": "현금 인출",
+    "Half Lost": "반 패배",
+	"Edit": "편집",
+    "All Games": "모든 게임",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"

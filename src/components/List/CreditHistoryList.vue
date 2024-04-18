@@ -33,17 +33,17 @@
                 <span>{{ data.partner_username }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Amount`)" class="text-right" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Amount`)" class="text-left" style="min-width: 100px">
             <template #body="{ data }">
                 <span :class="this.$GF.handleTextColor(data.ipcf_amount)">{{ this.$GF.formatTwoDecimal(data.ipcf_amount) }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Cash Before`)" class="text-right" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Cash Before`)" class="text-left" style="min-width: 100px">
             <template #body="{ data }">
                 <span :class="this.$GF.handleTextColor(data.ipcf_cash_before)">{{ this.$GF.formatTwoDecimal(data.ipcf_cash_before) }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Cash After`)" class="text-right" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Cash After`)" class="text-left" style="min-width: 100px">
             <template #body="{ data }">
                 <span :class="this.$GF.handleTextColor(data.ipcf_cash_after)">{{ this.$GF.formatTwoDecimal(data.ipcf_cash_after) }}</span>
             </template>
