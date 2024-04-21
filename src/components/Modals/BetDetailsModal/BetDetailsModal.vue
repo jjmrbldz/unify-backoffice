@@ -23,7 +23,7 @@
         <Column :header="this.$store.getters['languageStore/translate'](`Live?`)" style="text-transform: capitalize;">
             <template #body="{ data }">
                 <Tag v-if="data.isLive === 1" severity="success" :value="$store.getters['languageStore/translate'](`Live`)"></Tag>
-                <Tag v-else severity="warning" :value="$store.getters['languageStore/translate'](`Not Live`)"></Tag>
+                <Tag v-else severity="warning" :value="$store.getters['languageStore/translate'](`Prematch`)"></Tag>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Odds Total`)" style="">
@@ -47,7 +47,7 @@
                 </div>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Status`)" style="">
+        <Column :header="this.$store.getters['languageStore/translate'](`Result`)" style="">
             <template #body="{ data }">
                 <Tag v-if="data.status === 'Opened'" severity="info" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
                 <Tag v-else-if="data.status === 'Lost'" severity="danger" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
@@ -132,7 +132,7 @@
                 <Tag v-else severity="warning" :value="$store.getters['languageStore/translate'](`Not Live`)"></Tag>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Status`)">
+        <Column :header="this.$store.getters['languageStore/translate'](`Result`)">
             <template #body="{ data }">
                 <Tag v-if="data.status === 'Opened'" severity="info" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
                 <Tag v-else-if="data.status === 'Lost'" severity="danger" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>

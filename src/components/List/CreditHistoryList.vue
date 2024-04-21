@@ -35,17 +35,17 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Amount`)" class="text-left" style="min-width: 100px">
             <template #body="{ data }">
-                <span :class="this.$GF.handleTextColor(data.ipcf_amount)">{{ this.$GF.formatTwoDecimal(data.ipcf_amount) }}</span>
+                <span :class="this.$GF.handleTextColor(data.ipcf_amount)">{{ this.$GF.formatNumComma(data.ipcf_amount) }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Cash Before`)" class="text-left" style="min-width: 100px">
             <template #body="{ data }">
-                <span :class="this.$GF.handleTextColor(data.ipcf_cash_before)">{{ this.$GF.formatTwoDecimal(data.ipcf_cash_before) }}</span>
+                <span :class="this.$GF.handleTextColor(data.ipcf_cash_before)">{{ this.$GF.formatNumComma(data.ipcf_cash_before) }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Cash After`)" class="text-left" style="min-width: 100px">
             <template #body="{ data }">
-                <span :class="this.$GF.handleTextColor(data.ipcf_cash_after)">{{ this.$GF.formatTwoDecimal(data.ipcf_cash_after) }}</span>
+                <span :class="this.$GF.handleTextColor(data.ipcf_cash_after)">{{ this.$GF.formatNumComma(data.ipcf_cash_after) }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`dateLang`)" style="min-width: 100px">

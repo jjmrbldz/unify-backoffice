@@ -40,12 +40,12 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Current Holding Amount`)" style="min-width: 100px">
             <template #body="{ data }">
-                <span>{{ this.$GF.formatTwoDecimal(data.tu_balance) }}</span>
+                <span>{{ this.$GF.formatNumComma(data.tu_balance) }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Today Betting Amount`)" style="min-width: 100px">
             <template #body="{ data }">
-                <span>{{ this.$GF.formatTwoDecimal(data.todayBetting) }}</span>
+                <span>{{ this.$GF.formatNumComma(data.todayBetting) }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Registered Date Time`)" style="min-width: 100px">

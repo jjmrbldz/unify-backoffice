@@ -36,37 +36,37 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Bet Amount Sum`)" class="text-left" style="min-width: 100px">
             <template #body="{ data }">
-                <span :class="this.$GF.handleTextColor(data.totalBetAmount)">{{ this.$GF.formatTwoDecimal(data.totalBetAmount) }}</span>
+                <span :class="this.$GF.handleTextColor(data.totalBetAmount)">{{ this.$GF.formatNumComma(data.totalBetAmount) }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Result Amount Sum`)" class="text-left" style="min-width: 100px">
             <template #body="{ data }">
-                <span :class="this.$GF.handleTextColor(data.totalWinAmount)">{{ this.$GF.formatTwoDecimal(data.totalWinAmount) }}</span>
+                <span :class="this.$GF.handleTextColor(data.totalWinAmount)">{{ this.$GF.formatNumComma(data.totalWinAmount) }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Tie Betting`)" class="text-left" style="min-width: 100px">
             <template #body="{ data }">
-                <span :class="this.$GF.handleTextColor(data.totalTieAmount)">{{ this.$GF.formatTwoDecimal(data.totalTieAmount) }}</span>
+                <span :class="this.$GF.handleTextColor(data.totalTieAmount)">{{ this.$GF.formatNumComma(data.totalTieAmount) }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Win Loss`)" class="text-left" style="min-width: 100px">
             <template #body="{ data }">
-                <span :class="this.$GF.handleTextColor(data.winLose)">{{ this.$GF.formatTwoDecimal(data.winLose) }}</span>
+                <span :class="this.$GF.handleTextColor(data.winLose)">{{ this.$GF.formatNumComma(data.winLose) }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Bet Return Rate`)" class="text-left" style="min-width: 100px">
             <template #body="{ data }">
-                <span :class="this.$GF.handleTextColor(data.bettingRate)">{{ this.$GF.formatTwoDecimal(data.bettingRate) }}</span>
+                <span :class="this.$GF.handleTextColor(data.bettingRate)">{{ this.$GF.formatTwoDecimal(data.bettingRate) }}%</span>
             </template>
         </Column>
         <ColumnGroup type="footer">
             <Row>
                 <Column :footer="$store.getters['languageStore/translate'](`SUM`)" :colspan="showAll ? 2 : null" footerStyle="text-align:left"/>
-                <Column :footer="this.$GF.formatTwoDecimal(totalBetAmount)" :footerClass="`${this.$GF.handleTextColor(totalBetAmount)} text-left`" />
-                <Column :footer="this.$GF.formatTwoDecimal(totalWinAmount)" :footerClass="`${this.$GF.handleTextColor(totalWinAmount)} text-left`" />
-                <Column :footer="this.$GF.formatTwoDecimal(totalTieAmount)" :footerClass="`${this.$GF.handleTextColor(totalTieAmount)} text-left`" />
-                <Column :footer="this.$GF.formatTwoDecimal(totalwinLose)" :footerClass="`${this.$GF.handleTextColor(totalwinLose)} text-left`" />
-                <Column :footer="this.$GF.formatTwoDecimal(totalbettingRate)" :footerClass="`${this.$GF.handleTextColor(totalbettingRate)} text-left`" />
+                <Column :footer="this.$GF.formatNumComma(totalBetAmount)" :footerClass="`${this.$GF.handleTextColor(totalBetAmount)} text-left`" />
+                <Column :footer="this.$GF.formatNumComma(totalWinAmount)" :footerClass="`${this.$GF.handleTextColor(totalWinAmount)} text-left`" />
+                <Column :footer="this.$GF.formatNumComma(totalTieAmount)" :footerClass="`${this.$GF.handleTextColor(totalTieAmount)} text-left`" />
+                <Column :footer="this.$GF.formatNumComma(totalwinLose)" :footerClass="`${this.$GF.handleTextColor(totalwinLose)} text-left`" />
+                <Column :footer="`${this.$GF.formatTwoDecimal(totalbettingRate)}%`" :footerClass="`${this.$GF.handleTextColor(totalbettingRate)} text-left`" />
             </Row>
         </ColumnGroup>
         <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>

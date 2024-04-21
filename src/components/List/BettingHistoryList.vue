@@ -1,24 +1,34 @@
 <template>
     <div class="formgrid grid mt-4 mb-2">
-        <div class="field col-2">
+        <div class="field col">
             <label>{{ $store.getters['languageStore/translate']('searchByLang') }}</label>
             <PartnerSelect v-model="params.filter_agentid" />
         </div>
-        <div class="field col-2">
+        <div class="field col">
             <label>{{ $store.getters['languageStore/translate']('providerLang') }}</label>
             <GameSelect v-model="params.filter_game_id" />
         </div>
-        <div class="field col-2">
+        <div class="field col">
             <label>{{ $store.getters['languageStore/translate']('Transaction ID') }}</label>
             <InputText type="search" v-model="params.filter_trans_id" class="text-base text-color p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" @keyup.enter="handleFilterTrans()" />
         </div>
-        <div class="field col-2">
+        <template v-if="$route.query.bettype === 'sport'">
+            <div class="field col">
+                <label>{{ $store.getters['languageStore/translate']('Live or Not') }}</label>
+                <IsLiveSelect v-model="params.filter_islive" />
+            </div>
+            <div class="field col">
+                <label>{{ $store.getters['languageStore/translate']('Result') }}</label>
+                <ResultSelect v-model="params.filter_status" />
+            </div>
+        </template>
+        <div class="field col">
             <label>{{ $store.getters['languageStore/translate']('startDateLang') }}</label>
-            <Calendar v-model="startDate" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :maxDate="currDate" showIcon iconDisplay="input" inputId="icondisplay" />
+            <Calendar v-model="startDate" class="w-full" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :maxDate="currDate" showIcon iconDisplay="input" inputId="icondisplay" />
         </div>
-        <div class="field col-2">
+        <div class="field col">
             <label>{{ $store.getters['languageStore/translate']('endDateLang') }}</label>
-            <Calendar v-model="endDate" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :minData="startDate" :maxDate="currDate" showIcon iconDisplay="input" inputId="icondisplay" />
+            <Calendar v-model="endDate" class="w-full" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :minData="startDate" :maxDate="currDate" showIcon iconDisplay="input" inputId="icondisplay" />
         </div>
         <div class="field col-1">
             <label>&nbsp;</label>
@@ -59,7 +69,7 @@
         <Column :header="this.$store.getters['languageStore/translate'](`Live?`)" style="min-width: 100px; text-transform: capitalize;">
             <template #body="{ data }">
                 <Tag v-if="data.isLive === 1" severity="success" :value="$store.getters['languageStore/translate'](`Live`)"></Tag>
-                <Tag v-else severity="warning" :value="$store.getters['languageStore/translate'](`Not Live`)"></Tag>
+                <Tag v-else severity="warning" :value="$store.getters['languageStore/translate'](`Prematch`)"></Tag>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Odds Total`)" style="min-width: 100px">
@@ -71,19 +81,19 @@
             <template #body="{ data }">
                 <div class="text-xs white-space-nowrap">
                     <span class="text-red-500">{{ this.$store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
-                    <span class="font-semibold" :class="this.$GF.handleTextColor(data.betAmount)">{{ this.$GF.formatTwoDecimal(data.betAmount) }}</span>
+                    <span class="font-semibold" :class="this.$GF.handleTextColor(data.betAmount)">{{ this.$GF.formatNumComma(data.betAmount) }}</span>
                 </div>
                 <div class="text-xs my-1 white-space-nowrap">
                     <span class="text-blue-500">{{ this.$store.getters['languageStore/translate'](`expectedAmountLang`) }}: </span>
-                    <span class="font-semibold" :class="this.$GF.handleTextColor(data.expectedAmount)">{{ this.$GF.formatTwoDecimal(data.expectedAmount) }}</span>
+                    <span class="font-semibold" :class="this.$GF.handleTextColor(data.expectedAmount)">{{ this.$GF.formatNumComma(data.expectedAmount) }}</span>
                 </div>
                 <div class="text-xs white-space-nowrap">
                     <span class="text-green-500">{{ this.$store.getters['languageStore/translate'](`winningAmountLang`) }}: </span>
-                    <span class="font-semibold" :class="this.$GF.handleTextColor(data.winningAmount)">{{ this.$GF.formatTwoDecimal(data.winningAmount) }}</span>
+                    <span class="font-semibold" :class="this.$GF.handleTextColor(data.winningAmount)">{{ this.$GF.formatNumComma(data.winningAmount) }}</span>
                 </div>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Status`)" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Result`)" style="min-width: 100px">
             <template #body="{ data }">
                 <Tag v-if="data.status === 'Opened'" severity="info" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
                 <Tag v-else-if="data.status === 'Lost'" severity="danger" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
@@ -146,7 +156,7 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Amount`)" class="text-left" style="min-width: 100px">
             <template #body="{ data }">
-                <span :class="this.$GF.handleTextColor(data.amount)">{{ this.$GF.formatTwoDecimal(data.amount) }}</span>
+                <span :class="this.$GF.handleTextColor(data.amount)">{{ this.$GF.formatNumComma(data.amount) }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`dateLang`)" style="min-width: 100px">
@@ -193,6 +203,8 @@ export default {
                 filter_game_id  : this.$route.query.filter_game_id,
                 filter_startdate: null,
                 filter_enddate  : null,
+                filter_islive   : null,
+                filter_status   : null,
                 page            : 1,
                 items_count     : 10,
             },
@@ -202,6 +214,18 @@ export default {
     },
     watch: {
         'params.filter_agentid'(){
+            this.params.page    = 1
+            this.startDate      = null
+            this.endDate        = null
+            this.getList()
+        },
+        'params.filter_islive'(){
+            this.params.page    = 1
+            this.startDate      = null
+            this.endDate        = null
+            this.getList()
+        },
+        'params.filter_status'(){
             this.params.page    = 1
             this.startDate      = null
             this.endDate        = null

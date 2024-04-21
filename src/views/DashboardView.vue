@@ -59,47 +59,47 @@ import { mapGetters } from 'vuex';
                 {
                     icon    : 'mdi mdi-cash-multiple',
                     title   : 'Current Reserve Amount',
-                    summ    : this.$store.state.userStore ? this.$GF.formatTwoDecimal(this.$store.state.userStore.realCash) : '-'
+                    summ    : this.$store.state.userStore ? this.$GF.formatNumComma(this.$store.state.userStore.realCash) : '-'
                 },
                 {
                     icon    : 'mdi mdi-poker-chip',
                     title   : 'Gold Day Bet',
-                    summ    : this.$store.state.userStore.record ? this.$GF.formatTwoDecimal(this.$store.state.userStore.record.totalBetAmount) : '-'
+                    summ    : this.$store.state.userStore.record ? this.$GF.formatNumComma(this.$store.state.userStore.record.totalBetAmount) : '-'
                 },
                 {
                     icon    : 'mdi mdi-creation',
                     title   : 'Gold Day Win',
-                    summ    : this.$store.state.userStore.record ? this.$GF.formatTwoDecimal(this.$store.state.userStore.record.totalWinAmount) : '-'
+                    summ    : this.$store.state.userStore.record ? this.$GF.formatNumComma(this.$store.state.userStore.record.totalWinAmount) : '-'
                 },
                 {
                     icon    : 'mdi mdi-thumb-down-outline',
                     title   : 'Gold Day Loss',
-                    summ    : this.$store.state.userStore.record ? this.$GF.formatTwoDecimal(this.$store.state.userStore.record.winLose) : '-'
+                    summ    : this.$store.state.userStore.record ? this.$GF.formatNumComma(this.$store.state.userStore.record.winLose) : '-'
                 },
                 {
                     icon    : 'mdi mdi-account-multiple-check',
                     title   : 'Gold Day Bet User',
-                    summ    : this.$store.state.userStore.record ? this.$GF.formatTwoDecimal(this.$store.state.userStore.record.userCount) : '-'
+                    summ    : this.$store.state.userStore.record ? this.$GF.formatNumComma(this.$store.state.userStore.record.userCount) : '-'
                 },
                 {
                     icon    : 'mdi mdi-cards-spade',
                     title   : 'Casino Bet Ratio',
-                    summ    : this.$store.state.userStore.record ? this.$GF.formatTwoDecimal(this.$store.state.userStore.record.casinoBetRatio) : '-'
+                    summ    : this.$store.state.userStore.record ? this.$GF.formatNumComma(this.$store.state.userStore.record.casinoBetRatio) : '-'
                 },
                 {
                     icon    : 'mdi mdi-pokeball',
                     title   : 'Minigame Bet Ratio',
-                    summ    : this.$store.state.userStore.record ? this.$GF.formatTwoDecimal(this.$store.state.userStore.record.minigameBetRatio) : '-'
+                    summ    : this.$store.state.userStore.record ? this.$GF.formatNumComma(this.$store.state.userStore.record.minigameBetRatio) : '-'
                 },
                 {
                     icon    : 'mdi mdi-slot-machine-outline',
                     title   : 'Slot Bet Ratio',
-                    summ    : this.$store.state.userStore.record ? this.$GF.formatTwoDecimal(this.$store.state.userStore.record.slotBetRatio) : '-'
+                    summ    : this.$store.state.userStore.record ? this.$GF.formatNumComma(this.$store.state.userStore.record.slotBetRatio) : '-'
                 },
                 {
                     icon    : 'mdi mdi-soccer',
                     title   : 'Sport Bet Ratio',
-                    summ    : this.$store.state.userStore.record ? this.$GF.formatTwoDecimal(this.$store.state.userStore.record.sportBetRatio) : '-'
+                    summ    : this.$store.state.userStore.record ? this.$GF.formatNumComma(this.$store.state.userStore.record.sportBetRatio) : '-'
                 },
             ]
         }

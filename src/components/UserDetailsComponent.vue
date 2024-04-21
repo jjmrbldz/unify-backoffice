@@ -54,7 +54,7 @@
                         </div>
                         <div class="field grid" v-if="!subAgent">
                             <label class="col-3">{{ $store.getters['languageStore/translate']('Total Holdings') }}</label>
-                            <InputNumber v-model="params.realCash" class="col p-0" inputClass="p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :useGrouping="true" :minFractionDigits="2" :maxFractionDigits="2" :disabled="true" />
+                            <InputNumber v-model="params.realCash" class="col p-0" inputClass="p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :useGrouping="true" :minFractionDigits="0" :maxFractionDigits="0" :disabled="true" />
                         </div>
                         <div class="field grid" v-if="!subAgent">
                             <label class="col-3">{{ $store.getters['languageStore/translate']('Registered Date Time') }}</label>

@@ -149,17 +149,37 @@ const GF = {
         console.log('Fire!', type, msg);
         ToastEventBus.emit('add', { severity: (type > 0) ? 'success' : (type === -1) ? 'warn' : 'error', detail: msg, life: 4000 });
     },
+    // formatNumComma(x) {
+    //     if (x !== '' && x !== null && x !== undefined) {
+    //         if(typeof x !== 'number' || isNaN(x)) {
+    //             console.warn(`${x} is not a number`);
+    //             return '-'
+    //         } else if(x >= 0) {
+    //             x.toLocaleString()
+    //         } else {
+    //             return '-'
+    //         }
+    //     } else {
+    //         return '-'
+    //     }
+    // },
     formatNumComma(x) {
-        if (x !== '' && x !== null && x !== undefined) {
-            if(typeof x !== 'number' || isNaN(x)) {
-                console.warn(`${x} is not a number`);
-                return '-'
-            } else if(x >= 0) {
-                x.toLocaleString()
+        let z = x;
+        try {
+            if(z !== '' && z !== null && z !== undefined) {
+                z = parseFloat(z)
+                
+                if (isNaN(z)) {
+                    throw new Error(`Conversion error: ${z} is not a valid number.`);
+                }  else {
+                    return z.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0})
+                }
             } else {
                 return '-'
             }
-        } else {
+            
+        } catch (error) {
+            console.error(error)
             return '-'
         }
     },
@@ -182,29 +202,6 @@ const GF = {
             console.error(error)
             return '-'
         }
-
-        // if (z !== '' && z !== null && z !== undefined) {
-        //     try {
-        //         z = parseFloat(z).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})
-        //         if (isNaN(z)) {
-        //             throw new Error("Conversion error: Not a valid number.");
-        //         } 
-
-        //     } catch (error) {
-        //         console.error(error)
-        //         z = '-'
-        //     }
-        //     if(typeof z !== 'number' || isNaN(z)) {
-        //         console.warn(`${z} is ${typeof z}`);
-        //         return '-'
-        //     } else if(z >= 0) {
-        //         return parseFloat(z).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})
-        //     } else {
-        //         return '-'
-        //     }
-        // } else {
-        //     return '-'
-        // }
     },
     // handleLevelColor(x) {
     //     if (x > 6) {

@@ -1005,6 +1005,12 @@
     "Edit" : "Edit",
     "All Games" : "All Games",
 
+    "Result": "Result",
+    "Prematch": "Prematch",
+    "Live or Not": "Live or Not",
+    "Select result": "Select result",
+    "All": "All",
+
     "totalPageLang": "Total Page",
     "loginError Lang!": "Login Failed!"
 }
