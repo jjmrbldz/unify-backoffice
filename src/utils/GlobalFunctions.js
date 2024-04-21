@@ -175,12 +175,12 @@ const GF = {
                     return z.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0})
                 }
             } else {
-                return '-'
+                return '0'
             }
             
         } catch (error) {
             console.error(error)
-            return '-'
+            return '0'
         }
     },
     formatTwoDecimal(x) {
@@ -195,12 +195,12 @@ const GF = {
                     return z.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})
                 }
             } else {
-                return '-'
+                return '0.00'
             }
             
         } catch (error) {
             console.error(error)
-            return '-'
+            return '0.00'
         }
     },
     // handleLevelColor(x) {

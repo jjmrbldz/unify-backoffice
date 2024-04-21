@@ -84,22 +84,22 @@ import { mapGetters } from 'vuex';
                 {
                     icon    : 'mdi mdi-cards-spade',
                     title   : 'Casino Bet Ratio',
-                    summ    : this.$store.state.userStore.record ? this.$GF.formatNumComma(this.$store.state.userStore.record.casinoBetRatio) : '-'
+                    summ    : this.$store.state.userStore.record ? this.$GF.formatTwoDecimal(this.$store.state.userStore.record.bettingRate) : '-'
                 },
                 {
                     icon    : 'mdi mdi-pokeball',
                     title   : 'Minigame Bet Ratio',
-                    summ    : this.$store.state.userStore.record ? this.$GF.formatNumComma(this.$store.state.userStore.record.minigameBetRatio) : '-'
+                    summ    : this.$store.state.userStore.record ? this.$GF.formatTwoDecimal(this.$store.state.userStore.record.minigameBetRatio) : '-'
                 },
                 {
                     icon    : 'mdi mdi-slot-machine-outline',
                     title   : 'Slot Bet Ratio',
-                    summ    : this.$store.state.userStore.record ? this.$GF.formatNumComma(this.$store.state.userStore.record.slotBetRatio) : '-'
+                    summ    : this.$store.state.userStore.record ? this.$GF.formatTwoDecimal(this.$store.state.userStore.record.slotBetRatio) : '-'
                 },
                 {
                     icon    : 'mdi mdi-soccer',
                     title   : 'Sport Bet Ratio',
-                    summ    : this.$store.state.userStore.record ? this.$GF.formatNumComma(this.$store.state.userStore.record.sportBetRatio) : '-'
+                    summ    : this.$store.state.userStore.record ? this.$GF.formatTwoDecimal(this.$store.state.userStore.record.sportBetRatio) : '-'
                 },
             ]
         }
