@@ -2,7 +2,7 @@
     <div class="formgrid grid mt-4 mb-2">
         <div class="field col-2">
             <label>{{ $store.getters['languageStore/translate']('searchByLang') }}</label>
-            <PartnerSelect v-model="params.filter_agentid" />
+            <PartnerSelect v-model="params.filter_partnerid" />
         </div>
         <div class="field col-2">
             <label>{{ $store.getters['languageStore/translate']('startDateLang') }}</label>
@@ -86,11 +86,12 @@ export default {
                 Authorization   : `Bearer ${TOKEN}`,
                 username        : this.$store.state.userStore.username,
                 token           : this.$store.state.userStore.token,
-                filter_agentid  : '',
+                filter_agentid  : this.$store.state.userStore.username,
                 filter_startdate: null,
                 filter_enddate  : null,
                 page            : 1,
                 items_count     : 10,
+                filter_partnerid: null,
             },
             startDate   : null,
             endDate     : null
@@ -139,7 +140,7 @@ export default {
         },
     },
     watch: {
-        'params.filter_agentid'(newVal, oldVal){
+        'params.filter_partnerid'(newVal, oldVal){
             let cDate = new Date();
             this.params.page    = 1
             this.startDate      = new Date(cDate.setDate(1))
@@ -166,7 +167,7 @@ export default {
         async getList() {
             this.loading = true
             try {
-                this.params.filter_agentid = this.params.filter_agentid ? this.params.filter_agentid : this.$store.state.userStore.username
+                // this.params.filter_agentid = this.params.filter_agentid ? this.params.filter_agentid : this.$store.state.userStore.username
                 this.params.filter_startdate = this.startDate ? `${this.$GF.getDateTime(this.startDate, 'date')} 00:00:00` : null;
                 this.params.filter_enddate = this.endDate ? `${this.$GF.getDateTime(this.endDate, 'date')} 23:59:59` : null;
                 

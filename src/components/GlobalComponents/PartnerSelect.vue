@@ -52,7 +52,7 @@ export default {
         partnerValue: {
             get() {
                 if(this.modelValue === null) {
-                    return ''
+                    return null
                 } else {
                     return this.modelValue;
                 }
@@ -78,7 +78,7 @@ export default {
     methods:{
         customClear(clearCallback) {
             clearCallback();
-            this.partnerValue = '';
+            this.partnerValue = null;
         },
         async getList() {
             this.loading = true

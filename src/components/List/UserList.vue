@@ -35,7 +35,7 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`ID`)" style="min-width: 100px">
             <template #body="{ data }">
-                <span>{{ data.tu_user_id }}</span>
+                <span>{{ data.tu_real_username }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Current Holding Amount`)" style="min-width: 100px">
