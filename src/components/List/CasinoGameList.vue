@@ -17,13 +17,13 @@
                 <template #content>
                     <div class="flex align-items-center justify-content-between">
                         <h3 class="title">{{item.casinoName}}</h3>
-                        <InputSwitch v-if="isVisible" v-model="item.status" :true-value="1" :false-value="0" :checked="item.status" @change="handleStatusChange(item.gameCode, item.status)" />
+                        <InputSwitch v-if="isVisible || $route.path === '/settings/vendor'" v-model="item.status" :true-value="1" :false-value="0" :checked="item.status" @change="handleStatusChange(item.gameCode, item.status)" />
                     </div>
                 </template>
             </Card>
         </div>
     </div>
-    <Button v-if="isVisible" class="mt-3" :label="$store.getters['languageStore/translate']('SAVE')" @click="submit()" :loading="loading" :disabled="disabled"  />
+    <Button v-if="isVisible || $route.path === '/settings/vendor'" class="mt-3" :label="$store.getters['languageStore/translate']('SAVE')" @click="submit()" :loading="loading" :disabled="disabled"  />
 </template>
 
 <style lang="scss" scoped>
