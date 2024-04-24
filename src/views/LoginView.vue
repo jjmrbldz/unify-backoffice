@@ -3,7 +3,8 @@
         <Card class="w-3 h-auto">
             <template #header>
                 <div class="logo max-w-18rem mx-auto mt-4">
-                    <img ref="logo" class="w-full" alt="user header" src="../assets/img/smartapi-logo.png" :style="$store.state.lightThemeStore.lightTheme ? 'filter: contrast(0.6);' : ''" />
+                    <img ref="logo" class="w-full" v-if="$store.state.lightThemeStore.lightTheme"  src="@/assets/img/kosca-solution-logo.png" alt="">
+                    <img ref="logo" class="w-full" v-else src="@/assets/img/kosca-solution-logo-dark.png" alt="">
                     <!-- <span class="logo-placeholder ml-3 text-center">SMART API</span> -->
                 </div>
             </template>
