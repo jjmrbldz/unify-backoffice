@@ -10,7 +10,7 @@
                         </div>
                         <div class="field grid">
                             <label class="col-3">{{ $store.getters['languageStore/translate']('Agent Name') }}</label>
-                            <InputText v-model="params.tp_name" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :disabled="disableEdit" />
+                            <InputText v-model="params.tp_nickname" class="col p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" :disabled="disableEdit" />
                         </div>
                         <div class="field grid">
                             <label class="col-3">{{ $store.getters['languageStore/translate']('ID') }}</label>
@@ -188,7 +188,7 @@ export default {
                     token           : this.$store.state.userStore.token,
                     agent_share     : this.params.tp_share >= 0 ? this.params.tp_share : "",
                     agent_email     : this.params.tp_email,
-                    agent_name      : this.params.tp_name,
+                    agent_name      : this.params.tp_nickname,
                     agent_nickname  : this.params.tp_nickname,
                     agent_key       : this.params.tp_casino_key,
                     agent_token     : this.params.tp_api_token,
