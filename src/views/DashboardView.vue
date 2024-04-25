@@ -84,7 +84,7 @@ import { mapGetters } from 'vuex';
                 {
                     icon    : 'mdi mdi-cards-spade',
                     title   : 'Casino Bet Ratio',
-                    summ    : this.$store.state.userStore.record ? this.$GF.formatTwoDecimal(this.$store.state.userStore.record.bettingRate) : '-'
+                    summ    : this.$store.state.userStore.record ? this.$GF.formatTwoDecimal(this.$store.state.userStore.record.casinoBetRatio) : '-'
                 },
                 {
                     icon    : 'mdi mdi-pokeball',
