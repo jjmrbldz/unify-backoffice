@@ -9,7 +9,7 @@
             <InputText type="search" v-model="params.filter_agentid" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" @keyup.enter="getList()" />
         </div>
     </div>
-    <TreeTable v-model:expandedKeys="expandedKeys" :value="list" :indentation="0.425" :resizableColumns="false" columnResizeMode="expand"  :loading="loading">
+    <TreeTable v-model:expandedKeys="expandedKeys" :value="list" :indentation="0.425" :resizableColumns="false" columnResizeMode="expand"  :loading="loading" size="small">
             <!-- <Column field="id" header="ID" :expander="true"></Column> -->
             <Column :header="$store.getters['languageStore/translate']('Up Agent ID')" :expander="true" style="width: 300px; min-width: 300px;" class="not-col">
                 <template #body="slotProps">
@@ -67,9 +67,13 @@
                     {{ this.$GF.getDateTime(slotProps.node.data.tp_reg_datetime) }}
                 </template>
             </Column>
-            <Column :header="$store.getters['languageStore/translate']('Action')">
+            <Column :header="$store.getters['languageStore/translate']('Action')" class="not-col" style="width: 140px; min-width: 140px;">
                 <template #body="slotProps">
-                    <Button icon="mdi mdi-pencil" @click="handleOP($event, slotProps.node.data)" rounded outlined/>
+                    <div class="flex align-items-center">
+                        <Button icon="mdi mdi-pencil" class="line-height-1" @click="handleOP($event, slotProps.node.data)" style="min-width: 2.5rem; height: 2.5rem;" rounded outlined/>
+                        <Button severity="success" class="mx-2 line-height-1" icon="mdi mdi-plus-circle-multiple" @click="showAddDeduct('add', slotProps.node.data.realCash, slotProps.node.data.username, slotProps.node.data.parent_username)" rounded />
+                        <Button severity="danger" class="line-height-1" icon="mdi mdi-minus-circle-multiple" @click="showAddDeduct('deduct', slotProps.node.data.realCash, slotProps.node.data.username, slotProps.node.data.parent_username)" rounded />
+                    </div>
                 </template>
             </Column>
             <template #empty> <div class="text-center text-danger"> {{ $store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
@@ -144,6 +148,27 @@ export default {
         this.getList()
     },
     methods: {
+        showAddDeduct(type, realCash, username, parentUsername) {
+            console.log(realCash, username);
+            this.$dialog.open(this.$modalComponent.AddDeductBalance, {
+                props: {
+                    header: this.$store.getters['languageStore/translate'](`${type === 'add' ? 'CREDIT PAYMENT' : 'PAYBACK'}`),
+                    style: {
+                        width: '40vw'
+                    },
+                    modal: true,
+                },
+                data: {
+                    type: type,
+                    balance: realCash,
+                    filter_agentid: username,
+                    parentUsername: parentUsername
+                },
+                onClose: (options) => {
+                    this.getList();
+                }
+            });
+        },
         handleFilterLevel() {
             this.params.filter_agentid = ''
             this.getList()

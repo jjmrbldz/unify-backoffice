@@ -7,7 +7,7 @@
         <template v-else>
             <IconField iconPosition="left">
                 <InputIcon class="mdi mdi-wallet"></InputIcon>
-                <InputNumber v-model="topAgentBalance" class="w-full" inputStyle="padding-left: 2.5rem" inputClass="py-2 pr-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"  :min="0" :minFractionDigits="2" :maxFractionDigits="2" :disabled="true" />
+                <InputNumber v-model="topAgentBalance" class="w-full" :inputStyle="{paddingLeft: '2.5rem'}" inputClass="py-2 pr-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"  :min="0" :minFractionDigits="2" :maxFractionDigits="2" :disabled="true" />
             </IconField>
         </template>
         <Transition name="bounce">
@@ -18,14 +18,14 @@
         <label for="firstname1">{{ $store.getters['languageStore/translate']('balanceLang') }}</label>
         <IconField iconPosition="left">
             <InputIcon class="mdi mdi-wallet"></InputIcon>
-            <InputNumber v-model="balance" class="w-full" inputStyle="padding-left: 2.5rem" inputClass="py-2 pr-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"  :min="0" :minFractionDigits="2" :maxFractionDigits="2" :disabled="true" />
+            <InputNumber v-model="balance" class="w-full" :inputStyle="{paddingLeft: '2.5rem'}" inputClass="py-2 pr-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"  :min="0" :minFractionDigits="2" :maxFractionDigits="2" :disabled="true" />
         </IconField>
     </div>
     <div class="field">
         <label for="firstname1">{{ $store.getters['languageStore/translate']('amountLang') }}</label>
         <IconField iconPosition="left">
             <InputIcon class="mdi mdi-hand-coin"></InputIcon>
-            <InputNumber v-model="params.amount" class="w-full" inputStyle="padding-left: 2.5rem" inputClass="py-2 pr-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"  :min="0" :minFractionDigits="2" :maxFractionDigits="2" />
+            <InputNumber v-model="params.amount" class="w-full" :inputStyle="{paddingLeft: '2.5rem'}" inputClass="py-2 pr-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"  :min="0" :minFractionDigits="2" :maxFractionDigits="2" />
         </IconField>
     </div>
     <div class="field">
@@ -101,6 +101,7 @@ export default {
             disabled    : true,
             type        : this.dialogRef.data ? this.dialogRef.data.type : null,
             balance     : this.dialogRef.data ? this.dialogRef.data.balance : null,
+            parentUsername     : this.dialogRef.data ? this.dialogRef.data.parentUsername : null,
             params: {
                 Authorization   : `Bearer ${TOKEN}`,
                 username        : this.$store.state.userStore.username,
@@ -178,7 +179,7 @@ export default {
                     Authorization   : `Bearer ${TOKEN}`,
                     token           : this.$store.state.userStore.token,
                     username        : this.$store.state.userStore.username, 
-                    filter_agentid  : this.$route.query.parent_username, 
+                    filter_agentid  : this.$route.query.parent_username ? this.$route.query.parent_username : this.parentUsername, 
                 }
                 const res   = await api.agentDetails(data);
                 const code  = res.data.code;

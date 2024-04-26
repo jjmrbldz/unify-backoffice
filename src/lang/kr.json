@@ -426,7 +426,7 @@
     "siteIconLang": "사이트 아이콘",
     "siteLogoLang": "사이트 로고",
 
-	"allowAddPartnerLang": "상담원 추가 허용",
+	"allowAddPartnerLang": "하부생성",
 
 	"minimum_deposit_amount": "최소 입금 금액",
     "maximum_deposit_amount": "최대 입금 금액",
@@ -999,7 +999,7 @@
     "Bet Value": "베팅 값",
     "Allocation": "배당",
     "Benchmark": "기준점",
-	"Opened" : "개설됨",
+	"Opened" : "대기",
 
 	"Winnings" : "당첨금",
 	"Bet Details" : "베팅 상세",
@@ -1010,7 +1010,7 @@
     "Cashout": "캐시아웃",
     "Half Lost": "반 패배",
 	"Edit": "편집",
-    "All Games": "모든 게임",
+    "All Games": "게임사",
 
     "Result": "결과",
     "Prematch": "프리매치",

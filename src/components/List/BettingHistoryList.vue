@@ -143,7 +143,7 @@
                 <span>{{ data.table_id }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Type`)" style="min-width: 100px; text-transform: capitalize;">
+        <Column v-if="false" :header="this.$store.getters['languageStore/translate'](`Type`)" style="min-width: 100px; text-transform: capitalize;">
             <template #body="{ data }">
                 <Tag v-if="data.type === 'credit'" severity="danger" :value="$store.getters['languageStore/translate'](`creditLang`)"></Tag>
                 <Tag v-else severity="info" :value="$store.getters['languageStore/translate'](`debitLang`)"></Tag>
