@@ -1017,6 +1017,9 @@
     "Live or Not": "라이브 여부",
     "Select result": "결과 선택",
     "All": "모두",
+
+    "done": "완료",
+    "waiting": "대기",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"

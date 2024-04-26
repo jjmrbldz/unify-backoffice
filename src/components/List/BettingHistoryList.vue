@@ -159,6 +159,16 @@
                 <span :class="this.$GF.handleTextColor(data.amount)">{{ this.$GF.formatNumComma(data.amount) }}</span>
             </template>
         </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`winningAmountLang`)" class="text-left" style="min-width: 100px">
+            <template #body="{ data }">
+                <span :class="this.$GF.handleTextColor(data.winAmount)">{{ this.$GF.formatNumComma(data.winAmount) }}</span>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Win Loss`)" class="text-left" style="min-width: 100px">
+            <template #body="{ data }">
+                <span :class="this.$GF.handleTextColor(data.winLose)">{{ this.$GF.formatNumComma(data.winLose) }}</span>
+            </template>
+        </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`dateLang`)" style="min-width: 100px">
             <template #body="{ data }">
                 <span >{{ this.$GF.getDateTime(data.reg_datetime) }}</span>
@@ -168,6 +178,11 @@
             <template #body="{ data }">
                 <Tag v-if="data.status === 1" severity="success" :value="$store.getters['languageStore/translate'](`NORMAL`)"></Tag>
                 <Tag v-else severity="danger" :value="$store.getters['languageStore/translate'](`FAILED`)"></Tag>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`detailLang`)" style="min-width: 100px">
+            <template #body="{ data }">
+                <Tag class="capitalize" :severity="data.betStatus === 'done' ? 'success' : data.betStatus === 'waiting' ? 'warning' : 'secondary'" :value="$store.getters['languageStore/translate'](`${data.betStatus}`)"></Tag>
             </template>
         </Column>
         <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>

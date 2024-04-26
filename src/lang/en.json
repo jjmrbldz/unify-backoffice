@@ -1011,6 +1011,9 @@
     "Select result": "Select result",
     "All": "All",
 
+    "done": "Done",
+    "waiting": "Waiting",
+
     "totalPageLang": "Total Page",
     "loginError Lang!": "Login Failed!"
 }
