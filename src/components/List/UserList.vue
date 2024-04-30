@@ -38,11 +38,6 @@
                 <span>{{ data.tu_real_username }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Current Holding Amount`)" style="min-width: 100px">
-            <template #body="{ data }">
-                <span>{{ this.$GF.formatNumComma(data.tu_balance) }}</span>
-            </template>
-        </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Today Betting Amount`)" style="min-width: 100px">
             <template #body="{ data }">
                 <span>{{ this.$GF.formatNumComma(data.todayBetting) }}</span>
