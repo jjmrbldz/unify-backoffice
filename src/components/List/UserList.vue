@@ -145,9 +145,20 @@ export default {
                 if(this.searchBy) {
                     this.params[`${this.searchBy}`] = this.searchValue
                 }
-                this.params.filter_agentid = this.params.filter_agentid ? this.params.filter_agentid : this.$store.state.userStore.username
+                // this.params.filter_agentid = this.params.filter_agentid ? this.params.filter_agentid : this.$store.state.userStore.username
 
-                const res   = await api.userList(this.params);
+                let reqBody = {
+                    Authorization   : this.params.Authorization,
+                    username        : this.params.username,
+                    token           : this.params.token,
+                    filter_agentid  : this.params.filter_agentid ? this.params.filter_agentid : this.$store.state.userStore.username,
+                    filter_user_id  : this.params.filter_user_id,
+                    filter_username : this.params.filter_username,
+                    page            : this.params.page,
+                    items_count     : this.params.items_count,
+                }
+
+                const res   = await api.userList(reqBody);
                 const code  = res.data.code;
                 const msg   = res.data.message;
                 console.log(res);

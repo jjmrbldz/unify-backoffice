@@ -128,10 +128,7 @@ export default {
     },
     watch: {
         'params.filter_agentid'(newVal, oldVal) {
-            if(newVal) {
-
-            } else {
-                this.params.filter_agentid = this.$store.state.userStore.username
+            if(!newVal) {
                 this.getList()
             }
         }
@@ -206,10 +203,15 @@ export default {
             this.loading = true
             this.list = []
             try {
+                let reqBody = {
+                    Authorization   : `Bearer ${TOKEN}`,
+                    username        : this.$store.state.userStore.username,
+                    token           : this.$store.state.userStore.token,
+                    filter_agentid  : this.params.filter_agentid ? this.params.filter_agentid : this.$store.state.userStore.username,
+                    filter_level_num: null,
+                }
 
-                this.params.filter_agentid = this.params.filter_agentid ? this.params.filter_agentid : this.$store.state.userStore.username
-
-                const res   = await api.agentList(this.params);
+                const res   = await api.agentList(reqBody);
                 const code  = res.data.code;
                 const msg   = res.data.message;
                 console.log(res);
