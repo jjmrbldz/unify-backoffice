@@ -11,18 +11,10 @@
     </div>
     <TreeTable v-model:expandedKeys="expandedKeys" :value="list" :indentation="0.425" :resizableColumns="false" columnResizeMode="expand"  :loading="loading" size="small">
             <!-- <Column field="id" header="ID" :expander="true"></Column> -->
-            <Column :header="$store.getters['languageStore/translate']('Up Agent ID')" :expander="true" style="width: 300px; min-width: 300px;" class="not-col">
+            <Column :header="$store.getters['languageStore/translate']('Up Agent ID')" :expander="true" style="width: 280px; min-width: 280px;" class="not-col">
                 <template #body="slotProps">
-                    <span class="">
-                        {{ slotProps.node.data.id }}
-                    </span>
                     <Tag class="mx-2" :severity="this.$GF.handleLevelColor(slotProps.node.data.tp_grade)" :value="`Level ${slotProps.node.data.tp_grade}`" />
                     <span>{{ slotProps.node.data.parent_username }}</span>
-                </template>
-            </Column>
-            <Column :header="$store.getters['languageStore/translate']('Top Agent Name')">
-                <template #body="slotProps">
-                    {{ slotProps.node.data.parent_nickname ? slotProps.node.data.parent_nickname : '-' }}
                 </template>
             </Column>
             <Column :header="$store.getters['languageStore/translate']('Agent ID')">
@@ -71,8 +63,8 @@
                 <template #body="slotProps">
                     <div class="flex align-items-center">
                         <Button icon="mdi mdi-pencil" class="line-height-1" @click="handleOP($event, slotProps.node.data)" style="min-width: 2.5rem; height: 2.5rem;" rounded outlined/>
-                        <Button severity="success" class="mx-2 line-height-1" icon="mdi mdi-plus-circle-multiple" @click="showAddDeduct('add', slotProps.node.data.realCash, slotProps.node.data.username, slotProps.node.data.parent_username)" rounded />
-                        <Button severity="danger" class="line-height-1" icon="mdi mdi-minus-circle-multiple" @click="showAddDeduct('deduct', slotProps.node.data.realCash, slotProps.node.data.username, slotProps.node.data.parent_username)" rounded />
+                        <Button v-if="$store.state.userStore.username !== slotProps.node.data.username" severity="success" class="mx-2 line-height-1" icon="mdi mdi-plus-circle-multiple" @click="showAddDeduct('add', slotProps.node.data.realCash, slotProps.node.data.username, slotProps.node.data.parent_username)" rounded />
+                        <Button v-if="$store.state.userStore.username !== slotProps.node.data.username" severity="danger" class="line-height-1" icon="mdi mdi-minus-circle-multiple" @click="showAddDeduct('deduct', slotProps.node.data.realCash, slotProps.node.data.username, slotProps.node.data.parent_username)" rounded />
                     </div>
                 </template>
             </Column>

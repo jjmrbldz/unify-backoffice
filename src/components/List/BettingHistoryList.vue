@@ -123,6 +123,11 @@
                 <span>{{ data.idx }}</span>
             </template>
         </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Agent Name`)" style="min-width: 100px">
+            <template #body="{ data }">
+                <span>{{ data.partner_username }}</span>
+            </template>
+        </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`User ID`)" style="min-width: 100px">
             <template #body="{ data }">
                 <span>{{ data.user_username }}</span>
@@ -147,11 +152,6 @@
             <template #body="{ data }">
                 <Tag v-if="data.type === 'credit'" severity="danger" :value="$store.getters['languageStore/translate'](`creditLang`)"></Tag>
                 <Tag v-else severity="info" :value="$store.getters['languageStore/translate'](`debitLang`)"></Tag>
-            </template>
-        </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Agent Name`)" style="min-width: 100px">
-            <template #body="{ data }">
-                <span>{{ data.partner_username }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Amount`)" class="text-left" style="min-width: 100px">

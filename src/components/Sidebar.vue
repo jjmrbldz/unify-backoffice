@@ -46,7 +46,7 @@
                         <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('Bet History - Sport') }} </span>
                     </router-link>
                     <template v-if="$store.state.userStore.tp_level === 'T'">
-                        <router-link v-ripple class="jb-item-link" to="/settings/game">
+                        <router-link v-if="false" v-ripple class="jb-item-link" to="/settings/game">
                             <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('gameSettingsLang') }} </span>
                         </router-link>
                         <router-link v-ripple class="jb-item-link" to="/settings/vendor">

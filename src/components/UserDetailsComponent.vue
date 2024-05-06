@@ -82,11 +82,11 @@
                         </div>
                     </div>
                     <div class="flex">
-                        <div class="mx-auto flex">
+                        <div class="mx-auto flex gap-2">
                             <Button class="py-3 w-full text-white" :label="$store.getters['languageStore/translate']('SAVE')" @click="submit()" :disabled="buttonDisabled" />
                             <template v-if="subAgent">
-                                <Button class="mx-3 py-3 font-bold w-full bg-blue-500 hover:bg-blue-600 border-none text-white" :label="$store.getters['languageStore/translate']('CREDIT PAYMENT')" @click="showAddDeduct('add')" :disabled="buttonDisabled" />
-                                <Button class="mr-3 py-3 font-bold w-full bg-red-500 hover:bg-red-600 border-none text-white" :label=" $store.getters['languageStore/translate']('PAYBACK')" @click="showAddDeduct('deduct')" :disabled="buttonDisabled" />
+                                <Button v-if="params.username !== $store.state.userStore.username" class="py-3 font-bold w-full bg-blue-500 hover:bg-blue-600 border-none text-white" :label="$store.getters['languageStore/translate']('CREDIT PAYMENT')" @click="showAddDeduct('add')" :disabled="buttonDisabled" />
+                                <Button v-if="params.username !== $store.state.userStore.username" class="py-3 font-bold w-full bg-red-500 hover:bg-red-600 border-none text-white" :label=" $store.getters['languageStore/translate']('PAYBACK')" @click="showAddDeduct('deduct')" :disabled="buttonDisabled" />
                                 <Button class="py-3 font-bold w-full border-none text-white" :class="disableEdit ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-500 hover:bg-gray-600'" :label=" $store.getters['languageStore/translate'](`${disableEdit ? 'Edit' : 'cancelLang'}`)" @click="edit()" :disabled="buttonDisabled" />
                             </template>
                         </div>
