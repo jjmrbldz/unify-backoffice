@@ -86,6 +86,7 @@ export const api = {
   // HISTORY
   creditHIstoryList   : (data)        => axiosInstance.post('cashflow', data),
   recordHistoryList   : (data)        => axiosInstance.post('recordlist', data),
+  betRecord           : (data)        => axiosInstance.post('betrecord', data),
 
   // REVENUE
   getMyRevenueList    : (data)        => axiosInstance.post('myrevenue', data),

@@ -308,14 +308,14 @@ export default {
         async getList() {
             this.loading = true
             try {
-                this.params.filter_agentid = this.params.filter_agentid ? this.params.filter_agentid : this.$store.state.userStore.username
+                // this.params.filter_agentid = this.params.filter_agentid ? this.params.filter_agentid : this.$store.state.userStore.username
                 this.params.filter_startdate = this.startDate ? `${this.$GF.getDateTime(this.startDate, 'date')} 00:00:00` : null;
                 this.params.filter_enddate = this.endDate ? `${this.$GF.getDateTime(this.endDate, 'date')} 23:59:59` : null;
-                
-                const res   = await api.recordHistoryList(this.params);
+
+                const res   = await api[`${this.$route.query.bettype === 'sport' ? 'recordHistoryList' : 'betRecord'}`](this.params);
                 const code  = res.data.code;
                 const msg   = res.data.message;
-                console.log(res);
+                console.log(res.data);
 
                 if(code === 1) {
                     // this.$GF.customToast(code, this.$store.getters['languageStore/translate'](`${msg}`))
