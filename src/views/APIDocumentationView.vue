@@ -7,11 +7,12 @@
 <script>
 import apidoc from '@/assets/SmartApi_SingleWallet_2024-v0.60.pdf'
 import apidoc2 from '@/assets/Kosca_SingleWallet_2024-v0.7 (kr).pdf'
+import apidoc3 from '@/assets/KoscaApi_Seamless_2024-v1.02 (kr).pdf'
 
 export default {
     data() {
         return {
-            pdfUrl: apidoc2,
+            pdfUrl: apidoc3,
         }
     },
 }
