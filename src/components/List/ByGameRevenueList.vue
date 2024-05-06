@@ -17,7 +17,6 @@
             <Button class="w-full" label="Search" @click="getList()" />
         </div>
     </div>
-    <Button class="font-bold bg-blue-500 hover:bg-blue-600 border-none  text-white" :label="$store.getters['languageStore/translate']('All Games')" @click="showAllGames()" />
     <DataTable :value="list" scrollable class="mt-4" stripedRows :loading="loading">
         <Column :header="this.$store.getters['languageStore/translate'](`Agent`)" style="min-width: 100px">
             <template #body="{ data }">
