@@ -147,7 +147,7 @@ const GF = {
     },
     customToast: (type, msg) => {
         console.log('Fire!', type, msg);
-        ToastEventBus.emit('add', { severity: (type > 0) ? 'success' : (type === -1) ? 'warn' : 'error', detail: msg, life: 4000 });
+        ToastEventBus.emit('add', { severity: (type > 0) ? 'success' : (type === -1) ? 'warn' : 'error', detail: msg, life: 500 });
     },
     // formatNumComma(x) {
     //     if (x !== '' && x !== null && x !== undefined) {

@@ -1,7 +1,7 @@
 <template>
     <div class="formgrid grid mt-4 mb-2">
         <div class="field col-2">
-            <label>{{ $store.getters['languageStore/translate']('searchByLang') }}</label>
+            <label>{{ $store.getters['languageStore/translate']('Agent ID') }}</label>
             <PartnerSelect v-model="params.filter_partnerid" />
         </div>
         <div class="field col-2">
