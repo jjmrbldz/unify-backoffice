@@ -11,7 +11,7 @@
 import { api, TOKEN } from '@/axios/api';
 
 export default {
-    name: 'PartnerSelect',
+    name: 'GameSelect',
     data() {
         return {
             selected: null,
@@ -64,6 +64,14 @@ export default {
 
                 if(code === 1) {
                     this.list = res.data.data;
+                    this.list.unshift({
+                        casinoName: this.$store.getters['languageStore/translate']('All'),
+                        casinoImg: null,
+                        casinoLogo: null,
+                        gameType: 'Live',
+                        gameCode: '',
+                        status: 1
+                    })
                 } else {
                     this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
                 }

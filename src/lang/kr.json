@@ -1020,6 +1020,13 @@
 
     "done": "완료",
     "waiting": "대기",
+
+    "Sports [BTI]": "스포츠[BTI]",
+    "Casino": "카지노",
+    "Minigame": "미니게임",
+    "Evolution": "에볼루션",
+    "Pragmatic": "프라그마틱",
+    "Ava": "Ava",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"

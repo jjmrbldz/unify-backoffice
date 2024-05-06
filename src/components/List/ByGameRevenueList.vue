@@ -5,6 +5,14 @@
             <PartnerSelect v-model="params.filter_agentid" />
         </div>
         <div class="field col-2">
+            <label>{{ $store.getters['languageStore/translate']('typeLang') }}</label>
+            <GameTypeSelect v-model="gameType" />
+        </div>
+        <div class="field col-2">
+            <label>{{ $store.getters['languageStore/translate']('providerLang') }}</label>
+            <ProviderTypeSelect v-model="providerType" :game-type="gameType"  />
+        </div>
+        <div class="field col-2">
             <label>{{ $store.getters['languageStore/translate']('startDateLang') }}</label>
             <Calendar v-model="startDate" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :maxDate="currDate" showIcon iconDisplay="input" inputId="icondisplay" />
         </div>
@@ -83,6 +91,7 @@
 
 <script>
 import { api, TOKEN } from '@/axios/api';
+import GameTypeSelect from '../GlobalComponents/GameTypeSelect.vue';
 
 export default {
     data() {
@@ -93,6 +102,8 @@ export default {
             rowData     : {},
             loading     : false,
             list        : [],
+            gameType    : null,
+            providerType    : null,
             params: {
                 Authorization   : `Bearer ${TOKEN}`,
                 username        : this.$store.state.userStore.username,
@@ -156,6 +167,22 @@ export default {
             this.startDate      = new Date(cDate.setDate(1))
             this.endDate        = this.currDate
             this.getList()
+        },
+        gameType(newVal, oldVal){
+            // let cDate = new Date();
+            // this.params.page    = 1
+            // this.startDate      = new Date(cDate.setDate(1))
+            // this.endDate        = this.currDate
+            // this.getList()
+            // console.log(newVal);
+        },
+        providerType(newVal, oldVal){
+            // let cDate = new Date();
+            // this.params.page    = 1
+            // this.startDate      = new Date(cDate.setDate(1))
+            // this.endDate        = this.currDate
+            // this.getList()
+            console.log(newVal);
         },
     },
     mounted() {

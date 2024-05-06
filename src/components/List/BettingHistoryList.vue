@@ -273,7 +273,7 @@ export default {
         },
         showBetDetails(data) {
             const _data     = data;
-            const details   = data.betDetails;
+            const details   = data.betDetails ? JSON.parse(data.betDetails) : null;
             console.log(_data, details);
 
             this.$dialog.open(this.$modalComponent.BetDetails, {
