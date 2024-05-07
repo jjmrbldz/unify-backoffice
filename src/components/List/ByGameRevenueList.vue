@@ -14,11 +14,11 @@
         </div>
         <div class="field col-2">
             <label>{{ $store.getters['languageStore/translate']('startDateLang') }}</label>
-            <Calendar v-model="startDate" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :maxDate="currDate" showIcon iconDisplay="input" inputId="icondisplay" />
+            <Calendar v-model="startDate" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :maxDate="currDate" showIcon iconDisplay="input" inputClass="w-full" class="w-full" />
         </div>
         <div class="field col-2">
             <label>{{ $store.getters['languageStore/translate']('endDateLang') }}</label>
-            <Calendar v-model="endDate" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :minData="startDate" :maxDate="currDate" showIcon iconDisplay="input" inputId="icondisplay" />
+            <Calendar v-model="endDate" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :minData="startDate" :maxDate="currDate" showIcon iconDisplay="input" inputClass="w-full" class="w-full" />
         </div>
         <div class="field col-1">
             <label>&nbsp;</label>
@@ -109,6 +109,8 @@ export default {
                 username        : this.$store.state.userStore.username,
                 token           : this.$store.state.userStore.token,
                 filter_agentid  : '',
+                filter_type     : '',
+                filter_provider : '',
                 filter_startdate: null,
                 filter_enddate  : null,
                 page            : 1,
@@ -169,20 +171,10 @@ export default {
             this.getList()
         },
         gameType(newVal, oldVal){
-            // let cDate = new Date();
-            // this.params.page    = 1
-            // this.startDate      = new Date(cDate.setDate(1))
-            // this.endDate        = this.currDate
-            // this.getList()
-            // console.log(newVal);
+            this.params.filter_type = newVal
         },
         providerType(newVal, oldVal){
-            // let cDate = new Date();
-            // this.params.page    = 1
-            // this.startDate      = new Date(cDate.setDate(1))
-            // this.endDate        = this.currDate
-            // this.getList()
-            console.log(newVal);
+            this.params.filter_provider = newVal
         },
     },
     mounted() {
@@ -219,6 +211,8 @@ export default {
                     username        : this.params.username,
                     token           : this.params.token,
                     filter_agentid  : this.params.filter_agentid ? this.params.filter_agentid : this.$store.state.userStore.username,
+                    filter_type     : this.params.filter_type,
+                    filter_provider : this.params.filter_provider,
                     filter_startdate: this.params.filter_startdate,
                     filter_enddate  : this.params.filter_enddate,
                     page            : this.params.page,

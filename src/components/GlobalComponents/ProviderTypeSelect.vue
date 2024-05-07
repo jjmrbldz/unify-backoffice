@@ -29,36 +29,40 @@ export default {
         gameType: {
             handler(newVal, oldVal) {
                 console.log(newVal);
-                if(newVal === null || newVal === '' || newVal === 'all') {
+                if(newVal === null || newVal === '' || newVal === '') {
                     this.disabled = true
                     this.list = []
-                    return 'all'
-                } else if (newVal === 'sport') {
+                    this.$emit('update:modelValue', '');
+                } else if (newVal === 'sports') {
                     this.disabled = false
                     this.list = [
-                        {label: this.$store.getters['languageStore/translate']('All'), value: 'all'},
-                        {label: this.$store.getters['languageStore/translate']('Live'), value: 'live'},
-                        {label: this.$store.getters['languageStore/translate']('Prematch'), value: 'prematch'},
+                        {label: this.$store.getters['languageStore/translate']('All'), value: ''},
+                        {label: this.$store.getters['languageStore/translate']('Live'), value: 1},
+                        {label: this.$store.getters['languageStore/translate']('Prematch'), value: 0},
                     ]
-                } else if (newVal === 'live') {
+                    this.$emit('update:modelValue', '');
+                } else if (newVal === 'casino') {
                     this.disabled = false
                     this.list = [
-                        {label: this.$store.getters['languageStore/translate']('All'), value: 'all'},
+                        {label: this.$store.getters['languageStore/translate']('All'), value: ''},
                         {label: this.$store.getters['languageStore/translate']('Evolution'), value: 'evo'},
                         {label: this.$store.getters['languageStore/translate']('Pragmatic'), value: 'pp'},
                     ]
+                    this.$emit('update:modelValue', '');
                 } else if (newVal === 'slot') {
                     this.disabled = false
                     this.list = [
-                        {label: this.$store.getters['languageStore/translate']('All'), value: 'all'},
+                        {label: this.$store.getters['languageStore/translate']('All'), value: ''},
                         {label: this.$store.getters['languageStore/translate']('Pragmatic'), value: 'pp'},
                     ]
+                    this.$emit('update:modelValue', '');
                 } else if (newVal === 'minigame') {
                     this.disabled = false
                     this.list = [
                         {label: this.$store.getters['languageStore/translate']('All'), value: 'all'},
                         {label: this.$store.getters['languageStore/translate']('Ava'), value: 'ava'},
                     ]
+                    this.$emit('update:modelValue', '');
                 }
             }
         }

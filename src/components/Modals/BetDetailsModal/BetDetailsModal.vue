@@ -143,9 +143,9 @@
                 <Tag v-else severity="secondary" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`dateLang`)">
+        <Column :header="this.$store.getters['languageStore/translate'](`Game Date`)">
             <template #body="{ data }">
-                <span >{{ this.$GF.getDateTime(data.matchDateTime) }}</span>
+                <span >{{ this.$GF.getDateTime(`${data.matchDateTime}Z`) }}</span>
             </template>
         </Column>
         <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>

@@ -18,9 +18,9 @@ export default {
         return {
             selected: null,
             list: [
-                {label: this.$store.getters['languageStore/translate']('All'), value: 'all'},
-                {label: this.$store.getters['languageStore/translate']('Sports [BTI]'), value: 'sport'},
-                {label: this.$store.getters['languageStore/translate']('Casino'), value: 'live'},
+                {label: this.$store.getters['languageStore/translate']('All'), value: ''},
+                {label: this.$store.getters['languageStore/translate']('Sports [BTI]'), value: 'sports'},
+                {label: this.$store.getters['languageStore/translate']('Casino'), value: 'casino'},
                 {label: this.$store.getters['languageStore/translate']('Slot'), value: 'slot'},
                 {label: this.$store.getters['languageStore/translate']('Minigame'), value: 'minigame'},
             ],
@@ -34,7 +34,7 @@ export default {
         gameValue: {
             get() {
                 if(this.modelValue === null) {
-                    return 'all'
+                    return ''
                 } else {
                     return this.modelValue;
                 }
