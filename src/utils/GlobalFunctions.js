@@ -1,5 +1,5 @@
 import ToastEventBus from 'primevue/toasteventbus';
-const timezone      = "Asia/Manila"
+const timezone      = "Asia/Seoul"
 
 const GF = {
     getDateTime : (data, type) => {
