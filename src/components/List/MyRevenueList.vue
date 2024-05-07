@@ -170,18 +170,18 @@ export default {
                 this.params.filter_startdate = this.startDate ? `${this.$GF.getDateTime(this.startDate, 'date')} 00:00:00` : null;
                 this.params.filter_enddate = this.endDate ? `${this.$GF.getDateTime(this.endDate, 'date')} 23:59:59` : null;
 
-                let reqBody = {
-                    Authorization   : this.params.Authorization,
-                    username        : this.params.username,
-                    token           : this.params.token,
-                    filter_agentid  : this.params.filter_agentid ? this.params.filter_agentid : this.$store.state.userStore.username,
-                    filter_startdate: this.params.filter_startdate,
-                    filter_enddate  : this.params.filter_enddate,
-                    page            : this.params.page,
-                    items_count     : this.params.items_count
-                }
+                // let reqBody = {
+                //     Authorization   : this.params.Authorization,
+                //     username        : this.params.username,
+                //     token           : this.params.token,
+                //     filter_agentid  : this.params.filter_agentid ? this.params.filter_agentid : this.$store.state.userStore.username,
+                //     filter_startdate: this.params.filter_startdate,
+                //     filter_enddate  : this.params.filter_enddate,
+                //     page            : this.params.page,
+                //     items_count     : this.params.items_count
+                // }
                 
-                const res   = await api.getMyRevenueList(reqBody);
+                const res   = await api.getMyRevenueList(this.params);
                 const code  = res.data.code;
                 const msg   = res.data.message;
                 console.log(res);

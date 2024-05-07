@@ -136,7 +136,7 @@ const actions   = {
                 Authorization   : `Bearer ${TOKEN}`,
                 token           : context.state.token,
                 username        : context.state.username, 
-                filter_agentid  : context.state.username, 
+                filter_agentid  : '', 
                 filter_startdate: `${GF.getDateTime(context.state.currentDateTime, 'date')} 00:00:00`, 
                 filter_enddate  : `${GF.getDateTime(context.state.currentDateTime, 'date')} 23:59:59`, 
             }
