@@ -1004,11 +1004,11 @@
 	"Winnings" : "당첨금",
 	"Bet Details" : "베팅 상세",
 
-    "Lost": "패배",
-    "Won": "승리",
-    "Canceled": "취소됨",
+    "Lost": "패",
+    "Won": "승",
+    "Canceled": "취소",
     "Cashout": "캐시아웃",
-    "Half Lost": "반 패배",
+    "Half Lost": "하프 패",
 	"Edit": "편집",
     "All Games": "게임사",
 
@@ -1031,6 +1031,8 @@
     "Game Date": "경기날짜",
 
     "Tie": "무승부",
+    "Draw": "무",
+    "Half Won": "하프 승",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"

@@ -28,12 +28,14 @@ export default {
         return {
             list: [
                 // {label: 'All', value: ''},
-                {label: 'Opened', value: 'Opened'},
-                {label: 'Lost', value: 'Lost'},
-                {label: 'Won', value: 'Won'},
-                {label: 'Canceled', value: 'Canceled'},
-                {label: 'Cashout', value: 'Cashout'},
-                {label: 'Half Lost', value: 'Half Lost'},
+                {label: 'Opened', value: 'Opened'}, // 대기
+                {label: 'Lost', value: 'Lost'}, // 패 
+                {label: 'Won', value: 'Won'}, // 승
+                {label: 'Draw', value: 'Draw'}, // 무
+                {label: 'Canceled', value: 'Canceled'}, // 취소
+                {label: 'Cashout', value: 'Cashout'}, // 캐시아웃
+                {label: 'Half Won', value: 'Half Won'}, // 하프 승
+                {label: 'Half Lost', value: 'Half Lost'}, // 하프 패
             ],
         };
     },

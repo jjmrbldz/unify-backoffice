@@ -101,6 +101,7 @@
                 <Tag v-else-if="data.status === 'Canceled'" severity="warning" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
                 <Tag v-else-if="data.status === 'Cashout'" severity="primary" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
                 <Tag v-else-if="data.status === 'Half Lost'" style="background: color-mix(in srgb, var(--pink-500), transparent 80%); color: var(--pink-500);" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
+                <Tag v-else-if="data.status === 'Half Won'" style="background: color-mix(in srgb, var(--indigo-500), transparent 80%); color: var(--indigo-500);" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
                 <Tag v-else severity="secondary" :value="$store.getters['languageStore/translate'](`${data.status}`)"></Tag>
             </template>
         </Column>
