@@ -147,10 +147,10 @@ export default {
         },
         totalbettingRate() {
             let total = 0;
-            for(let item of this.list) {
-                total += item.bettingRate;
-            }
-
+            // for(let item of this.list) {
+            //     total += item.bettingRate;
+            // }
+            total = ((this.totalBetAmount - this.totalWinAmount) / this.totalBetAmount) * 100
             return total;
         },
         totalwinLose() {

@@ -121,20 +121,20 @@ export default {
 
             return total;
         },
-        totalbettingRate() {
-            let total = 0;
-            for(let item of this.list) {
-                total += item.bettingRate;
-            }
-
-            return total;
-        },
         totalwinLose() {
             let total = 0;
             for(let item of this.list) {
-                total += item.winLose;
+               total += item.winLose;
             }
             console.log(this.$GF.handleTextColor(total))
+            return total;
+        },
+        totalbettingRate() {
+            let total = 0;
+            // for(let item of this.list) {
+            //     total += item.bettingRate;
+            // }
+            total = ((this.totalBetAmount - this.totalWinAmount) / this.totalBetAmount) * 100
             return total;
         },
     },

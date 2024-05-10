@@ -1,26 +1,26 @@
 // @import url('http://fonts.googleapis.com/earlyaccess/nanumgothic.css');
 
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
 
 :root {
-    // --font-family: "GongGothicLight";
-    --font-family: 'Nanum Gothic', sans-serif;
+    --font-family: "GongGothicLight";
+    // --font-family: 'Nanum Gothic', sans-serif;
 }
 
 
-// @font-face {
-//     font-family: "GongGothicLight";
-//     src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10@1.0/GongGothicLight.woff")
-//         format("woff");
-//     font-weight: normal;
-//     font-style: normal;
-// }
+@font-face {
+    font-family: "GongGothicLight";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10@1.0/GongGothicLight.woff")
+        format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
 html {
     font-size: 14px;
     body {
         margin: 0;
-        font-family: 'Nanum Gothic', sans-serif;
-        // font-family: "GongGothicLight" !important;
+        // font-family: 'Nanum Gothic', sans-serif;
+        font-family: "GongGothicLight" !important;
         // background-color: var(--gray-50);
     }
 }
