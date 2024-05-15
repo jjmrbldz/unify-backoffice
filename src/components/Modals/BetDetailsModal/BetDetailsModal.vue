@@ -60,7 +60,7 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`dateLang`)" style="">
             <template #body="{ data }">
-                <span >{{ this.$GF.getDateTime(data.reg_datetime) }}</span>
+                <span >{{ this.$GF.cleanString(data.reg_datetime) }}</span>
             </template>
         </Column>
         <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
@@ -145,7 +145,7 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Game Date`)">
             <template #body="{ data }">
-                <span >{{ this.$GF.getDateTime(`${data.matchDateTime}Z`) }}</span>
+                <span >{{ this.$GF.cleanString(data.matchDateTime) }}</span>
             </template>
         </Column>
         <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>

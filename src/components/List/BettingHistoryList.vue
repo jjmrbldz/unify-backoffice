@@ -107,7 +107,7 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`dateLang`)" style="min-width: 100px">
             <template #body="{ data }">
-                <span >{{ this.$GF.getDateTime(data.reg_datetime) }}</span>
+                <span >{{ this.$GF.cleanString(data.reg_datetime) }}</span>
             </template>
         </Column>
         <Column v-if="$route.query.bettype === 'sport'" :header="this.$store.getters['languageStore/translate'](`Bet Details`)" style="min-width: 100px">
@@ -172,7 +172,7 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`dateLang`)" style="min-width: 100px">
             <template #body="{ data }">
-                <span >{{ this.$GF.getDateTime(data.reg_datetime) }}</span>
+                <span >{{ this.$GF.cleanString(data.reg_datetime) }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Status`)" style="min-width: 100px">

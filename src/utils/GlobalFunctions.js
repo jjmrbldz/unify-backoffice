@@ -244,6 +244,14 @@ const GF = {
         } else {
             return 'text-color-secondary';
         }
+    },
+    cleanString(str) {
+        if(str) {
+            let cleanString = str.replace(/[TZ]/g, " ").split(".")[0]
+            return cleanString
+        } else {
+            return '-'
+        }
     }
 }
 
