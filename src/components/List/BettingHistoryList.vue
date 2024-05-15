@@ -9,7 +9,7 @@
             <GameSelect v-model="params.filter_game_id" />
         </div>
         <div class="field col">
-            <label>{{ $store.getters['languageStore/translate']('Transaction ID') }}</label>
+            <label>{{ $store.getters['languageStore/translate']($route.query.bettype === 'sport' ? 'Purchase ID' : 'Transaction ID') }}</label>
             <InputText type="search" v-model="params.filter_trans_id" class="text-base text-color p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" @keyup.enter="handleFilterTrans()" />
         </div>
         <template v-if="$route.query.bettype === 'sport'">
@@ -54,11 +54,6 @@
         <Column :header="this.$store.getters['languageStore/translate'](`Purchase ID`)" style="min-width: 100px; text-transform: capitalize;">
             <template #body="{ data }">
                 <span>{{ data.purchaseID }}</span>
-            </template>
-        </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Bet ID`)" style="min-width: 100px">
-            <template #body="{ data }">
-                <span>{{ data.betID }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Bet Type`)" style="min-width: 100px">
