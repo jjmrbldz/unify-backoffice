@@ -27,11 +27,16 @@
                         <div class="text-3xl font-bold capitalize text-red-500 m-auto">{{ betDetails.result.banker.score }}</div>
                     </div>
                     <div class="">
-                        <div class="flex gap-2">
-                            <template v-for="item in betDetails.result.banker.cards">
-                                <Transition name="flip">
-                                    <Image v-if="cards" height="100" :src="cards[item]" preview  />
-                                </Transition>
+                        <div class="flex gap-2" style="height: 100px; width: 71px;">
+                            <template v-for="item in betDetails.result.player.cards">
+                                <template v-if="cards">
+                                    <Transition name="flip">
+                                        <Image v-if="cardsLoaded" height="100" :src="cards[item]" preview :pt="{image: {onLoad: handleImageLoad}}" />
+                                    </Transition>
+                                </template>
+                                <template v-else>
+                                    <Skeleton v-if="imageLoading" width="71px" height="100px" borderRadius="6px" />
+                                </template>
                             </template>
                         </div>
                     </div>
@@ -52,11 +57,16 @@
                         <div class="text-3xl font-bold capitalize text-blue-500 m-auto">{{ betDetails.result.player.score }}</div>
                     </div>
                     <div class="">
-                        <div class="flex gap-2">
+                        <div class="flex gap-2" style="height: 100px; width: 71px;">
                             <template v-for="item in betDetails.result.player.cards">
-                                <Transition name="flip">
-                                    <Image v-if="cards" height="100" :src="cards[item]" preview  />
-                                </Transition>
+                                <template v-if="cards">
+                                    <Transition name="flip">
+                                        <Image v-if="cardsLoaded" height="100" :src="cards[item]" preview :pt="{image: {onLoad: handleImageLoad}}" />
+                                    </Transition>
+                                </template>
+                                <template v-else>
+                                    <Skeleton v-if="imageLoading" width="71px" height="100px" borderRadius="6px" />
+                                </template>
                             </template>
                         </div>
                     </div>
@@ -71,10 +81,15 @@
                         <div class="text-3xl font-bold capitalize text-red-500 m-auto">{{ betDetails.result.dragon.score }}</div>
                     </div>
                     <div class="">
-                        <div class="flex gap-2">
-                            <Transition name="flip">
-                                <Image v-if="cards" height="100" :src="cards[betDetails.result.dragon.card]" preview  />
-                            </Transition>
+                        <div class="flex gap-2" style="height: 100px; width: 71px;">
+                            <template v-if="cards">
+                                <Transition name="flip">
+                                    <Image v-if="cardsLoaded" height="100" :src="cards[betDetails.result.dragon.card]" preview :pt="{image: {onLoad: handleImageLoad}}" />
+                                </Transition>
+                            </template>
+                            <template v-else>
+                                <Skeleton v-if="imageLoading" width="71px" height="100px" borderRadius="6px" />
+                            </template>
                         </div>
                     </div>
                 </div>
@@ -94,10 +109,15 @@
                         <div class="text-3xl font-bold capitalize text-blue-500 m-auto">{{ betDetails.result.tiger.score }}</div>
                     </div>
                     <div class="">
-                        <div class="flex gap-2">
-                            <Transition name="flip">
-                                <Image v-if="cards" height="100" :src="cards[betDetails.result.tiger.card]" preview  />
-                            </Transition>
+                        <div class="flex gap-2" style="height: 100px; width: 71px;">
+                            <template v-if="cards">
+                                <Transition name="flip">
+                                    <Image v-if="cardsLoaded" height="100" :src="cards[betDetails.result.tiger.card]" preview :pt="{image: {onLoad: handleImageLoad}}" />
+                                </Transition>
+                            </template>
+                            <template v-else>
+                                <Skeleton v-if="imageLoading" width="71px" height="100px" borderRadius="6px" />
+                            </template>
                         </div>
                     </div>
                 </div>
@@ -162,6 +182,23 @@ export default {
             betDetails  : this.dialogRef.data ? this.dialogRef.data.betDetails : null,
             loading     : this.dialogRef.data ? this.dialogRef.data.loading : false,
             cards       : null,
+            imageLoading: true,
+            cardsLoaded :false,
+        }
+    },
+    watch: {
+        cards: {
+            handler(newVal, oldVal) {
+                if(Object.keys(newVal).length >= 52) {
+                    var s = setTimeout(() => {
+                        this.cardsLoaded = true
+                        clearTimeout(s)
+                    }, 100)
+                } else {
+                    this.cardsLoaded = false
+                }
+                console.log(Object.keys(newVal).length);
+            }
         }
     },
     async created() {
@@ -169,18 +206,16 @@ export default {
         console.log(_cards);
         this.cards = _cards;
     },
-    watch: {
-        cards: {
-            handler(newVal, oldVal) {
-                console.log(newVal);
-            }
-        }
-    },
     mounted() {
         console.log(this.betData, this.betDetails);
+        this.imageLoading = true
         this.loading = false
     },
     methods: {
+        handleImageLoad(e) {
+            console.log('Image loaded');
+            this.imageLoading = false
+        },
         providerHandler(provider) {
             if(provider) {
                 if(provider === 'evo') {
