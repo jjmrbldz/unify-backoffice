@@ -27,7 +27,7 @@
                         <div class="text-3xl font-bold capitalize text-red-500 m-auto">{{ betDetails.result.banker.score }}</div>
                     </div>
                     <div class="">
-                        <div class="flex gap-2" style="height: 100px; width: 71px;">
+                        <div class="flex gap-2" style="height: 100px;">
                             <template v-for="item in betDetails.result.player.cards">
                                 <template v-if="cards">
                                     <Transition name="flip">
@@ -57,7 +57,7 @@
                         <div class="text-3xl font-bold capitalize text-blue-500 m-auto">{{ betDetails.result.player.score }}</div>
                     </div>
                     <div class="">
-                        <div class="flex gap-2" style="height: 100px; width: 71px;">
+                        <div class="flex gap-2" style="height: 100px;">
                             <template v-for="item in betDetails.result.player.cards">
                                 <template v-if="cards">
                                     <Transition name="flip">
