@@ -28,7 +28,7 @@
                     </div>
                     <div class="">
                         <div class="flex gap-2" style="height: 100px;">
-                            <template v-for="item in betDetails.result.player.cards">
+                            <template v-for="item in betDetails.result.banker.cards">
                                 <template v-if="cards">
                                     <Transition name="flip">
                                         <Image v-if="cardsLoaded" height="100" :src="cards[item]" preview :pt="{image: {onLoad: handleImageLoad}}" />
