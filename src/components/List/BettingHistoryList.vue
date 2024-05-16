@@ -107,7 +107,7 @@
         </Column>
         <Column v-if="$route.query.bettype === 'sport'" :header="this.$store.getters['languageStore/translate'](`Bet Details`)" style="min-width: 100px">
             <template #body="{ data }">
-                <Button icon="mdi mdi-eye" severity="info" @click="showBetDetails(data)" />
+                <Button icon="mdi mdi-eye" severity="info" @click="showBetDetails(data, 'sport')" />
             </template>
         </Column>
         <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
@@ -182,6 +182,11 @@
         <Column :header="this.$store.getters['languageStore/translate'](`detailLang`)" style="min-width: 100px">
             <template #body="{ data }">
                 <Tag class="capitalize" :severity="data.betStatus === 'done' ? 'success' : data.betStatus === 'waiting' ? 'warning' : 'secondary'" :value="$store.getters['languageStore/translate'](`${data.betStatus}`)"></Tag>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Bet Details`)" style="min-width: 100px">
+            <template #body="{ data }">
+                <Button icon="mdi mdi-eye" severity="info" @click="showBetDetails(data, 'casino')" />
             </template>
         </Column>
         <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
@@ -270,12 +275,13 @@ export default {
             this.endDate        = null
             this.getList()
         },
-        showBetDetails(data) {
+        showBetDetails(data, type) {
             const _data     = data;
             const details   = data.betDetails ? JSON.parse(data.betDetails) : null;
+            const _details   = data.betdetails ? JSON.parse(data.betdetails) : null;
             console.log(_data, details);
 
-            this.$dialog.open(this.$modalComponent.BetDetails, {
+            this.$dialog.open(this.$modalComponent[type === 'sport' ? 'BetDetails' : 'CasinoBetDetails'], {
                 props: {
                     header: `${this.$store.getters['languageStore/translate'](`detailLang`)} - ${_data.user_username}`,
                     style: {
@@ -287,7 +293,7 @@ export default {
                 },
                 data: {
                     betData     : _data,
-                    betDetails  : details,
+                    betDetails  : type === 'sport' ? details : _details,
                     loading     : true,
                 },
                 onClose: (options) => {
