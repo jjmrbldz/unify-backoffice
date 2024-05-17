@@ -129,11 +129,11 @@
         <div class="grid mt-0">
             <div class="col">
                 <label class="text-sm font-bold text-color-secondary" for="">{{ $store.getters['languageStore/translate'](`Bet Amount`) }}</label>
-                <div class="text-lg font-bold capitalize">{{ this.$GF.formatNumComma(betData.amount) }}</div>
+                <div class="text-lg font-bold capitalize">{{ this.$GF.formatNumComma(totalBetAmount) }}</div>
             </div>
             <div class="col">
                 <label class="text-sm font-bold text-color-secondary" for="">{{ $store.getters['languageStore/translate'](`Winnings`) }}</label>
-                <div class="text-lg font-bold capitalize">{{ this.$GF.formatNumComma(betData.winAmount) }}</div>
+                <div class="text-lg font-bold capitalize">{{ this.$GF.formatNumComma(totalWinningAmount) }}</div>
             </div>
             <div class="col-3">
                 <label class="text-sm font-bold text-color-secondary" for="">{{ $store.getters['languageStore/translate'](`Bet Time`) }}</label>
@@ -154,7 +154,7 @@
                         <span>{{ data.transactionId }}</span>
                     </template>
                 </Column>
-                <Column :header="this.$store.getters['languageStore/translate'](`Bet Code`)" style="">
+                <Column :header="this.$store.getters['languageStore/translate'](`Code`)" style="">
                     <template #body="{ data }">
                         <span>{{ data.code }}</span>
                     </template>
@@ -166,7 +166,7 @@
                 </Column>
                 <Column :header="this.$store.getters['languageStore/translate'](`Payout`)" style="">
                     <template #body="{ data }">
-                        <span>{{ this.$GF.formatNumComma(data.stake) }}</span>
+                        <span>{{ this.$GF.formatNumComma(data.payout) }}</span>
                     </template>
                 </Column>
                 <Column :header="this.$store.getters['languageStore/translate'](`Placed On`)" style="">
@@ -224,6 +224,32 @@ export default {
                 console.log(Object.keys(newVal).length);
             }
         }
+    },
+    computed: {
+        totalBetAmount() {
+            let total = 0;
+            if(this.betDetails) {
+                for(let item of this.betDetails.participants[0].bets) {
+                    total += item.stake;
+                }
+    
+                return total;
+            } else {
+                return total
+            }
+        },
+        totalWinningAmount() {
+            let total = 0;
+            if(this.betDetails) {
+                for(let item of this.betDetails.participants[0].bets) {
+                    total += item.payout;
+                }
+    
+                return total;
+            } else {
+                return total
+            }
+        },
     },
     async created() {
         const _cards = await importAllImages();
