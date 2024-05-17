@@ -65,7 +65,7 @@
 	"couponSettingsLang": "쿠폰 설정",
 	"apiSettingsLang": "API설정",
 	"gameSettingsLang": "게임 설정",
-	"vendorSettingsLang": "벤더사 설정",
+	"vendorSettingsLang": "벤더사 점검설정",
 	"ipBlockingSettingsLang": "IP 차단 설정",
 	"bankAccountSettingsLang": "계좌 설정",
 	"administratorPasswordSettingsLang": "관리자 암호설정",
@@ -902,7 +902,7 @@
 	"GAMES": "게임",
 	"Betting History": "베팅 기록",
 	"Game Settings": "게임 설정",
-	"Vendor Settings": "벤더사 설정",
+	"Vendor Settings": "벤더사 점검설정",
 	"SETTLEMENT": "정산",
 	"My Revenue List": "내 수익 리스트",
 	"Lower Agent Revenue List": "하부 에이전트 수익 리스트",
@@ -1046,6 +1046,11 @@
 	"Bet Amount":"베팅금",
 	"Bet Time":"베팅시각",
 	"Bet Position":"베팅위치",
+
+	"Code":"배팅코드",
+	"Stake":"배팅금",
+	"Payout":"당첨금",
+	"Placed On":"배팅시간",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"

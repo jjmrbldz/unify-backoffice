@@ -179,14 +179,14 @@
                 <Tag v-else severity="danger" :value="$store.getters['languageStore/translate'](`FAILED`)"></Tag> -->
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`detailLang`)" style="min-width: 100px">
+        <Column v-if="false" :header="this.$store.getters['languageStore/translate'](`detailLang`)" style="min-width: 100px">
             <template #body="{ data }">
                 <Tag class="capitalize" :severity="data.betStatus === 'done' ? 'success' : data.betStatus === 'waiting' ? 'warning' : 'secondary'" :value="$store.getters['languageStore/translate'](`${data.betStatus}`)"></Tag>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Bet Details`)" style="min-width: 100px">
             <template #body="{ data }">
-                <Button icon="mdi mdi-eye" severity="info" @click="showBetDetails(data, 'casino')" />
+                <Button v-if="data.betdetails" icon="mdi mdi-eye" severity="info" @click="showBetDetails(data, 'casino')" />
             </template>
         </Column>
         <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
