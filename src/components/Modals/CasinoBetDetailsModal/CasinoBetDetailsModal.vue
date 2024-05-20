@@ -11,7 +11,7 @@
             </div>
             <div class="col">
                 <label class="text-sm font-bold text-color-secondary" for="">{{ $store.getters['languageStore/translate'](`Table ID`) }}</label>
-                <div class="text-lg font-bold capitalize">{{ betDetails ? betDetails.table.id : betData.table_id }}</div>
+                <div class="text-lg font-bold">{{ betDetails ? betDetails.table.id : betData.table_id }}</div>
             </div>
             <div class="col">
                 <label class="text-sm font-bold text-color-secondary" for="">{{ $store.getters['languageStore/translate'](`Table Information`) }}</label>

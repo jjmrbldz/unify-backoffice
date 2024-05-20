@@ -140,8 +140,8 @@
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Table ID`)" style="min-width: 100px">
-            <template #body="{ data }">
-                <span>{{ data.table_id }}</span>
+            <template #body="{ data }"> 
+                <span>{{ data.betdetails ? JSON.parse(data.betdetails).table.name : data.table_id }}</span>
             </template>
         </Column>
         <Column v-if="false" :header="this.$store.getters['languageStore/translate'](`Type`)" style="min-width: 100px; text-transform: capitalize;">
