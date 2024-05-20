@@ -17,7 +17,7 @@
                 <template #content>
                     <div class="flex align-items-center justify-content-between">
                         <h3 class="title">{{item.casinoName}}</h3>
-                        <InputSwitch v-if="isVisible || $route.path === '/settings/vendor'" v-model="item.status" :true-value="1" :false-value="0" :checked="item.status" @change="handleStatusChange(item.gameCode, item.status)" />
+                        <InputSwitch v-if="isVisible || $route.path === '/settings/vendor' || showToggle" v-model="item.status" :true-value="1" :false-value="0" :checked="item.status" @change="handleStatusChange(item.gameCode, item.status)" />
                     </div>
                 </template>
             </Card>
@@ -61,6 +61,7 @@ export default {
         return {
             isVisible: true, 
             image   : this.dialogRef ? this.dialogRef.data.image : true,
+            showToggle: this.dialogRef ? this.dialogRef.data.showToggle : true,
             disabled: true,
             loading : false,
             checked : false,

@@ -168,13 +168,14 @@ export default {
                 props: {
                     header: this.$store.getters['languageStore/translate']('gameDeliverSettingsLang'),
                     style: {
-                        width: '40vw'
+                        width: '800px'
                     },
                     modal: true,
                 },
                 data: {
                     agentID: agentID,
                     image: true,
+                    showToggle: true
                 },
                 onClose: (options) => {
                     this.getList()
