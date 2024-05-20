@@ -973,6 +973,9 @@
 	"gameDeliverSettingsLang" : "게임 제공 설정",
 	"gameOfferingListLang" : "게임 제공 목록",
 
+	"Bet History - Live" : "베팅 내역 - Live",
+	"Bet History - Slot" : "베팅 내역 - Slot",
+	"Bet History - MiniGame" : "베팅 내역 - MiniGame",
 	"Bet History - Sport" : "베팅 내역 - Sport",
 
 	"Top Agent Name" : "상위 에이전트명",
@@ -1051,6 +1054,8 @@
 	"Stake":"배팅금",
 	"Payout":"당첨금",
 	"Placed On":"배팅시간",
+
+	"Event Type":"게임명",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"

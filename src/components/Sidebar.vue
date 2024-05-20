@@ -39,8 +39,14 @@
                     <span class="pi arrow ml-auto" :class="expand[1] ? 'pi-angle-down' : 'pi-angle-right'" />
                 </a>
                 <div class="jb-submenu" ref="games" :class="expand[1] ? 'active' : ''">
-                    <router-link v-ripple class="jb-item-link" :class="this.$route.query.bettype === '' ? 'custom-active' : ''" activeClass="" exactActiveClass="" :to="{path: '/history/bet', query: {bettype: '', filter_game_id: ''}}">
-                        <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('betHistoryLang') }} </span>
+                    <router-link v-ripple class="jb-item-link" :class="this.$route.query.bettype === 'live' ? 'custom-active' : ''" activeClass="" exactActiveClass="" :to="{path: '/history/bet', query: {bettype: 'live', filter_game_id: ''}}">
+                        <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('Bet History - Live') }} </span>
+                    </router-link>
+                    <router-link v-ripple class="jb-item-link" :class="this.$route.query.bettype === 'slot' ? 'custom-active' : ''" activeClass="" exactActiveClass="" :to="{path: '/history/bet', query: {bettype: 'slot', filter_game_id: ''}}">
+                        <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('Bet History - Slot') }} </span>
+                    </router-link>
+                    <router-link v-ripple class="jb-item-link" :class="this.$route.query.bettype === 'mini' ? 'custom-active' : ''" activeClass="" exactActiveClass="" :to="{path: '/history/bet', query: {bettype: 'mini', filter_game_id: ''}}">
+                        <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('Bet History - MiniGame') }} </span>
                     </router-link>
                     <router-link v-ripple class="jb-item-link" :class="this.$route.query.bettype === 'sport' ? 'custom-active' : ''" activeClass="" exactActiveClass="" :to="{path: '/history/bet', query: {bettype: 'sport', filter_game_id: 'bti'}}">
                         <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('Bet History - Sport') }} </span>

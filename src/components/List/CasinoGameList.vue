@@ -12,7 +12,7 @@
         <div v-else class="col game-item" v-for="item in list">
             <Card class="w-full overflow-hidden">
                 <template v-if="image" #header>
-                    <img alt="user header" :style="item.status === 0 ? 'filter: grayscale(1);' : ''" :src="handleCasinoImage(item.gameCode)" />
+                    <img v-if="providerLogo" alt="Provider Logo" :style="item.status === 0 ? 'filter: grayscale(1);' : ''" :src="providerLogo[item.gameCode] ? providerLogo[item.gameCode] : providerLogo['provider-placeholder']" />
                 </template>
                 <template #content>
                     <div class="flex align-items-center justify-content-between">
@@ -49,9 +49,11 @@
 
 <script>
 import { api, TOKEN } from '@/axios/api';
-import evo from '@/assets/img/providers/evolution.svg'
-import bti from '@/assets/img/providers/bti.svg'
-import pragmatic from '@/assets/img/providers/pragmatic.png'
+// import evo from '@/assets/img/providers/evolution.svg'
+// import bti from '@/assets/img/providers/bti.svg'
+// import pragmatic from '@/assets/img/providers/pragmatic.png'
+
+import { importAllProviderLogo } from '@/utils/importAllProviderLogo';
 
 export default {
     inject: ['dialogRef', 'mypage', 'subEdit'],
@@ -69,7 +71,8 @@ export default {
                 token           : this.$store.state.userStore.token,
                 filter_agentid  : this.dialogRef ? this.dialogRef.data.agentID :this.$store.state.userStore.username,
             },
-            updateData: []
+            updateData: [],
+            providerLogo: null,
         }
     },
     watch: {
@@ -91,6 +94,11 @@ export default {
                 this.isVisible = false
             }
         }
+    },
+    async created() {
+        const _providerLogo = await importAllProviderLogo();
+        console.log(_providerLogo);
+        this.providerLogo = _providerLogo;
     },
     mounted() {
         if(this.$route.query.filter_agentid) {
@@ -147,6 +155,7 @@ export default {
             this.updateSwitchArray(id, status);
         },
         handleCasinoImage(img) {
+            console.log(img);
             if(img === 'evo') {
                 return evo
             } else if(img === 'bti') {

@@ -1,6 +1,6 @@
 <template>
     <div class="w-full">
-        <Dropdown v-model="gameValue" :showClear="!!gameValue" filter :options="list" optionLabel="casinoName" optionValue="gameCode" :placeholder="$store.getters['languageStore/translate']('providerLang')" class="w-full" :disabled="disabled">
+        <Dropdown v-model="gameValue" :showClear="!!gameValue" filter :options="list" optionLabel="casinoName" optionValue="gameCode" :optionDisabled="handleOptionDisabled" :placeholder="$store.getters['languageStore/translate']('providerLang')" class="w-full" :disabled="disabled" :loading="loading">
             <template #clearicon="{slotProps, clearCallback}">
                 <i class="p-icon p-dropdown-clear-icon mdi mdi-close" @click="customClear(clearCallback)"></i>
             </template>
@@ -86,6 +86,17 @@ export default {
         //     const user = this.list.find(obj => obj.username === this.selected)
         //     // this.$emit('handleUser', user)
         // }
+        handleOptionDisabled(data) {
+            if(data) {
+                if (data.status == 1) {
+                    return false
+                } else {
+                    return true
+                }
+            } else {
+                return null
+            }
+        }
     }
 }
 </script>

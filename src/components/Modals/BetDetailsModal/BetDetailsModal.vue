@@ -86,6 +86,11 @@
                 <span>{{ data.matchName }}</span>
             </template>
         </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Event Type`)">
+            <template #body="{ data }">
+                <span>{{ data.eventName }}</span>
+            </template>
+        </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Home`)">
             <template #body="{ data }">
                 <span>{{ data.homeName }}</span>
