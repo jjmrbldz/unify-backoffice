@@ -171,7 +171,7 @@
                 </Column>
                 <Column :header="this.$store.getters['languageStore/translate'](`Placed On`)" style="">
                     <template #body="{ data }">
-                        <span>{{ this.$GF.cleanString(data.placedOn) }}</span>
+                        <span>{{ this.$GF.getDateTime(data.placedOn) }}</span>
                     </template>
                 </Column>
             </DataTable>
