@@ -21,7 +21,8 @@ export default {
                 username        : this.$store.state.userStore.username,
                 token           : this.$store.state.userStore.token,
                 filter_agentid  : '',
-            }
+            },
+            loading: false
         };
     },
     props:{

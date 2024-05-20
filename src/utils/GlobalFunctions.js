@@ -1,4 +1,5 @@
 import ToastEventBus from 'primevue/toasteventbus';
+import numeral from 'numeral';
 const timezone      = "Asia/Seoul"
 
 const GF = {
@@ -183,24 +184,36 @@ const GF = {
             return '0'
         }
     },
-    formatTwoDecimal(x) {
-        let z = x;
-        try {
-            if(z !== '' && z !== null && z !== undefined) {
-                z = parseFloat(z)
+    formatTwoDecimal(number) {
+        // let z = x;
+        // try {
+        //     if(z !== '' && z !== null && z !== undefined) {
+        //         z = parseFloat(z)
                 
-                if (isNaN(z)) {
-                    throw new Error(`Conversion error: ${z} is not a valid number.`);
-                }  else {
-                    return z.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})
-                }
-            } else {
-                return '0.00'
-            }
+        //         if (isNaN(z)) {
+        //             throw new Error(`Conversion error: ${z} is not a valid number.`);
+        //         }  else {
+        //             return z.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})
+        //         }
+        //     } else {
+        //         return '0.00'
+        //     }
             
-        } catch (error) {
-            console.error(error)
-            return '0.00'
+        // } catch (error) {
+        //     console.error(error)
+        //     return '0.00'
+        // }
+        if(number) {
+            try {
+                const formattedCurr = numeral(number).format('0,0.00')
+                console.log(number, '->', formattedCurr);
+                return formattedCurr
+            } catch (error) {
+                console.error(error)
+                return '-'
+            }
+        } else {
+            return '-'
         }
     },
     // handleLevelColor(x) {

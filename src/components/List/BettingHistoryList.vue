@@ -209,6 +209,8 @@ export default {
     data() {
         return {
             currDate    : new Date(),
+            providerValue: {},
+            betType: null,
             totalCount: null,
             rowData : {},
             loading : false,
@@ -253,22 +255,37 @@ export default {
         'params.filter_game_id'(newVal, oldVal){
             if (newVal === 'bti') {
                 this.$router.replace({query: {bettype: 'sport', filter_game_id: newVal}})
-            } else {
+            } else if (newVal === '') {
                 this.$router.replace({query: {bettype: '', filter_game_id: newVal}})
+            } else {
+                this.$router.replace({query: {bettype: this.$route.query.bettype === 'sport' ? 'live' : this.$route.query.bettype, filter_game_id: newVal}})
             }
             this.params.page    = 1
             this.startDate      = null
             this.endDate        = null
-            this.getList()
+            // this.getList()
         },
-        '$route'(query) {
-            console.log(query);
+        '$route'(data) {
+            console.log('ROUTE',data);
         },
     },
     mounted() {
         this.getList()
     },
     methods: {
+        handleBetType(type) {
+            if (type) {
+                if (type === 'mini') {
+                    return 'minigame'
+                } else if (type === 'sports') {
+                    return 'sport'
+                } else {
+                    return type
+                }
+            } else {
+                return ''
+            }
+        },
         handleFilterTrans() {
             this.params.page    = 1
             this.startDate      = null
@@ -314,6 +331,7 @@ export default {
             this.loading = true
             try {
                 // this.params.filter_agentid = this.params.filter_agentid ? this.params.filter_agentid : this.$store.state.userStore.username
+                this.params.filter_bettype = this.$route.query.bettype === 'sport' ? undefined : this.$route.query.bettype
                 this.params.filter_startdate = this.startDate ? `${this.$GF.getDateTime(this.startDate, 'date')} 00:00:00` : null;
                 this.params.filter_enddate = this.endDate ? `${this.$GF.getDateTime(this.endDate, 'date')} 23:59:59` : null;
 
