@@ -51,9 +51,9 @@
                 <span>{{ data.user_username }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Purchase ID`)" style="min-width: 100px; text-transform: capitalize;">
+        <Column :header="this.$store.getters['languageStore/translate'](`Reserve ID`)" style="min-width: 100px; text-transform: capitalize;">
             <template #body="{ data }">
-                <span>{{ data.purchaseID }}</span>
+                <span>{{ data.reserveID }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Bet Type`)" style="min-width: 100px">
