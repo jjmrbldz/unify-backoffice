@@ -308,7 +308,7 @@ export default {
                     console.log(res.data);
 
                     if(code == 0) {
-                        let _msg = `${res.data.transaction_id} ${res.data.error_code} Balance: ${res.data.balance}`
+                        let _msg = `${res.data.transaction_id} ${res.data.error_code ? res.data.error_code : ''} Balance: ${res.data.balance}`
                         this.$GF.customToast(1, _msg)
                         this.getList()
                     } else {
