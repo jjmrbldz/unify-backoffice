@@ -108,6 +108,7 @@
         <Column v-if="$route.query.bettype === 'sport'" :header="this.$store.getters['languageStore/translate'](`Bet Details`)" style="min-width: 100px">
             <template #body="{ data }">
                 <Button icon="mdi mdi-eye" severity="info" @click="showBetDetails(data, 'sport')" />
+                <Button v-if="data.resultDetails && data.myurl " icon="mdi mdi-send" class="ml-2" severity="success" @click="handleSendResult(data)" />
             </template>
         </Column>
         <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
@@ -234,6 +235,11 @@ export default {
         }
     },
     watch: {
+        'params.filter_trans_id'(){
+            this.params.page    = 1
+            this.startDate      = null
+            this.endDate        = null
+        },
         'params.filter_agentid'(){
             this.params.page    = 1
             this.startDate      = null
@@ -273,6 +279,49 @@ export default {
         this.getList()
     },
     methods: {
+        async handleSendResult(data) {
+            const { myurl, resultDetails } = data
+
+            if(myurl && resultDetails) {
+                const reqBody = {
+                    Authorization: `Bearer ${TOKEN}`,
+                    username    : this.$store.state.userStore.username,
+                    token       : this.$store.state.userStore.token,
+                    url         : myurl,
+                    result      : resultDetails
+                }
+
+                let formData = new FormData()
+
+                formData.append('Authorization', reqBody.Authorization)
+                formData.append('username', reqBody.username)
+                formData.append('token', reqBody.token)
+                formData.append('url', reqBody.url)
+                formData.append('result', reqBody.result)
+
+                console.log(reqBody);
+                try {
+                    const res = await api.sendResult(formData)
+                    const code  = res.data.status;
+                    const msg   = res.data.message;
+                    console.log(res.data);
+
+                    if(code == 1) {
+                        let _msg = `${res.data.transaction_id} ${res.data.error_code} Balance: ${res.data.balance}`
+                        this.$GF.customToast(res.data.status, _msg)
+                        this.getList()
+                    } else {
+                        this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
+                    }
+                    
+                } catch (e) {
+                    console.error(e)
+                    this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
+                }
+            } else {
+                this.$GF.customToast(-1, this.$store.getters['languageStore/translate'](`Match is not finished`))
+            }
+        },
         handleBetType(type) {
             if (type) {
                 if (type === 'mini') {

@@ -1013,6 +1013,8 @@
 
     "done": "Done",
     "waiting": "Waiting",
+    
+    "already processed": "Already processed!",
 
     "totalPageLang": "Total Page",
     "loginError Lang!": "Login Failed!"

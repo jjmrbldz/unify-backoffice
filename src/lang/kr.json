@@ -1056,6 +1056,8 @@
 	"Placed On":"배팅시간",
 
 	"Event Type":"게임명",
+
+	"already processed":"이미 처리됨",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"
