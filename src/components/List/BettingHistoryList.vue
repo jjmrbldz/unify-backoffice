@@ -188,6 +188,7 @@
         <Column :header="this.$store.getters['languageStore/translate'](`Bet Details`)" style="min-width: 100px">
             <template #body="{ data }">
                 <Button v-if="data.betdetails" icon="mdi mdi-eye" severity="info" @click="showBetDetails(data, 'casino')" />
+                <Button v-if="data.resultDetails && data.myurl " icon="mdi mdi-send" class="ml-2" severity="success" @click="handleSendResult(data)" />
             </template>
         </Column>
         <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
@@ -306,9 +307,9 @@ export default {
                     const msg   = res.data.message;
                     console.log(res.data);
 
-                    if(code == 1) {
+                    if(code == 0) {
                         let _msg = `${res.data.transaction_id} ${res.data.error_code} Balance: ${res.data.balance}`
-                        this.$GF.customToast(res.data.status, _msg)
+                        this.$GF.customToast(1, _msg)
                         this.getList()
                     } else {
                         this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
