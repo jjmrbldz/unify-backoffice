@@ -10,7 +10,11 @@
         </div>
         <div class="field col">
             <label>{{ $store.getters['languageStore/translate']($route.query.bettype === 'sport' ? 'Purchase ID' : 'Transaction ID') }}</label>
-            <InputText type="search" v-model="params.filter_trans_id" class="text-base text-color p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" @keyup.enter="handleFilterTrans()" />
+            <InputText type="search" v-model="params.filter_trans_id" class="text-base text-color p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+        </div>
+        <div class="field col">
+            <label>{{ $store.getters['languageStore/translate']('User ID') }}</label>
+            <InputText type="search" v-model="params.filter_username" class="text-base text-color p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" @keyup.enter="handleFilterTrans()" />
         </div>
         <template v-if="$route.query.bettype === 'sport'">
             <div class="field col">
@@ -236,6 +240,11 @@ export default {
         }
     },
     watch: {
+        'params.filter_username'(){
+            this.params.page    = 1
+            this.startDate      = null
+            this.endDate        = null
+        },
         'params.filter_trans_id'(){
             this.params.page    = 1
             this.startDate      = null
