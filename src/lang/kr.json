@@ -1058,6 +1058,8 @@
 	"Event Type":"게임명",
 
 	"already processed":"이미 처리됨",
+
+	"Better Count":"베팅유저수",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"

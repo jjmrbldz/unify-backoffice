@@ -61,6 +61,11 @@
                 <span :class="this.$GF.handleTextColor(data.winLose)">{{ this.$GF.formatNumComma(data.winLose) }}</span>
             </template>
         </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Better Count`)" class="text-left" style="min-width: 100px">
+            <template #body="{ data }">
+                <span>{{ this.$GF.formatNumComma(data.bettorCount) }}</span>
+            </template>
+        </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Bet Return Rate`)" class="text-left" style="min-width: 100px">
             <template #body="{ data }">
                 <span :class="this.$GF.handleTextColor(data.bettingRate)">{{ this.$GF.formatTwoDecimal(data.bettingRate) }}%</span>
@@ -73,6 +78,7 @@
                 <Column :footer="this.$GF.formatNumComma(totalWinAmount)" :footerClass="`${this.$GF.handleTextColor(totalWinAmount)} text-left`" />
                 <Column :footer="this.$GF.formatNumComma(totalTieAmount)" :footerClass="`${this.$GF.handleTextColor(totalTieAmount)} text-left`" />
                 <Column :footer="this.$GF.formatNumComma(totalwinLose)" :footerClass="`${this.$GF.handleTextColor(totalwinLose)} text-left`" />
+                <Column :footer="this.$GF.formatNumComma(totalBettorCount)" />
                 <Column :footer="`${this.$GF.formatTwoDecimal(totalbettingRate)}%`" :footerClass="`${this.$GF.handleTextColor(totalbettingRate)} text-left`" />
             </Row>
         </ColumnGroup>
@@ -141,6 +147,14 @@ export default {
             let total = 0;
             for(let item of this.list) {
                 total += item.totalTieAmount;
+            }
+
+            return total;
+        },
+        totalBettorCount() {
+            let total = 0;
+            for(let item of this.list) {
+                total += item.bettorCount;
             }
 
             return total;
