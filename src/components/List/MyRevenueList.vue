@@ -43,9 +43,9 @@
                 <span :class="this.$GF.handleTextColor(data.winLose)">{{ this.$GF.formatNumComma(data.winLose) }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Better Count`)" class="text-left" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Bettor Count`)" class="text-left" style="min-width: 100px">
             <template #body="{ data }">
-                <span>{{ this.$GF.formatNumComma(data.bettorCount) }}</span>
+                <span>{{ this.$GF.formatNumComma(data.userCount) }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Bet Return Rate`)" class="text-left" style="min-width: 100px">
@@ -130,7 +130,7 @@ export default {
         totalBettorCount() {
             let total = 0;
             for(let item of this.list) {
-                total += item.bettorCount;
+                total += parseInt(item.userCount);
             }
 
             return total;
