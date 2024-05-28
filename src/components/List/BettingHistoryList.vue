@@ -57,7 +57,7 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Vendor`)" style="min-width: 100px">
             <template #body="{ data }">
-                <ProviderID :id="data.provider_id" />
+                <ProviderID id="bti" />
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Reserve ID`)" style="min-width: 100px; text-transform: capitalize;">
