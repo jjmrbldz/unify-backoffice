@@ -39,7 +39,7 @@
             <Button class="w-full" label="Search" @click="getList()" />
         </div>
     </div>
-    <DataTable v-if="$route.query.bettype === 'sport'" :value="list" scrollable class="mt-4" stripedRows :loading="loading">
+    <DataTable v-if="$route.query.bettype === 'sport'" :value="list" scrollable class="mt-4" stripedRows :loading="loading" size="small">
         <Column :header="this.$store.getters['languageStore/translate'](`Number`)" style="min-width: 100px">
             <template #body="{ data }">
                 <span>{{ data.idx }}</span>
@@ -53,6 +53,11 @@
         <Column :header="this.$store.getters['languageStore/translate'](`User ID`)" style="min-width: 100px">
             <template #body="{ data }">
                 <span>{{ data.user_username }}</span>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Vendor`)" style="min-width: 100px">
+            <template #body="{ data }">
+                <ProviderID :id="data.provider_id" />
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Reserve ID`)" style="min-width: 100px; text-transform: capitalize;">
@@ -118,7 +123,7 @@
         <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
     </DataTable>
 
-    <DataTable v-else :value="list" scrollable class="mt-4" stripedRows :loading="loading">
+    <DataTable v-else :value="list" scrollable class="mt-4" stripedRows :loading="loading" size="small">
         <Column :header="this.$store.getters['languageStore/translate'](`Number`)" style="min-width: 100px">
             <template #body="{ data }">
                 <span>{{ data.idx }}</span>
@@ -132,6 +137,11 @@
         <Column :header="this.$store.getters['languageStore/translate'](`User ID`)" style="min-width: 100px">
             <template #body="{ data }">
                 <span>{{ data.user_username }}</span>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Vendor`)" style="min-width: 100px">
+            <template #body="{ data }">
+                <ProviderID :id="data.provider_id" />
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Transaction ID`)" style="min-width: 100px">
@@ -233,7 +243,7 @@ export default {
                 filter_islive   : null,
                 filter_status   : null,
                 page            : 1,
-                items_count     : 10,
+                items_count     : 20,
             },
             startDate   : null,
             endDate     : null

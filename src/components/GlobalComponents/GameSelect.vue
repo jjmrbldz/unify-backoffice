@@ -65,6 +65,7 @@ export default {
 
                 if(code === 1) {
                     this.list = res.data.data;
+                    this.$store.commit('userStore/setGameList', res.data.data)
                     this.list.unshift({
                         casinoName: this.$store.getters['languageStore/translate']('All'),
                         casinoImg: null,

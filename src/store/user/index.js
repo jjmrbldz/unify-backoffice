@@ -16,9 +16,13 @@ const state     = {
     currentDateTime: new Date(),
     record      : null,
     userDetails : {},
+    gameList    : [],
 }
 
 const mutations = {
+    setGameList(state, data) {
+        state.gameList   = data
+    },
     setRecord(state, data) {
         state.record   = data
     },
