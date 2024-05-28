@@ -116,8 +116,10 @@
         </Column>
         <Column v-if="$route.query.bettype === 'sport'" :header="this.$store.getters['languageStore/translate'](`Bet Details`)" style="min-width: 100px">
             <template #body="{ data }">
-                <Button icon="mdi mdi-eye" severity="info" @click="showBetDetails(data, 'sport')" />
-                <Button v-if="data.resultDetails && data.myurl " icon="mdi mdi-send" class="ml-2" severity="success" @click="handleSendResult(data)" />
+                <div class="flex align-items-center gap-2">
+                    <Button icon="mdi mdi-eye" severity="info" @click="showBetDetails(data, 'sport')" />
+                    <Button v-if="data.resultDetails && data.myurl " icon="mdi mdi-send" severity="success" @click="handleSendResult(data)" />
+                </div>
             </template>
         </Column>
         <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
@@ -201,8 +203,10 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Bet Details`)" style="min-width: 100px">
             <template #body="{ data }">
-                <Button v-if="data.betdetails" icon="mdi mdi-eye" severity="info" @click="showBetDetails(data, 'casino')" />
-                <Button v-if="data.resultDetails && data.myurl " icon="mdi mdi-send" class="ml-2" severity="success" @click="handleSendResult(data)" />
+                <div class="flex align-items-center gap-2">
+                    <Button v-if="data.betdetails || data.provider_id === 'micro' || data.provider_id === 'pp'" icon="mdi mdi-eye" severity="info" @click="showBetDetails(data, 'casino')" />
+                    <Button v-if="data.resultDetails && data.myurl " icon="mdi mdi-send" severity="success" @click="handleSendResult(data)" />
+                </div>
             </template>
         </Column>
         <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
