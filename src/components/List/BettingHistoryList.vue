@@ -369,7 +369,8 @@ export default {
             const _data     = data;
             const details   = data.betDetails ? JSON.parse(data.betDetails) : null;
             const _details   = data.betdetails ? JSON.parse(data.betdetails) : null;
-            console.log(_data, details);
+            const resultDetails = data.details ? JSON.parse(data.resultDetails) : null;
+            const otherDetails = data.details ? JSON.parse(data.details) : null;
 
             this.$dialog.open(this.$modalComponent[type === 'sport' ? 'BetDetails' : 'CasinoBetDetails'], {
                 props: {
@@ -384,6 +385,8 @@ export default {
                 data: {
                     betData     : _data,
                     betDetails  : type === 'sport' ? details : _details,
+                    resultDetails: resultDetails,
+                    otherDetails: otherDetails,
                     loading     : true,
                 },
                 onClose: (options) => {

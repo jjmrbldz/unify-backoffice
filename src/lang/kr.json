@@ -1061,6 +1061,21 @@
 
 	"Bettor Count":"베팅유저수",
 	"Vendor":"벤더사",
+
+	"Operator Token": "운영자 토큰",
+	"Transaction Type": "거래 유형",
+	"Channel": "채널",
+	"Round ID": "라운드 ID",
+	"Ext Transaction ID": "외부 거래 ID",
+	"Completed": "완료됨",
+	"Player ID": "플레이어 ID",
+	"Session ID": "세션 ID",
+	"Session IP": "세션 IP",
+	"Bet Result": "베팅 결과",
+	"Hash": "해시",
+	"Reference": "참조",
+	"Round Details": "라운드 세부 정보",
+	"Provider ID": "제공자 ID",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"
