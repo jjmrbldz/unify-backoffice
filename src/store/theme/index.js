@@ -5,7 +5,7 @@ const lightThemeState = localStorage.getItem('lightTheme')
 
 
 const state     = {
-    lightTheme   : lightThemeState ? JSON.parse(lightThemeState) : false,
+    lightTheme   : lightThemeState ? JSON.parse(lightThemeState) : true,
 }
 
 const mutations = {
