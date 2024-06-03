@@ -55,6 +55,7 @@ export default {
                     this.list = [
                         {label: this.$store.getters['languageStore/translate']('All'), value: ''},
                         {label: this.$store.getters['languageStore/translate']('Pragmatic'), value: 'pp'},
+                        {label: this.$store.getters['languageStore/translate']('Microgaming'), value: 'micro'},
                     ]
                     this.$emit('update:modelValue', '');
                 } else if (newVal === 'minigame') {
