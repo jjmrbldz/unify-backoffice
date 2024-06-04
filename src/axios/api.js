@@ -88,6 +88,7 @@ export const api = {
   recordHistoryList   : (data)        => axiosInstance.post('recordlist', data),
   betRecord           : (data)        => axiosInstance.post('betrecord', data),
   sendResult          : (data)        => axiosInstance.post('sendresult', data),
+  getResultLink       : (data)        => axiosInstance.post('resultlink', data, {headers: {"Content-Type":"multipart/form-data"}}),
 
   // REVENUE
   getMyRevenueList    : (data)        => axiosInstance.post('myrevenue', data),

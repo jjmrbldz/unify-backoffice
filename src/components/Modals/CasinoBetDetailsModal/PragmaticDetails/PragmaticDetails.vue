@@ -136,12 +136,15 @@
                 <div class="text-sm text-wrap font-bold">{{ betData2.transaction_type }}</div>
             </div>
         </div>
+        <Divider />
+        <ResultLink :agent-ID="betData.partner_username" :game-ID="betData.provider_id" :tx-ID="betData1.transactionId" />
     </Fieldset>
 </template>
 
 <script>
 export default {
     props: {
+        betData: Object,
         otherDetails: Object,
         resultDetails: Object
     },
@@ -154,6 +157,9 @@ export default {
     mounted() {
         console.log(this.otherDetails, this.betData1);
         console.log(this.resultDetails, this.betData2);
+    },
+    methods: {
+        
     }
 }
 </script>

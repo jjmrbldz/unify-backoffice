@@ -180,10 +180,10 @@
         </Fieldset>
     </template>
     <template v-if="otherDetails && resultDetails && betData.provider_id === 'micro'">
-        <MicroDetails :other-details="otherDetails" :result-details="resultDetails" />
+        <MicroDetails :bet-data="betData" :other-details="otherDetails" :result-details="resultDetails" />
     </template>
     <template v-if="otherDetails && resultDetails && betData.provider_id === 'pp'">
-        <PragmaticDetails :other-details="otherDetails" :result-details="resultDetails" />
+        <PragmaticDetails :bet-data="betData" :other-details="otherDetails" :result-details="resultDetails" />
     </template>
 </template>
 
