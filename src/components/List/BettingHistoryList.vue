@@ -122,6 +122,7 @@
                 </div>
             </template>
         </Column>
+        <Column field="ratio" :header="this.$store.getters['languageStore/translate'](`BTI Result`)" />
         <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
     </DataTable>
 
