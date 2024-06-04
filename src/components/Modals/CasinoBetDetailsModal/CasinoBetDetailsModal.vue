@@ -182,8 +182,8 @@
     <template v-if="otherDetails && resultDetails && betData.provider_id === 'micro'">
         <MicroDetails :bet-data="betData" :other-details="otherDetails" :result-details="resultDetails" />
     </template>
-    <template v-if="otherDetails && resultDetails && betData.provider_id === 'pp'">
-        <PragmaticDetails :bet-data="betData" :other-details="otherDetails" :result-details="resultDetails" />
+    <template v-if="otherDetails && betData.provider_id === 'pp'">
+        <PragmaticDetails :bet-data="betData" :other-details="otherDetails" />
     </template>
 </template>
 
