@@ -122,7 +122,13 @@
                 </div>
             </template>
         </Column>
-        <Column field="ratio" :header="this.$store.getters['languageStore/translate'](`BTI Result`)" />
+        <Column field="ratio" :header="this.$store.getters['languageStore/translate'](`BTI Result`)">
+            <template #body="{ data }">
+                <span v-if="data.resultDetails">{{ data.ratio }}</span>
+                <span v-else>-</span>
+                <!-- <span>{{ data.ratio }}</span> -->
+            </template>
+        </Column>
         <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
     </DataTable>
 
