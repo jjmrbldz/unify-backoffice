@@ -23,6 +23,11 @@
                 <span >{{data.partner_username }}</span>
             </template>
         </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Agent Name`)" style="min-width: 100px">
+            <template #body="{ data }">
+                <span >{{data.tp_nickname }}</span>
+            </template>
+        </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Bet Amount Sum`)" class="text-left" style="min-width: 100px">
             <template #body="{ data }">
                 <span :class="this.$GF.handleTextColor(data.totalBetAmount)">{{ this.$GF.formatNumComma(data.totalBetAmount) }}</span>
@@ -55,7 +60,7 @@
         </Column>
         <ColumnGroup type="footer">
             <Row>
-                <Column :footer="$store.getters['languageStore/translate'](`SUM`)" :colspan="1" footerStyle="text-align:left"/>
+                <Column :footer="$store.getters['languageStore/translate'](`SUM`)" :colspan="2" footerStyle="text-align:left"/>
                 <Column :footer="this.$GF.formatNumComma(totalBetAmount)" :footerClass="`${this.$GF.handleTextColor(totalBetAmount)} text-left`" />
                 <Column :footer="this.$GF.formatNumComma(totalWinAmount)" :footerClass="`${this.$GF.handleTextColor(totalWinAmount)} text-left`" />
                 <Column :footer="this.$GF.formatNumComma(totalTieAmount)" :footerClass="`${this.$GF.handleTextColor(totalTieAmount)} text-left`" />
