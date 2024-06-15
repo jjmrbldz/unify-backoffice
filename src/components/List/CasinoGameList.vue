@@ -23,7 +23,7 @@
             </Card>
         </div>
     </div>
-    <Button v-if="isVisible || $route.path === '/settings/vendor'" class="mt-3" :label="$store.getters['languageStore/translate']('SAVE')" @click="submit()" :loading="loading" :disabled="disabled"  />
+    <Button v-if="$route.path === '/settings/vendor'" class="mt-3" :label="$store.getters['languageStore/translate']('SAVE')" @click="submit()" :loading="loading" :disabled="disabled"  />
 </template>
 
 <style lang="scss" scoped>
