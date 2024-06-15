@@ -98,7 +98,7 @@
                         <h3 v-if="!hide">{{ $store.getters['languageStore/translate']('gameOfferingListLang') }}</h3>
                         <Button class="text-xl" :icon="hide ? 'mdi mdi-open-in-new' : 'mdi mdi-close-circle'" @click="hide = !hide" text rounded />
                     </div>
-                    <CasinoGameList v-if="!hide" />
+                    <CasinoGameList v-if="!hide" ref="casinoGameListRef" />
                 </div>
             </div>
         </TabPanel>
@@ -144,6 +144,7 @@ export default {
             params      : {},
             subAgent    : null,
             userStatus  : null,
+            casinoGameListRef: null,
             statusOptions: [
                 { label: 'NORMAL', value: 1 },
                 { label: 'STOP', value: 0 },
@@ -156,6 +157,7 @@ export default {
         }
         this.getUserDetails();
         console.log(this.params);
+        console.log('ref gamelist', this.$refs.casinoGameListRef)
     },
     methods: {
         edit() {
@@ -181,6 +183,9 @@ export default {
             });
         },
         async submit() {
+            if (this.$refs.casinoGameListRef && this.$refs.casinoGameListRef.updateData.length > 0) {
+                this.$refs.casinoGameListRef.submit()
+            }
             try {
                 let reqBody = {
                     Authorization   : `Bearer ${TOKEN}`,

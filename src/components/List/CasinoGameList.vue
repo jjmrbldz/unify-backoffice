@@ -115,6 +115,7 @@ export default {
     methods: {
         async submit() {
             this.loading = true
+            console.log('Update Casino Settings Triggered!');
             try {
                 let reqBody = {
                     Authorization   : `Bearer ${TOKEN}`,
