@@ -285,6 +285,17 @@ button:disabled {
                     color: var(--highlight-text-color);
                     border-radius: 6px;
                 }
+                .summIcon2 {
+                    font-size: 30px;
+                    height: 60px;
+                    width: 60px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: var(--yellow-50);
+                    color: var(--yellow-500);
+                    border-radius: 6px;
+                }
                 .summContent {
                     .title {
                         font-size: 14px;

@@ -1079,6 +1079,12 @@
 
 	"Microgaming": "마이크로게이밍",
 	"BTI Result": "BTI결과",
+
+	"This month": "이번 달",
+	"This month Bet": "이번 달 베팅",
+	"This month Win": "이번 달 승리",
+	"This month Loss": "이번 달 손실",
+	"This month Bet User": "이번 달 베팅 사용자",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"
