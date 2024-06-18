@@ -281,8 +281,8 @@ button:disabled {
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    background-color: var(--highlight-bg);
-                    color: var(--highlight-text-color);
+                    background: color-mix(in srgb, var(--primary-color), transparent 92%);
+                    color: var(--primary-color);
                     border-radius: 6px;
                 }
                 .summIcon2 {
@@ -292,7 +292,7 @@ button:disabled {
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    background-color: var(--yellow-50);
+                    background: color-mix(in srgb, var(--yellow-400), transparent 92%);
                     color: var(--yellow-500);
                     border-radius: 6px;
                 }
