@@ -1081,10 +1081,10 @@
 	"BTI Result": "BTI결과",
 
 	"This month": "이번 달",
-	"This month Bet": "이번 달 베팅",
-	"This month Win": "이번 달 승리",
-	"This month Loss": "이번 달 손실",
-	"This month Bet User": "이번 달 베팅 사용자",
+	"This month Bet": "이달 배팅금",
+	"This month Win": "이달 당첨금",
+	"This month Loss": "이달 손익금",
+	"This month Bet User": "이달 베팅 유저수",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"
