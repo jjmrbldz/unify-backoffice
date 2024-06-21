@@ -23,11 +23,11 @@
                 <span>{{ data.id }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Parent Agent ID`)" style="min-width: 100px">
+        <!-- <Column :header="this.$store.getters['languageStore/translate'](`Parent Agent ID`)" style="min-width: 100px">
             <template #body="{ data }">
                 <span>{{ data.partner_parent }}</span>
             </template>
-        </Column>
+        </Column> -->
         <Column :header="this.$store.getters['languageStore/translate'](`Agent`)" style="min-width: 100px">
             <template #body="{ data }">
                 <span>{{ data.partner_username }}</span>
@@ -38,11 +38,11 @@
                 <span>{{ data.tu_real_username }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Today Betting Amount`)" style="min-width: 100px">
+        <!-- <Column :header="this.$store.getters['languageStore/translate'](`Today Betting Amount`)" style="min-width: 100px">
             <template #body="{ data }">
                 <span>{{ this.$GF.formatNumComma(data.todayBetting) }}</span>
             </template>
-        </Column>
+        </Column> -->
         <Column :header="this.$store.getters['languageStore/translate'](`Registered Date Time`)" style="min-width: 100px">
             <template #body="{ data }">
                 <span>{{ this.$GF.getDateTime(data.tu_reg_datetime) }}</span>
@@ -61,6 +61,11 @@
         <Column :header="this.$store.getters['languageStore/translate'](`Status`)" style="min-width: 100px">
             <template #body="{ data }">
                 <StatusTag :status="data.tu_status" />
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Action`)" style="min-width: 100px">
+            <template #body="{ data }">
+                <Button icon="mdi mdi-eye" severity="info" @click="showUserRevenue(data)" />
             </template>
         </Column>
         <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
@@ -129,6 +134,25 @@ export default {
         this.getList()
     },
     methods: {
+        showUserRevenue(data) {
+            this.$dialog.open(this.$modalComponent.UserRevenueList, {
+                props: {
+                    header: `${this.$store.getters['languageStore/translate'](`User Revenue List`)} - ${data.tu_real_username}`,
+                    style: {
+                        width: '80vw'
+                    },
+                    modal: true,
+                    maximizable: true,
+                    dismissableMask: true,
+                },
+                data: {
+                    userData     : data,
+                },
+                onClose: (options) => {
+                    // this.getList();
+                }
+            });
+        },
         handleSearchBy() {
             this.disabled       = false;
             this.searchValue    = '';

@@ -94,6 +94,7 @@ export const api = {
   getMyRevenueList    : (data)        => axiosInstance.post('myrevenue', data),
   getAgentRevenueList : (data)        => axiosInstance.post('agentrevenue', data),
   getByGameRevenueList: (data)        => axiosInstance.post('agentrevenuegames', data),
+  getUserRevenueList  : (data)        => axiosInstance.post('userrevenue', data),
 
   // BALANCE
   addCash             : (data)        => axiosInstance.post('addcash', data),
