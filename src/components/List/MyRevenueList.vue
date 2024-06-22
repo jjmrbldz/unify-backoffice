@@ -98,15 +98,15 @@ export default {
                 page            : 1,
                 items_count     : 10,
             },
-            startDate   : null,
-            endDate     : null
+            startDate   : new Date(),
+            endDate     : new Date()
         }
     },
     computed: {
         totalBetAmount() {
             let total = 0;
             for(let item of this.list) {
-                total += item.totalBetAmount;
+                total += parseInt(item.totalBetAmount);
             }
 
             return total;
@@ -114,7 +114,7 @@ export default {
         totalWinAmount() {
             let total = 0;
             for(let item of this.list) {
-                total += item.totalWinAmount;
+                total += parseInt(item.totalWinAmount);
             }
 
             return total;
@@ -122,7 +122,7 @@ export default {
         totalTieAmount() {
             let total = 0;
             for(let item of this.list) {
-                total += item.totalTieAmount;
+                total += parseInt(item.totalTieAmount);
             }
 
             return total;
@@ -138,7 +138,7 @@ export default {
         totalwinLose() {
             let total = 0;
             for(let item of this.list) {
-               total += item.winLose;
+               total += parseInt(item.winLose);
             }
             console.log(this.$GF.handleTextColor(total))
             return total;
@@ -156,15 +156,15 @@ export default {
         'params.filter_agentid'(newVal, oldVal){
             let cDate = new Date();
             this.params.page    = 1
-            this.startDate      = new Date(cDate.setDate(1))
-            this.endDate        = this.currDate
+            // this.startDate      = new Date(cDate.setDate(1))
+            // this.endDate        = this.currDate
             this.getList()
         },
     },
     mounted() {
         let cDate = new Date();
-        this.startDate = new Date(cDate.setDate(1));
-        this.endDate   = this.currDate;
+        // this.startDate = new Date(cDate.setDate(1));
+        // this.endDate   = this.currDate;
         this.getList()
     },
     methods: {

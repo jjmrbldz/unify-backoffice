@@ -44,24 +44,24 @@
             </template>
         </Column> -->
         <Column :header="this.$store.getters['languageStore/translate'](`Bet Amount Sum`)" class="text-left" style="min-width: 100px">
-            <template #body="{ data }">
+            <!-- <template #body="{ data }">
                 <span :class="this.$GF.handleTextColor(data.totalBetAmount)">{{ this.$GF.formatNumComma(data.totalBetAmount) }}</span>
-            </template>
+            </template> -->
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Result Amount Sum`)" class="text-left" style="min-width: 100px">
-            <template #body="{ data }">
+            <!-- <template #body="{ data }">
                 <span :class="this.$GF.handleTextColor(data.totalWinAmount)">{{ this.$GF.formatNumComma(data.totalWinAmount) }}</span>
-            </template>
+            </template> -->
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Tie Betting`)" class="text-left" style="min-width: 100px">
-            <template #body="{ data }">
+            <!-- <template #body="{ data }">
                 <span :class="this.$GF.handleTextColor(data.totalTieAmount)">{{ this.$GF.formatNumComma(data.totalTieAmount) }}</span>
-            </template>
+            </template> -->
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Win Loss`)" class="text-left" style="min-width: 100px">
-            <template #body="{ data }">
+            <!-- <template #body="{ data }">
                 <span :class="this.$GF.handleTextColor(data.winLose)">{{ this.$GF.formatNumComma(data.winLose) }}</span>
-            </template>
+            </template> -->
         </Column>
         <!-- <Column :header="this.$store.getters['languageStore/translate'](`Bettor Count`)" class="text-left" style="min-width: 100px">
             <template #body="{ data }">
@@ -69,9 +69,9 @@
             </template>
         </Column> -->
         <Column :header="this.$store.getters['languageStore/translate'](`Bet Return Rate`)" class="text-left" style="min-width: 100px">
-            <template #body="{ data }">
+            <!-- <template #body="{ data }">
                 <span :class="this.$GF.handleTextColor(data.bettingRate)">{{ this.$GF.formatTwoDecimal(data.bettingRate) }}%</span>
-            </template>
+            </template> -->
         </Column>
         <ColumnGroup type="footer">
             <Row>
@@ -135,7 +135,7 @@ export default {
         totalBetAmount() {
             let total = 0;
             for(let item of this.list) {
-                total += item.totalBetAmount;
+                total += parseInt(item.totalBetAmount);
             }
 
             return total;
@@ -143,7 +143,7 @@ export default {
         totalWinAmount() {
             let total = 0;
             for(let item of this.list) {
-                total += item.totalWinAmount;
+                total += parseInt(item.totalWinAmount);
             }
 
             return total;
@@ -151,7 +151,7 @@ export default {
         totalTieAmount() {
             let total = 0;
             for(let item of this.list) {
-                total += item.totalTieAmount;
+                total += parseInt(item.totalTieAmount);
             }
 
             return total;
@@ -175,7 +175,7 @@ export default {
         totalwinLose() {
             let total = 0;
             for(let item of this.list) {
-                total += item.winLose;
+                total += parseInt(item.winLose);
             }
             console.log(this.$GF.handleTextColor(total))
             return total;
@@ -223,7 +223,7 @@ export default {
             try {
                 this.params.filter_agentid = this.userData.partner_username
                 // this.params.filter_username = this.userData.tu_real_username
-                this.params.filter_userid = parseInt(this.userData.tu_user_id)
+                this.params.filter_userid = parseInt(this.userData.id)
                 this.params.filter_startdate = this.startDate ? `${this.$GF.getDateTime(this.startDate, 'date')} 00:00:00` : null;
                 this.params.filter_enddate = this.endDate ? `${this.$GF.getDateTime(this.endDate, 'date')} 23:59:59` : null;
 
