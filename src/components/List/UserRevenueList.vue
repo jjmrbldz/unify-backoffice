@@ -127,8 +127,8 @@ export default {
                 page            : 1,
                 items_count     : 10,
             },
-            startDate   : null,
-            endDate     : null
+            startDate   : new Date(),
+            endDate     : new Date()
         }
     },
     computed: {
@@ -185,8 +185,8 @@ export default {
         'params.filter_agentid'(newVal, oldVal){
             let cDate = new Date();
             this.params.page    = 1
-            this.startDate      = new Date(cDate.setDate(1))
-            this.endDate        = this.currDate
+            // this.startDate      = new Date(cDate.setDate(1))
+            // this.endDate        = this.currDate
             this.getList()
         },
         gameType(newVal, oldVal){
@@ -201,8 +201,8 @@ export default {
             this.params.filter_agentid = this.$route.params.subAgent
         }
         let cDate = new Date();
-        this.startDate = new Date(cDate.setDate(1));
-        this.endDate   = this.currDate;
+        // this.startDate = new Date(cDate.setDate(1));
+        // this.endDate   = this.currDate;
         this.getList()
     },
     methods: {
