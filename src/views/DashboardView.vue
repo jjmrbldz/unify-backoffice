@@ -107,7 +107,7 @@ import { mapGetters } from 'vuex';
         totalWinAmount() {
             let total = 0;
             for(let item of this.list) {
-                total += item.totalWinAmount;
+                total += parseInt(item.totalWinAmount);
             }
 
             return total;
@@ -115,7 +115,7 @@ import { mapGetters } from 'vuex';
         winLose() {
             let total = 0;
             for(let item of this.list) {
-                total += item.winLose;
+                total += parseInt(item.winLose);
             }
 
             return total;
@@ -131,7 +131,8 @@ import { mapGetters } from 'vuex';
         casinoBetRatio() {
             let total = 0;
             for(let item of this.list) {
-                total += item.casinoBetRatio;
+                total += item.casinoBetRatio ? parseFloat(item.casinoBetRatio) : 0.00;
+                console.log('Casino Ratio:',  parseFloat(item.casinoBetRatio), '->', item.casinoBetRatio);
             }
             total = total / this.listLength
 
@@ -140,7 +141,8 @@ import { mapGetters } from 'vuex';
         minigameBetRatio() {
             let total = 0;
             for(let item of this.list) {
-                total += item.minigameBetRatio;
+                total += item.minigameBetRatio ? parseFloat(item.minigameBetRatio) : 0.00;
+                console.log('Minigame Bet Ratio:', item.minigameBetRatio)
             }
             total = total / this.listLength
 
@@ -149,7 +151,7 @@ import { mapGetters } from 'vuex';
         slotBetRatio() {
             let total = 0;
             for(let item of this.list) {
-                total += item.slotBetRatio;
+                total += item.slotBetRatio ? parseFloat(item.slotBetRatio) : 0.00;
             }
             total = total / this.listLength
 
@@ -158,7 +160,7 @@ import { mapGetters } from 'vuex';
         sportBetRatio() {
             let total = 0;
             for(let item of this.list) {
-                total += item.sportBetRatio;
+                total += item.sportBetRatio ? parseFloat(item.sportBetRatio) : 0.00;
                 console.log(item.sportBetRatio)
             }
             console.log(total, '/', this.listLength)
