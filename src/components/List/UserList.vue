@@ -45,12 +45,12 @@
         </Column> -->
         <Column :header="this.$store.getters['languageStore/translate'](`Registered Date Time`)" style="min-width: 100px">
             <template #body="{ data }">
-                <span>{{ this.$GF.getDateTime(data.tu_reg_datetime) }}</span>
+                <span>{{ data.tu_reg_datetime }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Last Login Date Time`)" style="min-width: 100px">
             <template #body="{ data }">
-                <span>{{ this.$GF.getDateTime(data.tu_last_login) }}</span>
+                <span>{{ data.tu_last_login }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Last Login IP`)" style="min-width: 100px">
