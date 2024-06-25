@@ -103,6 +103,10 @@ export const api = {
   // SETTINGS
   myCasinoLsit        : (data)        => axiosInstance.post('mycasinolist', data),
   updateCasinoSettings: (data)    => axiosInstance.post('updatecasinosettings', data),
+  getBetLimitList     : (data)    => axiosInstance.post('betlimitlist', data, {headers: {"Content-Type":"multipart/form-data"}}),
+  getPartBetLimitList : (data)    => axiosInstance.post('partnerbetlimitlist', data),
+  updateBetLimit      : (data)    => axiosInstance.post('updatebetlimit', data),
+  insertUpdateBetLimit: (data)    => axiosInstance.post('insertupdatebetlimit', data),
   
   
 };

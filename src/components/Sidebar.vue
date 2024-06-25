@@ -33,12 +33,12 @@
                 </div>
             </div>
             <div class="jb-menu-item has-submenu">
-                <a v-ripple class="jb-item-link" href="#" :class="expand[1] ? 'active' : ''" @click="handleSubmenu('games', 1, $event)">
-                    <i class="mdi mdi-poker-chip"></i>
-                    <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('gamesLang') }} </span>
-                    <span class="pi arrow ml-auto" :class="expand[1] ? 'pi-angle-down' : 'pi-angle-right'" />
+                <a v-ripple class="jb-item-link" href="#" :class="expand[4] ? 'active' : ''" @click="handleSubmenu('history', 4, $event)">
+                    <i class="mdi mdi-history"></i>
+                    <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('Bet History') }} </span>
+                    <span class="pi arrow ml-auto" :class="expand[4] ? 'pi-angle-down' : 'pi-angle-right'" />
                 </a>
-                <div class="jb-submenu" ref="games" :class="expand[1] ? 'active' : ''">
+                <div class="jb-submenu" ref="history" :class="expand[4] ? 'active' : ''">
                     <router-link v-ripple class="jb-item-link" :class="this.$route.query.bettype === 'live' ? 'custom-active' : ''" activeClass="" exactActiveClass="" :to="{path: '/history/bet', query: {bettype: 'live', filter_game_id: ''}}">
                         <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('Bet History - Live') }} </span>
                     </router-link>
@@ -51,12 +51,24 @@
                     <router-link v-ripple class="jb-item-link" :class="this.$route.query.bettype === 'sport' ? 'custom-active' : ''" activeClass="" exactActiveClass="" :to="{path: '/history/bet', query: {bettype: 'sport', filter_game_id: 'bti'}}">
                         <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('Bet History - Sport') }} </span>
                     </router-link>
+                </div>
+            </div>
+            <div class="jb-menu-item has-submenu">
+                <a v-ripple class="jb-item-link" href="#" :class="expand[1] ? 'active' : ''" @click="handleSubmenu('games', 1, $event)">
+                    <i class="mdi mdi-poker-chip"></i>
+                    <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('Game Settings') }} </span>
+                    <span class="pi arrow ml-auto" :class="expand[1] ? 'pi-angle-down' : 'pi-angle-right'" />
+                </a>
+                <div class="jb-submenu" ref="games" :class="expand[1] ? 'active' : ''">
                     <template v-if="$store.state.userStore.tp_level === 'T'">
                         <router-link v-if="false" v-ripple class="jb-item-link" to="/settings/game">
                             <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('gameSettingsLang') }} </span>
                         </router-link>
                         <router-link v-ripple class="jb-item-link" to="/settings/vendor">
                             <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('vendorSettingsLang') }} </span>
+                        </router-link>
+                        <router-link v-ripple class="jb-item-link" to="/settings/vendorlimit">
+                            <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('Vendor Bet Limit') }} </span>
                         </router-link>
                     </template>
                 </div>

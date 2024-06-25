@@ -127,6 +127,13 @@ const router = createRouter({
 					},
 					component: () => import('@/views/VendorSettingsView.vue')
 				},
+				{
+					path: 'vendorlimit',
+					meta: {
+						title: 'Vendor Betting Limit',
+					},
+					component: () => import('@/views/VendorLimitSettingsView.vue')
+				},
 			]
 		},
 		{
