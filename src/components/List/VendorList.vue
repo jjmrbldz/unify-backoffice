@@ -9,19 +9,23 @@
                 </div>
             </div>
         </template>
-        <div v-else class="col game-item" v-for="item in list">
-            <Card class="w-full overflow-hidden">
-                <template v-if="image" #header>
-                    <img v-if="providerLogo" alt="Provider Logo" :style="item.status === 0 ? 'filter: grayscale(1);' : ''" :src="providerLogo[item.gameCode] ? providerLogo[item.gameCode] : providerLogo['provider-placeholder']" />
-                </template>
-                <template #content>
-                    <div class="flex align-items-center justify-content-between">
-                        <h3 class="title">{{item.casinoName}}</h3>
-                        <Button :label="$store.getters['languageStore/translate'](`Settings`)" size="small" :disabled="item.status === 0" @click="handleBetLimitListShow(item)" />
-                    </div>
-                </template>
-            </Card>
-        </div>
+        <template v-else>
+            <template v-for="item in list">
+                <div class="col game-item" v-if="item.gameCode === 'evo'">
+                    <Card class="w-full overflow-hidden">
+                        <template v-if="image" #header>
+                            <img v-if="providerLogo" alt="Provider Logo" :style="item.status === 0 ? 'filter: grayscale(1);' : ''" :src="providerLogo[item.gameCode] ? providerLogo[item.gameCode] : providerLogo['provider-placeholder']" />
+                        </template>
+                        <template #content>
+                            <div class="flex align-items-center justify-content-between">
+                                <h3 class="title">{{item.casinoName}}</h3>
+                                <Button :label="$store.getters['languageStore/translate'](`Settings`)" size="small" :disabled="item.status === 0" @click="handleBetLimitListShow(item)" />
+                            </div>
+                        </template>
+                    </Card>
+                </div>
+            </template>
+        </template>
     </div>
 </template>
 
