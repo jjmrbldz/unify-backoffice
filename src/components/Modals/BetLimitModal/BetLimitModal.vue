@@ -28,7 +28,7 @@
                     <!-- <span class="block">
                         <span class="mdi mdi-plus-circle flex text-green-600 relative overflow-hidden w-2rem" style="font-size: 30px;" v-ripple></span>
                     </span> -->
-                    <Button v-if="index === limitData.settings.length - 1" class="p-0 w-2rem h-2rem mr-1" severity="success" icon="mdi mdi-plus" rounded style="font-size: 20px; line-height: 1;" :pt="{icon: {style: {display: 'flex'}}}" @click="handleLimitAddRow" />
+                    <Button v-if="index === limitData.settings.length - 1" class="p-0 w-2rem h-2rem mr-1" severity="success" icon="mdi mdi-plus" rounded style="font-size: 20px; line-height: 1;" :pt="{icon: {style: {display: 'flex'}}}" @click="handleLimitAddRow(item.title)" />
                     <Button v-if="index > 0" class="p-0 w-2rem h-2rem" severity="danger" icon="mdi mdi-minus" rounded style="font-size: 20px; line-height: 1;" :pt="{icon: {style: {display: 'flex'}}}" @click="handleLimitDeleteRow(index)" />
                 </div>
             </div>
@@ -216,43 +216,50 @@ export default {
         },
         async addBetLimit() {
             console.log(this.limitData)
-
-            try {
-                this.limitData.gamecode = this.gameCode
-                const res   = await api.insertUpdateBetLimit(this.limitData);
-                const code  = res.data.code;
-                const msg   = res.data.message;
-                console.log(res);
-
-                if(code === 1) {
-                    this.$GF.customToast(code, this.$store.getters['languageStore/translate'](`${msg}`))
-                    this.showAdd = false
-                    this.getList()
-                    this.limitData.codeid = ''
-                    this.limitData.settings = [
-                        {
-                            title: '',
-                            min_bet: 0,
-                            max_bet: 0,
-                        },
-                    ]
-                } else {
-                    this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
+            if(this.limitData.codeid) {
+                try {
+                    this.limitData.gamecode = this.gameCode
+                    const res   = await api.insertUpdateBetLimit(this.limitData);
+                    const code  = res.data.code;
+                    const msg   = res.data.message;
+                    console.log(res);
+    
+                    if(code === 1) {
+                        this.$GF.customToast(code, this.$store.getters['languageStore/translate'](`${msg}`))
+                        this.showAdd = false
+                        this.getList()
+                        this.limitData.codeid = ''
+                        this.limitData.settings = [
+                            {
+                                title: '',
+                                min_bet: 0,
+                                max_bet: 0,
+                            },
+                        ]
+                    } else {
+                        this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
+                    }
+                } catch (error) {
+                    console.error(error)
+                    throw error
                 }
-            } catch (error) {
-                console.error(error)
-                throw error
+            } else {
+                this.$GF.customToast(0, this.$store.getters['languageStore/translate'](`Code ID is required!`))
             }
         },
         handleLimitDeleteRow(index) {
             this.limitData.settings.splice(index, 1)
         },
-        handleLimitAddRow() {
-            this.limitData.settings.push({
-                title: '',
-                min_bet: 0,
-                max_bet: 0,
-            })
+        handleLimitAddRow(title) {
+            if(title) {
+                this.limitData.settings.push({
+                    title: '',
+                    min_bet: 0,
+                    max_bet: 0,
+                })
+            } else {
+                this.$GF.customToast(0, this.$store.getters['languageStore/translate'](`Title is required!`))
+            }
         },
         handlePagination(data) {
             this.params.page = data.page+1;
