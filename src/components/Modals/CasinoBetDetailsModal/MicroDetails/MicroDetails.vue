@@ -78,7 +78,7 @@
             </div>
             <div class="col-2">
                 <label class="text-sm font-bold text-color-secondary" for="">{{ $store.getters['languageStore/translate'](`Bet Amount`) }}</label>
-                <div class="text-sm text-wrap font-bold">{{ resultDetails.bet_amount }}</div>
+                <div class="text-sm text-wrap font-bold">{{ betData1.amount }}</div>
             </div>
             <div class="col-2">
                 <label class="text-sm font-bold text-color-secondary" for="">{{ $store.getters['languageStore/translate'](`Bet Result`) }}</label>

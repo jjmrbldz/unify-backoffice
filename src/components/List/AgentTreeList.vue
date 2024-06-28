@@ -95,6 +95,7 @@
             <template v-if="$store.state.userStore.tp_level === 'T'">
                 <Button class="block mb-1 surface-0 hover:surface-100 text-color-secondary text-base text-left border-round-sm transition-colors transition-duration-200 py-2 px-3" icon="mdi mdi-cog" :label="$store.getters['languageStore/translate']('gameDeliverSettingsLang')" @click="handleGameSettings(rowData.username)" text />
             </template>
+            <Button class="block mb-1 surface-0 hover:surface-100 text-color-secondary text-base text-left border-round-sm transition-colors transition-duration-200 py-2 px-3" icon="mdi mdi-cog" :label="$store.getters['languageStore/translate']('Bet Limit Settings')" @click="handleAgentBetLimitSettings(rowData.username)" text />
             
         </OverlayPanel>
 </template>
@@ -176,6 +177,23 @@ export default {
                     agentID: agentID,
                     image: true,
                     showToggle: true
+                },
+                onClose: (options) => {
+                    this.getList()
+                }
+            });
+        },
+        handleAgentBetLimitSettings(agentID) {
+            this.$dialog.open(this.$modalComponent.AgentBetLimit, {
+                props: {
+                    header: this.$store.getters['languageStore/translate']('Bet Limit Settings'),
+                    style: {
+                        width: '800px'
+                    },
+                    modal: true,
+                },
+                data: {
+                    agentID: agentID,
                 },
                 onClose: (options) => {
                     this.getList()

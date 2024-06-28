@@ -53,24 +53,22 @@
                     </router-link>
                 </div>
             </div>
-            <div class="jb-menu-item has-submenu">
+            <div class="jb-menu-item has-submenu" v-if="$store.state.userStore.tp_level === 'T'">
                 <a v-ripple class="jb-item-link" href="#" :class="expand[1] ? 'active' : ''" @click="handleSubmenu('games', 1, $event)">
                     <i class="mdi mdi-poker-chip"></i>
                     <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('Game Settings') }} </span>
                     <span class="pi arrow ml-auto" :class="expand[1] ? 'pi-angle-down' : 'pi-angle-right'" />
                 </a>
                 <div class="jb-submenu" ref="games" :class="expand[1] ? 'active' : ''">
-                    <template v-if="$store.state.userStore.tp_level === 'T'">
-                        <router-link v-if="false" v-ripple class="jb-item-link" to="/settings/game">
-                            <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('gameSettingsLang') }} </span>
-                        </router-link>
-                        <router-link v-ripple class="jb-item-link" to="/settings/vendor">
-                            <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('vendorSettingsLang') }} </span>
-                        </router-link>
-                        <router-link v-ripple class="jb-item-link" to="/settings/vendorlimit">
-                            <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('Vendor Bet Limit') }} </span>
-                        </router-link>
-                    </template>
+                    <router-link v-if="false" v-ripple class="jb-item-link" to="/settings/game">
+                        <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('gameSettingsLang') }} </span>
+                    </router-link>
+                    <router-link v-ripple class="jb-item-link" to="/settings/vendor">
+                        <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('vendorSettingsLang') }} </span>
+                    </router-link>
+                    <router-link v-ripple class="jb-item-link" to="/settings/vendorlimit">
+                        <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('Vendor Bet Limit') }} </span>
+                    </router-link>
                 </div>
             </div>
             <div class="jb-menu-item has-submenu">

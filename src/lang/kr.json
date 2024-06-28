@@ -1095,6 +1095,8 @@
 	"Bet Limit" : "베팅 한도",
 	"MIN" : "MIN",
 	"MAX" : "MAX",
+
+	"Bet Limit Settings" : "베팅 리미트 설정",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"
