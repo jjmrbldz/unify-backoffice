@@ -39,13 +39,13 @@ axiosInstance.interceptors.response.use(
   (response) => {
     // Add any logic for handling the response
     console.log(response.data)
-    // if (response.data.status && response.data.status === -8) {
-    //   GF.customToast(-1, store.getters['languageStore/translate']('Please login again!'));
-    //   var s = setTimeout(() => {
-    //     store.commit('userStore/logout');
-    //     clearTimeout(s)
-    //   }, 1000)
-    // }
+    if (response.data.status && response.data.status === -8) {
+      GF.customToast(-1, store.getters['languageStore/translate']('Please login again!'));
+      var s = setTimeout(() => {
+        store.commit('userStore/logout');
+        clearTimeout(s)
+      }, 1000)
+    }
     return response;
   },
   (error) => {
