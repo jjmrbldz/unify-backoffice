@@ -191,6 +191,7 @@ export default {
                         width: '800px'
                     },
                     modal: true,
+                    closeOnEscape: false,
                 },
                 data: {
                     agentID: agentID,
