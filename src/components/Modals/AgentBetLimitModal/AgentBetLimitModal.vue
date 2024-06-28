@@ -9,8 +9,9 @@
             <template #body="{ data }">
                 <span>{{ data.codeId }}</span>
             </template>
-            <template #editor="{ data, field, index }">
-                <InputText class="w-full" v-model="limitData.codeid" :placeholder="list[index][field]" />
+            <template #editor="{ data, field, index, editorCancelCallback }">
+                <CodeIDSelect v-model="limitData.codeid" :placeholder="list[index][field]" :cancel-edit="editorCancelCallback" @keydown.escape="editorCancelCallback" />
+                <!-- <InputText class="w-full" v-model="limitData.codeid" :placeholder="list[index][field]" /> -->
             </template>
         </Column>
         <Column field="betLimit" :header="this.$store.getters['languageStore/translate'](`Bet Limit`)">
@@ -111,8 +112,12 @@ export default {
                     this.limitData.codeid = ''
                 } else {
                     this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
+                    this.limitData.gamecode = null
+                    this.limitData.codeid = ''
                 }
             } catch (error) {
+                this.limitData.gamecode = null
+                this.limitData.codeid = ''
                 console.error(error)
                 throw error
             }
@@ -122,12 +127,10 @@ export default {
             this.limitData.codeid = ''
         },
         onCellEditInit(event) {
-            console.log(event)
             const { data } = event
             this.limitData.gamecode = data.gameCode
         },
         onCellEditComplete(event) {
-            console.log(event)
             let { data, newValue, field, newData, index, value } = event;
             const {title, min_bet, max_bet, gameCode, codeId} = data
 

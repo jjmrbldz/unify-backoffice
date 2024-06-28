@@ -196,7 +196,8 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Status`)" style="min-width: 100px">
             <template #body="{ data }">
-                <Tag v-if="data.winLose < 0" severity="danger" :value="$store.getters['languageStore/translate'](`Lost`)"></Tag>
+                <Tag v-if="data.betStatus === 'cancel'" severity="warning" :value="$store.getters['languageStore/translate'](`Canceled`)"></Tag>
+                <Tag v-else-if="data.winLose < 0" severity="danger" :value="$store.getters['languageStore/translate'](`Lost`)"></Tag>
                 <Tag v-else-if="data.winLose > 0" severity="success" :value="$store.getters['languageStore/translate'](`Won`)"></Tag>
                 <Tag v-else severity="warning" :value="$store.getters['languageStore/translate'](`Tie`)"></Tag>
                 <!-- <Tag v-if="data.status === 1" severity="success" :value="$store.getters['languageStore/translate'](`NORMAL`)"></Tag>
