@@ -1,8 +1,12 @@
 <template>
     <div class="w-full">
-        <Dropdown v-model="codeIDValue" filter :options="list" optionLabel="codeId" optionValue="codeId" :placeholder="placeholder" class="w-full" :disabled="disabled" :loading="loading" :pt="{input: {onkeydown: handleEscapeKey}}" >
+        <Dropdown v-model="codeIDValue" :showClear="!!codeIDValue" filter :options="list" optionLabel="codeId" :placeholder="placeholder" class="w-full" :disabled="disabled" :loading="loading" :pt="{input: {onkeydown: handleEscapeKey}}" >
             <template #clearicon="{slotProps, clearCallback}">
                 <i class="p-icon p-dropdown-clear-icon mdi mdi-close" @click="customClear(clearCallback)"></i>
+            </template>
+            <template #value="{value, placeholder}">
+                <span v-if="value">{{ value.codeId }}</span>
+                <span v-else>{{ placeholder }}</span>
             </template>
         </Dropdown>
     </div>
@@ -30,13 +34,14 @@ export default {
         cancelEdit: null,
         modelValue: String,
         placeholder: String,
-        disabled: Boolean
+        disabled: Boolean,
+        retVal: String
     },
     computed: {
         codeIDValue: {
             get() {
                 if(this.modelValue === null) {
-                    return ''
+                    return null
                 } else {
                     return this.modelValue;
                 }
@@ -58,7 +63,7 @@ export default {
         },
         customClear(clearCallback) {
             clearCallback();
-            this.codeIDValue = '';
+            this.codeIDValue = null;
         },
         async getList() {
             this.loading = true

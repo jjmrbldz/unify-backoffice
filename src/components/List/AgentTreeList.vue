@@ -196,9 +196,6 @@ export default {
                 data: {
                     agentID: agentID,
                 },
-                onClose: (options) => {
-                    this.getList()
-                }
             });
         },
         hideCallBack() {

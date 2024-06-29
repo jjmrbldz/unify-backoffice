@@ -1,4 +1,33 @@
 <template>
+    <Button v-if="!showAdd" severity="success" :label="$store.getters['languageStore/translate'](`Add Limit`)" @click="showAdd = true" />
+    <Panel v-else header="Add Bet Limit">
+        <template #icons>
+            <Button icon="mdi mdi-close" text rounded @click="handleAddBetLimitClose" />
+        </template>
+        <div class="field">
+            <label for="">{{ $store.getters['languageStore/translate'](`Code`) }}</label>
+            <CodeIDSelect v-model="selectedCodeID" placeholder="Code" />
+        </div>
+        <Divider />
+        <DataTable class="mb-3" v-if="selectedCodeID" :value="JSON.parse(selectedCodeID.betLimit)">
+            <Column field="title" :header="this.$store.getters['languageStore/translate'](`Type`)" style="background-color: var(--surface-50);">
+                <template #body="{ data }">
+                    <span>{{ data.title }}</span>
+                </template>
+            </Column>
+            <Column field="min_bet" :header="this.$store.getters['languageStore/translate'](`MIN`)" style="">
+                <template #body="{ data }">
+                    <span>{{ this.$GF.formatNumComma(data.min_bet) }}</span>
+                </template>
+            </Column>
+            <Column field="max_bet" :header="this.$store.getters['languageStore/translate'](`MAX`)" style="">
+                <template #body="{ data }">
+                    <span>{{ this.$GF.formatNumComma(data.max_bet) }}</span>
+                </template>
+            </Column>
+        </DataTable>
+        <Button severity="info" :label="$store.getters['languageStore/translate'](`Submit`)" @click="addBetLimit" />
+    </Panel>
     <DataTable :value="list" class="mt-4" rowGroupMode="rowspan" :groupRowsBy="['gameCode', 'codeId']" editMode="cell" @cell-edit-init="onCellEditInit" @cell-edit-complete="onCellEditComplete" @cell-edit-cancel="onCellEditCancel" :loading="loading">
         <Column field="gameCode" :header="this.$store.getters['languageStore/translate'](`Provider`)" style="background-color: var(--surface-100);">
             <template #body="{ data }">
@@ -10,13 +39,13 @@
                 <span>{{ data.codeId }}</span>
             </template>
             <template #editor="{ data, field, index, editorCancelCallback }">
-                <CodeIDSelect v-model="limitData.codeid" :placeholder="list[index][field]" :cancel-edit="editorCancelCallback" @keydown.escape="editorCancelCallback" />
+                <CodeIDSelect v-model="selectedCodeID" :placeholder="list[index][field]" :cancel-edit="editorCancelCallback" @keydown.escape="editorCancelCallback" />
                 <!-- <InputText class="w-full" v-model="limitData.codeid" :placeholder="list[index][field]" /> -->
             </template>
         </Column>
         <Column field="betLimit" :header="this.$store.getters['languageStore/translate'](`Bet Limit`)">
             <template #body="{ data }">
-                <DataTable :value="JSON.parse(data.betLimit)">
+                <DataTable :value="selectedCodeID ? JSON.parse(selectedCodeID.betLimit) : JSON.parse(data.betLimit)">
                     <Column field="title" :header="this.$store.getters['languageStore/translate'](`Type`)" style="background-color: var(--surface-50);">
                         <template #body="{ data }">
                             <span>{{ data.title }}</span>
@@ -80,16 +109,22 @@ export default {
                 gamecode        : '',
             },
             totalCount: null,
+            showAdd: false,
+            selectedCodeID: null
         }
     },
     watch: {
-        'limitData.settings': {
+        selectedCodeID: {
             handler(newVal, oldVal) {
-
-                console.log('LIMIT SETTINGS:', newVal);
-            },
-            deep: true
-        },
+                if(newVal) {
+                    this.limitData.codeid = newVal.codeId
+                    this.limitData.gamecode = newVal.gameCode
+                } else {
+                    this.limitData.codeid = ''
+                    this.limitData.gamecode = ''
+                }
+            }
+        }
     },
     mounted() {
         this.getList()
@@ -97,6 +132,36 @@ export default {
         console.log('GameCode', this.gameCode)
     },
     methods: {
+        handleAddBetLimitClose() {
+            this.showAdd = false
+            this.limitData.gamecode = null
+            this.limitData.codeid = ''
+        },
+        async addBetLimit() {
+            console.log(this.limitData)
+            if(this.limitData.codeid) {
+                try {
+                    const res   = await api.updateBetLimit(this.limitData);
+                    const code  = res.data.code;
+                    const msg   = res.data.message;
+                    console.log(res);
+    
+                    if(code === 1) {
+                        this.$GF.customToast(code, this.$store.getters['languageStore/translate'](`${msg}`))
+                        this.showAdd = false
+                        this.getList()
+                        this.limitData.codeid = ''
+                    } else {
+                        this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
+                    }
+                } catch (error) {
+                    console.error(error)
+                    throw error
+                }
+            } else {
+                this.$GF.customToast(0, this.$store.getters['languageStore/translate'](`Code ID is required!`))
+            }
+        },
         async handleSaveBetLimit(codeId) {
             try {
 
@@ -109,22 +174,23 @@ export default {
                 if(code === 1) {
                     this.$GF.customToast(code, this.$store.getters['languageStore/translate'](`${msg}`))
                     this.getList()
-                    this.limitData.codeid = ''
                 } else {
                     this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
-                    this.limitData.gamecode = null
-                    this.limitData.codeid = ''
+                    
                 }
             } catch (error) {
-                this.limitData.gamecode = null
-                this.limitData.codeid = ''
                 console.error(error)
                 throw error
+            } finally {
+                this.limitData.gamecode = null
+                this.limitData.codeid = ''
+                this.selectedCodeID = null
             }
         },
         onCellEditCancel(event) {
             this.limitData.gamecode = null
             this.limitData.codeid = ''
+            this.selectedCodeID = null
         },
         onCellEditInit(event) {
             const { data } = event
@@ -154,27 +220,8 @@ export default {
                 console.log(res);
 
                 if(code === 1) {
-                    // this.$GF.customToast(code, this.$store.getters['languageStore/translate'](`${msg}`))
-                    // const _list = res.data.data
-                    // let arr = []
-                    // _list.map((item) => {
-                    //     const _betLimit = JSON.parse(item.betLimit)
-                    //     // console.log(_betLimit)
-                    //     _betLimit.map((limitItem) => {
-                    //         arr.push({
-                    //             ...limitItem,
-                    //             gameCode: item.gameCode,
-                    //             codeId: item.codeId,
-                    //         })
-                    //     })
-                        
-                    // })
-                    // console.log('New Limit List:', arr)
                     this.list = res.data.data;
                     this.totalCount = res.data.totalCount
-                    // if(this.mypage) {
-                    //     this.filterActiveCasino();
-                    // }
                 } else {
                     this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
                     this.list = []
@@ -185,6 +232,9 @@ export default {
                 throw error
             } finally {
                 this.loading    = false
+                this.selectedCodeID = null
+                this.limitData.gamecode = null
+                this.limitData.codeid = ''
             }
         },
     }
