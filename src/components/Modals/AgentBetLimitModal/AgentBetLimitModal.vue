@@ -1,5 +1,5 @@
 <template>
-    <Button v-if="!showAdd" severity="success" :label="$store.getters['languageStore/translate'](`Add Limit`)" @click="showAdd = true" />
+    <Button v-if="!showAdd" severity="success" :label="$store.getters['languageStore/translate'](`Evolution Limit`)" @click="showAdd = true" />
     <Panel v-else header="Add Bet Limit">
         <template #icons>
             <Button icon="mdi mdi-close" text rounded @click="handleAddBetLimitClose" />
@@ -26,7 +26,7 @@
                 </template>
             </Column>
         </DataTable>
-        <Button severity="info" :label="$store.getters['languageStore/translate'](`Submit`)" @click="addBetLimit" />
+        <Button severity="info" :label="$store.getters['languageStore/translate'](`Set`)" @click="addBetLimit" />
     </Panel>
     <DataTable :value="list" class="mt-4" rowGroupMode="rowspan" :groupRowsBy="['gameCode', 'codeId']" editMode="cell" @cell-edit-init="onCellEditInit" @cell-edit-complete="onCellEditComplete" @cell-edit-cancel="onCellEditCancel" :loading="loading">
         <Column field="gameCode" :header="this.$store.getters['languageStore/translate'](`Provider`)" style="background-color: var(--surface-100);">
