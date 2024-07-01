@@ -11,11 +11,13 @@
             </div>
             <div class="col">
                 <label class="text-sm font-bold text-color-secondary" for="">{{ $store.getters['languageStore/translate'](`Table ID`) }}</label>
-                <div class="text-lg font-bold">{{ betDetails ? betDetails.table.id : betData.table_id }}</div>
+                <div v-if="betData.provider_id === 'gameplay'" class="text-lg font-bold">{{ betData.table_id }}</div>
+                <div v-else class="text-lg font-bold">{{ betDetails ? betDetails.table.id : betData.table_id }}</div>
             </div>
             <div class="col">
                 <label class="text-sm font-bold text-color-secondary" for="">{{ $store.getters['languageStore/translate'](`Table Information`) }}</label>
-                <div class="text-lg font-bold capitalize">{{ betDetails ? betDetails.table.name : betData.table_id }}</div>
+                <div v-if="betData.provider_id === 'gameplay'" class="text-lg font-bold">{{ betData.table_id }}</div>
+                <div v-else class="text-lg font-bold capitalize">{{ betDetails ? betDetails.table.name : betData.table_id }}</div>
             </div>
         </div>
     </Panel>
@@ -182,6 +184,9 @@
     <template v-if="otherDetails && resultDetails && betData.provider_id === 'micro'">
         <MicroDetails :bet-data="betData" :other-details="otherDetails" :result-details="resultDetails" />
     </template>
+    <template v-if="otherDetails && betData.provider_id === 'gameplay'">
+        <GamePlayDetails :bet-data="betData" :other-details="otherDetails" :bet-details="betDetails" />
+    </template>
     <template v-if="otherDetails && betData.provider_id === 'pp'">
         <PragmaticDetails :bet-data="betData" :other-details="otherDetails" />
     </template>
@@ -265,6 +270,7 @@ export default {
         this.cards = _cards;
     },
     mounted() {
+        console.log(this.betDetails)
         this.imageLoading = true
         this.loading = false
     },
