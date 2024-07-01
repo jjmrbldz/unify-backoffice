@@ -132,7 +132,7 @@
         <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
     </DataTable>
 
-    <DataTable v-else :value="list" scrollable class="mt-4" stripedRows :loading="loading" size="small">
+    <DataTable v-else :value="list" scrollable class="mt-4" stripedRows :loading="loading" size="small" :rowStyle="rowStyle">
         <Column :header="this.$store.getters['languageStore/translate'](`Number`)" style="min-width: 100px">
             <template #body="{ data }">
                 <span>{{ data.idx }}</span>
@@ -165,7 +165,8 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Table ID`)" style="min-width: 100px">
             <template #body="{ data }"> 
-                <span>{{ data.betdetails ? JSON.parse(data.betdetails).table.name : data.table_id }}</span>
+                <span v-if="data.provider_id === 'gameplay'">{{ data.betdetails ? JSON.parse(data.betdetails)[0].bh_game_type : data.table_id }}</span>
+                <span v-else>{{ data.betdetails ? JSON.parse(data.betdetails).table.name : data.table_id }}</span>
             </template>
         </Column>
         <Column v-if="false" :header="this.$store.getters['languageStore/translate'](`Type`)" style="min-width: 100px; text-transform: capitalize;">
@@ -196,10 +197,17 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Status`)" style="min-width: 100px">
             <template #body="{ data }">
-                <Tag v-if="data.betStatus === 'cancel'" severity="warning" :value="$store.getters['languageStore/translate'](`Canceled`)"></Tag>
-                <Tag v-else-if="data.winLose < 0" severity="danger" :value="$store.getters['languageStore/translate'](`Lost`)"></Tag>
-                <Tag v-else-if="data.winLose > 0" severity="success" :value="$store.getters['languageStore/translate'](`Won`)"></Tag>
-                <Tag v-else severity="warning" :value="$store.getters['languageStore/translate'](`Tie`)"></Tag>
+                <template v-if="data.amount === 0">
+                    <Tag v-if="data.winLose < 0" severity="danger" :value="`${$store.getters['languageStore/translate'](`FREE`)} - ${$store.getters['languageStore/translate'](`Lost`)}`"></Tag>
+                    <Tag v-else-if="data.winLose > 0" severity="success" :value="`${$store.getters['languageStore/translate'](`FREE`)} - ${$store.getters['languageStore/translate'](`Won`)}`"></Tag>
+                    <Tag v-else severity="warning" :value="`${$store.getters['languageStore/translate'](`FREE`)} - ${$store.getters['languageStore/translate'](`Tie`)}`"></Tag>
+                </template>
+                <template v-else>
+                    <Tag v-if="data.betStatus === 'cancel'" severity="warning" :value="$store.getters['languageStore/translate'](`Canceled`)"></Tag>
+                    <Tag v-else-if="data.winLose < 0" severity="danger" :value="$store.getters['languageStore/translate'](`Lost`)"></Tag>
+                    <Tag v-else-if="data.winLose > 0" severity="success" :value="$store.getters['languageStore/translate'](`Won`)"></Tag>
+                    <Tag v-else severity="warning" :value="$store.getters['languageStore/translate'](`Tie`)"></Tag>
+                </template>
                 <!-- <Tag v-if="data.status === 1" severity="success" :value="$store.getters['languageStore/translate'](`NORMAL`)"></Tag>
                 <Tag v-else severity="danger" :value="$store.getters['languageStore/translate'](`FAILED`)"></Tag> -->
             </template>
@@ -311,6 +319,11 @@ export default {
         this.getList()
     },
     methods: {
+        rowStyle(data) {
+            if (data.bettype === 'slot' && data.amount === 0) {
+                return { background: 'color-mix(in srgb, var(--yellow-500), transparent 92%)' };
+            }
+        },
         async handleSendResult(data) {
             const { myurl, resultDetails } = data
 
