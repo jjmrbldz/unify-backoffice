@@ -94,8 +94,8 @@ export default {
                 page            : 1,
                 items_count     : 10,
             },
-            startDate   : null,
-            endDate     : null
+            startDate   : new Date(),
+            endDate     : new Date()
         }
     },
     watch: {

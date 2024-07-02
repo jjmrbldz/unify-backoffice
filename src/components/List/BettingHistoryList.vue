@@ -32,7 +32,7 @@
         </div>
         <div class="field col">
             <label>{{ $store.getters['languageStore/translate']('endDateLang') }}</label>
-            <Calendar v-model="endDate" class="w-full" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :minData="startDate" :maxDate="currDate" showIcon iconDisplay="input" inputId="icondisplay" />
+            <Calendar v-model="endDate" class="w-full" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :minDate="startDate" :maxDate="currDate" showIcon iconDisplay="input" inputId="icondisplay" />
         </div>
         <div class="field col-1">
             <label>&nbsp;</label>
@@ -265,8 +265,8 @@ export default {
                 page            : 1,
                 items_count     : 20,
             },
-            startDate   : null,
-            endDate     : null
+            startDate   : new Date(),
+            endDate     : new Date()
         }
     },
     watch: {

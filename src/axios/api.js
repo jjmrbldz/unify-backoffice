@@ -6,7 +6,7 @@ export const API_URL = `${import.meta.env.VITE_API_URL}/`; // Replace with your 
 export const TOKEN   = 'hr0|5StV10{£&4I>5dEw7]X$]hIq>AKMr0@y)]:£XQaf1cxSUz';
 
 const axiosInstance = axios.create({
-  timeout: 15000,
+  timeout: 30000,
   baseURL: API_URL,
   headers: {
     // 'Content-Type': 'application/json',
