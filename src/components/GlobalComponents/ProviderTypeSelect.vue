@@ -48,6 +48,13 @@ export default {
                         {label: this.$store.getters['languageStore/translate']('Evolution'), value: 'evo'},
                         {label: this.$store.getters['languageStore/translate']('Pragmatic'), value: 'pp'},
                         {label: this.$store.getters['languageStore/translate']('Microgaming'), value: 'micro'},
+                        // {label: this.$store.getters['languageStore/translate']('Big Time Gaming'), value: 'btg'},
+                        // {label: this.$store.getters['languageStore/translate']('BNG'), value: 'bng'},
+                        {label: this.$store.getters['languageStore/translate']('GamePlay'), value: 'gameplay'},
+                        // {label: this.$store.getters['languageStore/translate']('NETENT'), value: 'ne'},
+                        // {label: this.$store.getters['languageStore/translate']('NoLimit City'), value: 'nlc'},
+                        // {label: this.$store.getters['languageStore/translate']('PGSoft'), value: 'pgsoft'},
+                        // {label: this.$store.getters['languageStore/translate']('RedTiger'), value: 'rt'},
                     ]
                     this.$emit('update:modelValue', '');
                 } else if (newVal === 'slot') {
@@ -57,6 +64,13 @@ export default {
                         {label: this.$store.getters['languageStore/translate']('Pragmatic'), value: 'pp'},
                         {label: this.$store.getters['languageStore/translate']('Microgaming'), value: 'micro'},
                         {label: this.$store.getters['languageStore/translate']('PG Soft'), value: 'pgsoft'},
+                        {label: this.$store.getters['languageStore/translate']('Big Time Gaming'), value: 'btg'},
+                        {label: this.$store.getters['languageStore/translate']('BNG'), value: 'bng'},
+                        {label: this.$store.getters['languageStore/translate']('GamePlay'), value: 'gameplay'},
+                        {label: this.$store.getters['languageStore/translate']('NETENT'), value: 'ne'},
+                        {label: this.$store.getters['languageStore/translate']('NoLimit City'), value: 'nlc'},
+                        {label: this.$store.getters['languageStore/translate']('PGSoft'), value: 'pgsoft'},
+                        {label: this.$store.getters['languageStore/translate']('RedTiger'), value: 'rt'},
                     ]
                     this.$emit('update:modelValue', '');
                 } else if (newVal === 'minigame') {
