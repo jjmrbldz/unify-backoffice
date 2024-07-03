@@ -165,8 +165,8 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Table ID`)" style="min-width: 100px">
             <template #body="{ data }"> 
-                <span v-if="data.provider_id === 'gameplay'">{{ data.betdetails ? JSON.parse(data.betdetails)[0].bh_game_type : data.table_id }}</span>
-                <span v-else>{{ data.betdetails ? JSON.parse(data.betdetails).table.name : data.table_id }}</span>
+                <!-- <span v-if="data.provider_id === 'gameplay'">{{ data.betdetails ? JSON.parse(data.betdetails)[0].bh_game_type : data.table_id }}</span> -->
+                <span>{{ data.table_id }}</span>
             </template>
         </Column>
         <Column v-if="false" :header="this.$store.getters['languageStore/translate'](`Type`)" style="min-width: 100px; text-transform: capitalize;">
@@ -217,11 +217,13 @@
                 <Tag class="capitalize" :severity="data.betStatus === 'done' ? 'success' : data.betStatus === 'waiting' ? 'warning' : 'secondary'" :value="$store.getters['languageStore/translate'](`${data.betStatus}`)"></Tag>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Bet Details`)" style="min-width: 100px" v-if="false">
+        <Column :header="this.$store.getters['languageStore/translate'](`Bet Details`)" style="min-width: 100px">
             <template #body="{ data }">
                 <div class="flex align-items-center gap-2">
-                    <Button v-if="data.betdetails || data.provider_id === 'micro' || data.provider_id === 'pp'" icon="mdi mdi-eye" severity="info" @click="showBetDetails(data, 'casino')" />
-                    <Button v-if="data.resultDetails && data.myurl " icon="mdi mdi-send" severity="success" @click="handleSendResult(data)" />
+                    <template v-if="data.betdetails">
+                        <Button icon="mdi mdi-eye" severity="info" @click="showBetDetails(data, 'casino')" />
+                    </template>
+                    <Button v-if="data.myurl " icon="mdi mdi-send" severity="success" @click="handleSendResult(data)" />
                 </div>
             </template>
         </Column>
@@ -272,30 +274,30 @@ export default {
     watch: {
         'params.filter_username'(){
             this.params.page    = 1
-            this.startDate      = null
-            this.endDate        = null
+            this.startDate      = new Date()
+            this.endDate        = new Date()
         },
         'params.filter_trans_id'(){
             this.params.page    = 1
-            this.startDate      = null
-            this.endDate        = null
+            this.startDate      = new Date()
+            this.endDate        = new Date()
         },
         'params.filter_agentid'(){
             this.params.page    = 1
-            this.startDate      = null
-            this.endDate        = null
+            this.startDate      = new Date()
+            this.endDate        = new Date()
             this.getList()
         },
         'params.filter_islive'(){
             this.params.page    = 1
-            this.startDate      = null
-            this.endDate        = null
+            this.startDate      = new Date()
+            this.endDate        = new Date()
             this.getList()
         },
         'params.filter_status'(){
             this.params.page    = 1
-            this.startDate      = null
-            this.endDate        = null
+            this.startDate      = new Date()
+            this.endDate        = new Date()
             this.getList()
         },
         'params.filter_game_id'(newVal, oldVal){
@@ -307,8 +309,8 @@ export default {
                 this.$router.replace({query: {bettype: this.$route.query.bettype === 'sport' ? 'live' : this.$route.query.bettype, filter_game_id: newVal}})
             }
             this.params.page    = 1
-            this.startDate      = null
-            this.endDate        = null
+            this.startDate      = new Date()
+            this.endDate        = new Date()
             // this.getList()
         },
         '$route'(data) {
@@ -386,34 +388,90 @@ export default {
             this.endDate        = null
             this.getList()
         },
-        showBetDetails(data, type) {
-            const _data     = data;
-            const details   = data.betDetails ? JSON.parse(data.betDetails) : null;
-            const _details   = data.betdetails ? JSON.parse(data.betdetails) : null;
-            const resultDetails = data.details ? JSON.parse(data.resultDetails) : null;
-            const otherDetails = data.details ? JSON.parse(data.details) : null;
+        async showBetDetails(data, type) {
+            if(type === 'sport') {
+                const _data     = data;
+                const details   = data.betDetails ? JSON.parse(data.betDetails) : null;
+                const _details   = data.betdetails ? JSON.parse(data.betdetails) : null;
+                const resultDetails = data.details ? JSON.parse(data.resultDetails) : null;
+                const otherDetails = data.details ? JSON.parse(data.details) : null;
 
-            this.$dialog.open(this.$modalComponent[type === 'sport' ? 'BetDetails' : 'CasinoBetDetails'], {
-                props: {
-                    header: `${this.$store.getters['languageStore/translate'](`detailLang`)} - ${_data.user_username}`,
-                    style: {
-                        width: '80vw'
+                this.$dialog.open(this.$modalComponent[type === 'sport' ? 'BetDetails' : 'CasinoBetDetails'], {
+                    props: {
+                        header: `${this.$store.getters['languageStore/translate'](`detailLang`)} - ${_data.user_username}`,
+                        style: {
+                            width: '80vw'
+                        },
+                        modal: true,
+                        maximizable: true,
+                        dismissableMask: true,
                     },
-                    modal: true,
-                    maximizable: true,
-                    dismissableMask: true,
-                },
-                data: {
-                    betData     : _data,
-                    betDetails  : type === 'sport' ? details : _details,
-                    resultDetails: resultDetails,
-                    otherDetails: otherDetails,
-                    loading     : true,
-                },
-                onClose: (options) => {
-                    // this.getList();
+                    data: {
+                        betData     : _data,
+                        betDetails  : type === 'sport' ? details : _details,
+                        resultDetails: resultDetails,
+                        otherDetails: otherDetails,
+                        loading     : true,
+                    },
+                    onClose: (options) => {
+                        // this.getList();
+                    }
+                });
+            } else {
+
+                try {
+                    const reqBody = {
+                        Authorization   : `Bearer ${TOKEN}`,
+                        username        : this.$store.state.userStore.username,
+                        token           : this.$store.state.userStore.token,
+                        filter_game_id  : data.provider_id,
+                        filter_details  : data.details,
+                        filter_betdetails: data.betdetails,
+                    }
+                    const res = await api.getBetDetails(reqBody)
+                    const code  = res.data.code;
+                    const msg   = res.data.message;
+                    console.log(res.data.data[0]);
+    
+                    if(code == 1) {
+                        
+                        const _data     = data;
+                        const details   = data.betDetails ? JSON.parse(data.betDetails) : null;
+                        const _details   = res.data.data[0].betdetails ? JSON.parse(res.data.data[0].betdetails) : null;
+                        const resultDetails = res.data.data[0].resultDetails ? JSON.parse(res.data.data[0].resultDetails) : null;
+                        const otherDetails = res.data.data[0].details ? JSON.parse(res.data.data[0].details) : null;
+    
+                        this.$dialog.open(this.$modalComponent[type === 'sport' ? 'BetDetails' : 'CasinoBetDetails'], {
+                            props: {
+                                header: `${this.$store.getters['languageStore/translate'](`detailLang`)} - ${_data.user_username}`,
+                                style: {
+                                    width: '80vw'
+                                },
+                                modal: true,
+                                maximizable: true,
+                                dismissableMask: true,
+                            },
+                            data: {
+                                betData     : _data,
+                                betDetails  : type === 'sport' ? details : _details,
+                                resultDetails: resultDetails,
+                                otherDetails: otherDetails,
+                                loading     : true,
+                            },
+                            onClose: (options) => {
+                                // this.getList();
+                            }
+                        });
+                    } else {
+                        this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
+                    }
+                        
+                } catch (e) {
+                    console.error(e)
+                    // this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
                 }
-            });
+            }
+            
         },
         handleDateChange() {
             this.params.page = 1
