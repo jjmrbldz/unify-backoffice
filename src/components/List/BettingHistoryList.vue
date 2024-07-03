@@ -118,7 +118,7 @@
             <template #body="{ data }">
                 <div class="flex align-items-center gap-2">
                     <Button icon="mdi mdi-eye" severity="info" @click="showBetDetails(data, 'sport')" />
-                    <Button v-if="data.resultDetails && data.myurl " icon="mdi mdi-send" severity="success" @click="handleSendResult(data)" />
+                    <Button v-if="data.resultDetails && data.myurl " icon="mdi mdi-send" severity="success" @click="handleSendResult(data, 'sport')" />
                 </div>
             </template>
         </Column>
@@ -223,7 +223,7 @@
                     <template v-if="data.betdetails">
                         <Button icon="mdi mdi-eye" severity="info" @click="showBetDetails(data, 'casino')" />
                     </template>
-                    <Button v-if="data.myurl " icon="mdi mdi-send" severity="success" @click="handleSendResult(data)" />
+                    <Button v-if="data.resultDetails " icon="mdi mdi-send" severity="success" @click="handleSendResult(data, 'casino')" />
                 </div>
             </template>
         </Column>
@@ -326,29 +326,61 @@ export default {
                 return { background: 'color-mix(in srgb, var(--yellow-500), transparent 92%)' };
             }
         },
-        async handleSendResult(data) {
-            const { myurl, resultDetails } = data
+        async handleSendResult(data, type) {
+            if(type === 'sport') {
 
-            if(myurl && resultDetails) {
-                const reqBody = {
-                    Authorization: `Bearer ${TOKEN}`,
-                    username    : this.$store.state.userStore.username,
-                    token       : this.$store.state.userStore.token,
-                    url         : myurl,
-                    result      : resultDetails
+                const { myurl, resultDetails } = data
+    
+                if(myurl && resultDetails) {
+                    const reqBody = {
+                        Authorization: `Bearer ${TOKEN}`,
+                        username    : this.$store.state.userStore.username,
+                        token       : this.$store.state.userStore.token,
+                        url         : myurl,
+                        result      : resultDetails
+                    }
+    
+                    let formData = new FormData()
+    
+                    formData.append('Authorization', reqBody.Authorization)
+                    formData.append('username', reqBody.username)
+                    formData.append('token', reqBody.token)
+                    formData.append('url', reqBody.url)
+                    formData.append('result', reqBody.result)
+    
+                    console.log(reqBody);
+                    try {
+                        const res = await api.sendResult(formData)
+                        const code  = res.data.status;
+                        const msg   = res.data.message;
+                        console.log(res.data);
+    
+                        if(code == 0) {
+                            let _msg = `${res.data.transaction_id} ${res.data.error_code ? res.data.error_code : ''} Balance: ${res.data.balance}`
+                            this.$GF.customToast(1, _msg)
+                            this.getList()
+                        } else {
+                            this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
+                        }
+                        
+                    } catch (e) {
+                        console.error(e)
+                        this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
+                    }
+                } else {
+                    this.$GF.customToast(-1, this.$store.getters['languageStore/translate'](`Match is not finished`))
                 }
-
-                let formData = new FormData()
-
-                formData.append('Authorization', reqBody.Authorization)
-                formData.append('username', reqBody.username)
-                formData.append('token', reqBody.token)
-                formData.append('url', reqBody.url)
-                formData.append('result', reqBody.result)
-
-                console.log(reqBody);
+            } else {
+                const {provider_id, resultDetails} = data
+                const reqBody = {
+                    Authorization       : `Bearer ${TOKEN}`,
+                    username            : this.$store.state.userStore.username,
+                    token               : this.$store.state.userStore.token,
+                    filter_game_id      : provider_id,
+                    filter_resultdetails: resultDetails
+                }
                 try {
-                    const res = await api.sendResult(formData)
+                    const res = await api.resendResult(reqBody)
                     const code  = res.data.status;
                     const msg   = res.data.message;
                     console.log(res.data);
@@ -365,8 +397,6 @@ export default {
                     console.error(e)
                     this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
                 }
-            } else {
-                this.$GF.customToast(-1, this.$store.getters['languageStore/translate'](`Match is not finished`))
             }
         },
         handleBetType(type) {
