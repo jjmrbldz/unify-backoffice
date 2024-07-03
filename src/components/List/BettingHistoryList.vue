@@ -217,7 +217,7 @@
                 <Tag class="capitalize" :severity="data.betStatus === 'done' ? 'success' : data.betStatus === 'waiting' ? 'warning' : 'secondary'" :value="$store.getters['languageStore/translate'](`${data.betStatus}`)"></Tag>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Bet Details`)" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Bet Details`)" style="min-width: 100px" v-if="false">
             <template #body="{ data }">
                 <div class="flex align-items-center gap-2">
                     <Button v-if="data.betdetails || data.provider_id === 'micro' || data.provider_id === 'pp'" icon="mdi mdi-eye" severity="info" @click="showBetDetails(data, 'casino')" />
