@@ -52,7 +52,13 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`User ID`)" style="min-width: 200px">
             <template #body="{ data }">
-                <div>{{ data.user_id ? data.user_id : JSON.parse(data.placebetjson).user_id }} - {{ data.user_username }}</div>
+                <div>{{ data.user_username }}</div>
+                <template v-if="data.user_id">
+                    <div class="">{{ data.user_id }}</div>
+                </template>
+                <template v-else>
+                    <div class="">{{ data.placebetjson ? JSON.parse(data.placebetjson)['user_id'] : '-' }}</div>
+                </template>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Vendor`)" style="min-width: 100px">
@@ -145,8 +151,8 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`User ID`)" style="min-width: 200px">
             <template #body="{ data }">
-                <span>{{ `${data.user_id} - ${data.user_username}` }}</span>
-                <!-- <div>{{ `${data.user_id}` }}</div> -->
+                <div>{{ data.user_username }}</div>
+                <div>{{ data.user_id }}</div>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Vendor`)" style="min-width: 100px">
