@@ -47,7 +47,8 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Agent Name`)" style="min-width: 100px">
             <template #body="{ data }">
-                <span>{{ data.partner_username }}</span>
+                <div>{{ data.partner_username }}</div>
+                <div>{{ data.user_id ? data.user_id : JSON.parse(data.placebetjson).user_id }}</div>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`User ID`)" style="min-width: 100px">
