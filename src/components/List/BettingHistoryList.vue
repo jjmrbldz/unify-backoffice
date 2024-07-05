@@ -48,12 +48,11 @@
         <Column :header="this.$store.getters['languageStore/translate'](`Agent Name`)" style="min-width: 100px">
             <template #body="{ data }">
                 <div>{{ data.partner_username }}</div>
-                <div>{{ data.user_id ? data.user_id : JSON.parse(data.placebetjson).user_id }}</div>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`User ID`)" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`User ID`)" style="min-width: 200px">
             <template #body="{ data }">
-                <span>{{ data.user_username }}</span>
+                <div>{{ data.user_id ? data.user_id : JSON.parse(data.placebetjson).user_id }} - {{ data.user_username }}</div>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Vendor`)" style="min-width: 100px">
@@ -142,12 +141,12 @@
         <Column :header="this.$store.getters['languageStore/translate'](`Agent Name`)" style="min-width: 100px">
             <template #body="{ data }">
                 <div>{{ data.partner_username }}</div>
-                <div>{{ `${data.user_id}` }}</div>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`User ID`)" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`User ID`)" style="min-width: 200px">
             <template #body="{ data }">
-                <span>{{ `${data.user_username}` }}</span>
+                <span>{{ `${data.user_id} - ${data.user_username}` }}</span>
+                <!-- <div>{{ `${data.user_id}` }}</div> -->
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Vendor`)" style="min-width: 100px">
