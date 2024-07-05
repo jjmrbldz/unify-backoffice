@@ -29,7 +29,7 @@
                             <Password v-model="params.password" class="w-full " inputClass="w-full pl-6 py-3" placeholder="Enter your password" :feedback="false" toggleMask  @keyup.enter="login()"/>
                         </IconField>
                     </div>
-                    <Button label="Login" class="w-full p-3" @click="login()" />
+                    <Button label="Login" class="w-full p-3" @click="login()" :loading="loading" />
                 </div>
             </template>
         </Card>
@@ -42,6 +42,7 @@ import VanillaTilt from 'vanilla-tilt'
 export default {
     data() {
         return {
+            loading: false,
             params: {
                 Authorization: 'Bearer hr0|5StV10{£&4I>5dEw7]X$]hIq>AKMr0@y)]:£XQaf1cxSUz',
                 username: null,
@@ -60,6 +61,7 @@ export default {
     },
     methods: {
         async login() {
+            this.loading = true
             try {
                 if(this.params.username && this.params.password) {
                     const ret  = await this.$store.dispatch('userStore/login', this.params);
@@ -69,6 +71,8 @@ export default {
             } catch(error) {
                 console.error(error)
                 throw error
+            } finally {
+                this.loading = false
             }
             // try {
             //     if (this.user_type === '' || this.username === '' || this.password === '') {

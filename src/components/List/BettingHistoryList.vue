@@ -140,12 +140,13 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Agent Name`)" style="min-width: 100px">
             <template #body="{ data }">
-                <span>{{ data.partner_username }}</span>
+                <div>{{ data.partner_username }}</div>
+                <div>{{ `${data.user_id}` }}</div>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`User ID`)" style="min-width: 100px">
             <template #body="{ data }">
-                <span>{{ data.user_username }}</span>
+                <span>{{ `${data.user_username}` }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Vendor`)" style="min-width: 100px">
@@ -390,12 +391,12 @@ export default {
                         this.$GF.customToast(1, _msg)
                         this.getList()
                     } else {
-                        this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
+                        this.$GF.customToast(0, this.$store.getters['languageStore/translate'](`${msg}`))
                     }
                     
                 } catch (e) {
                     console.error(e)
-                    this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
+                    this.$GF.customToast(0, this.$store.getters['languageStore/translate'](`${e}`))
                 }
             }
         },
