@@ -397,7 +397,7 @@ export default {
                         this.$GF.customToast(1, _msg)
                         this.getList()
                     } else {
-                        this.$GF.customToast(0, this.$store.getters['languageStore/translate'](`${msg}`))
+                        this.$GF.customToast(0, this.$store.getters['languageStore/translate'](`${msg ? msg : res.data.error_code}`))
                     }
                     
                 } catch (e) {

@@ -1099,6 +1099,8 @@
 	"Bet Limit Settings" : "베팅 리미트 설정",
 
 	"Set" : "설정",
+
+	"RESULT_ALREADY_EXISTS" : "중복처리되었습니다.",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"
