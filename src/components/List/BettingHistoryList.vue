@@ -9,14 +9,18 @@
             <GameSelect v-model="params.filter_game_id" />
         </div>
         <div class="field col">
-            <label>{{ $store.getters['languageStore/translate']($route.query.bettype === 'sport' ? 'Purchase ID' : 'Transaction ID') }}</label>
-            <InputText type="search" v-model="params.filter_trans_id" class="text-base text-color p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
-        </div>
-        <div class="field col">
             <label>{{ $store.getters['languageStore/translate']('User ID') }}</label>
             <InputText type="search" v-model="params.filter_username" class="text-base text-color p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" @keyup.enter="handleFilterTrans()" />
         </div>
+        <div class="field col">
+            <label>{{ $store.getters['languageStore/translate']($route.query.bettype === 'sport' ? 'Reserve ID' : 'Transaction ID') }}</label>
+            <InputText type="search" v-model="params.filter_trans_id" class="text-base text-color p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+        </div>
         <template v-if="$route.query.bettype === 'sport'">
+            <div class="field col">
+                <label>{{ $store.getters['languageStore/translate']('Purchase ID') }}</label>
+                <InputText type="search" v-model="params.filter_purchase_id" class="text-base text-color p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+            </div>
             <div class="field col">
                 <label>{{ $store.getters['languageStore/translate']('Live or Not') }}</label>
                 <IsLiveSelect v-model="params.filter_islive" />
