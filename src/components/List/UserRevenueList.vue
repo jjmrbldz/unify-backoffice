@@ -182,13 +182,6 @@ export default {
         },
     },
     watch: {
-        'params.filter_agentid'(newVal, oldVal){
-            let cDate = new Date();
-            this.params.page    = 1
-            // this.startDate      = new Date(cDate.setDate(1))
-            // this.endDate        = this.currDate
-            this.getList()
-        },
         gameType(newVal, oldVal){
             this.params.filter_type = newVal
         },
@@ -197,12 +190,6 @@ export default {
         },
     },
     mounted() {
-        if(this.$route.params.subAgent) {
-            this.params.filter_agentid = this.$route.params.subAgent
-        }
-        let cDate = new Date();
-        // this.startDate = new Date(cDate.setDate(1));
-        // this.endDate   = this.currDate;
         this.getList()
     },
     methods: {
@@ -226,19 +213,6 @@ export default {
                 this.params.filter_userid = parseInt(this.userData.id)
                 this.params.filter_startdate = this.startDate ? `${this.$GF.getDateTime(this.startDate, 'date')} 00:00:00` : null;
                 this.params.filter_enddate = this.endDate ? `${this.$GF.getDateTime(this.endDate, 'date')} 23:59:59` : null;
-
-                /*let reqBody = {
-                    Authorization   : this.params.Authorization,
-                    username        : this.params.username,
-                    token           : this.params.token,
-                    filter_agentid  : this.params.filter_agentid ? this.params.filter_agentid : this.$store.state.userStore.username,
-                    filter_type     : this.params.filter_type,
-                    filter_provider : this.params.filter_provider,
-                    filter_startdate: this.params.filter_startdate,
-                    filter_enddate  : this.params.filter_enddate,
-                    page            : this.params.page,
-                    items_count     : this.params.items_count
-                }*/
                 
                 const res   = await api.getUserRevenueList(this.params);
                 const code  = res.data.code;
