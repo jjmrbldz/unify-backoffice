@@ -1,6 +1,6 @@
 <template>
     <div class="w-full">
-        <Dropdown v-model="selectValue" :showClear="!!selectValue" :options="list" optionLabel="label" optionValue="value" :placeholder="$store.getters['languageStore/translate']('Select result')" class="w-full" :disabled="disabled">
+        <Dropdown v-model="selectValue" :showClear="!!selectValue" :options="list" optionLabel="label" optionValue="value" :placeholder="betType === 'sport' ? $store.getters['languageStore/translate']('Select result') : $store.getters['languageStore/translate']('Select status')" class="w-full" :disabled="disabled">
             <template #value="slotProps">
                 <span v-if="slotProps.value === null || slotProps.value === undefined">
                     {{ slotProps.placeholder }}
@@ -41,6 +41,7 @@ export default {
     },
     props:{
         modelValue: '',
+        betType: '',
         disabled: Boolean
     },
     computed: {
@@ -58,6 +59,27 @@ export default {
                 this.$emit('update:modelValue', value);
             },
         },
+    },
+    mounted() {
+        if(this.betType !== 'sport') {
+            this.list = [
+                {label: 'Lose', value: 'lose'},
+                {label: 'Win', value: 'win'},
+                {label: 'Tie', value: 'tie'},
+                {label: 'Cancel', value: 'cancel'},
+            ]
+        } else {
+            this.list = [
+                {label: 'Opened', value: 'Opened'}, // 대기
+                {label: 'Lost', value: 'Lost'}, // 패 
+                {label: 'Won', value: 'Won'}, // 승
+                {label: 'Draw', value: 'Draw'}, // 무
+                {label: 'Canceled', value: 'Canceled'}, // 취소
+                {label: 'Cashout', value: 'Cashout'}, // 캐시아웃
+                {label: 'Half Won', value: 'Half Won'}, // 하프 승
+                {label: 'Half Lost', value: 'Half Lost'}, // 하프 패
+            ]
+        }
     },
     methods:{
         customClear(clearCallback) {

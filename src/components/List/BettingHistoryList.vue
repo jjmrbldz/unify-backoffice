@@ -27,7 +27,13 @@
             </div>
             <div class="field col">
                 <label>{{ $store.getters['languageStore/translate']('Result') }}</label>
-                <ResultSelect v-model="params.filter_status" />
+                <ResultSelect v-model="params.filter_status" :bet-type="$route.query.bettype" />
+            </div>
+        </template>
+        <template v-else>
+            <div class="field col">
+                <label>{{ $store.getters['languageStore/translate']('Status') }}</label>
+                <ResultSelect v-model="params.filter_status" :bet-type="$route.query.bettype" />
             </div>
         </template>
         <div class="field col">

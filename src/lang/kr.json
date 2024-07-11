@@ -1101,6 +1101,10 @@
 	"Set" : "설정",
 
 	"RESULT_ALREADY_EXISTS" : "중복처리되었습니다.",
+
+	"Lose" : "패",
+	"Win" : "승",
+	"Cancel" : "취소",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"
