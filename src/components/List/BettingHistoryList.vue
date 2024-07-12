@@ -135,6 +135,7 @@
                 <div class="flex align-items-center gap-2">
                     <Button icon="mdi mdi-eye" severity="info" @click="showBetDetails(data, 'sport')" />
                     <Button v-if="data.resultDetails && data.myurl " icon="mdi mdi-send" severity="success" @click="handleSendResult(data, 'sport')" />
+                    <Button v-if="data.responseStatus == '1'" icon="mdi mdi-close" severity="danger" />
                 </div>
             </template>
         </Column>
@@ -241,6 +242,7 @@
                         <Button icon="mdi mdi-eye" severity="info" @click="showBetDetails(data, 'casino')" />
                     </template>
                     <Button v-if="data.resultDetails " icon="mdi mdi-send" severity="success" @click="handleSendResult(data, 'casino')" />
+                    <Button v-if="data.responseStatus == '1'" icon="mdi mdi-close" severity="danger" />
                 </div>
             </template>
         </Column>
