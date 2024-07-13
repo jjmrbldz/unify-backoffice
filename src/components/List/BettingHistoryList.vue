@@ -207,7 +207,8 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Win Loss`)" class="text-left" style="min-width: 100px">
             <template #body="{ data }">
-                <span :class="this.$GF.handleTextColor(data.winLose)">{{ this.$GF.formatNumComma(data.winLose) }}</span>
+                <span v-if="data.resultStatus === 'cancel'" :class="this.$GF.handleTextColor(0)">{{ this.$GF.formatNumComma(0) }}</span>
+                <span v-else :class="this.$GF.handleTextColor(data.winLose)">{{ this.$GF.formatNumComma(data.winLose) }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`dateLang`)" style="min-width: 100px">
