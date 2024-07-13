@@ -151,7 +151,39 @@
             <div class="col">
                 <!-- <div class="text-lg font-bold capitalize">{{ betDetails ? betDetails.participants[0].bets[0].code : betData.provider_id }}</div> -->
                 <label class="text-sm font-bold text-color-secondary" for="">{{ $store.getters['languageStore/translate'](`Bet Code`) }}</label>
-                <DataTable :value="betDetails.participants[0].bets" class="mt-2" stripedRows>
+                <template v-for="item in betDetails.participants">
+                    <div class="my-2">
+                        <label for="">{{ `${item.screenName} - ${item.playerId}` }}</label>
+                        <DataTable :value="item.bets" class="mt-2" stripedRows>
+                            <Column :header="this.$store.getters['languageStore/translate'](`Transaction ID`)" style="">
+                                <template #body="{ data }">
+                                    <span>{{ data.transactionId }}</span>
+                                </template>
+                            </Column>
+                            <Column :header="this.$store.getters['languageStore/translate'](`Code`)" style="">
+                                <template #body="{ data }">
+                                    <span>{{ data.code }}</span>
+                                </template>
+                            </Column>
+                            <Column :header="this.$store.getters['languageStore/translate'](`Stake`)" style="">
+                                <template #body="{ data }">
+                                    <span>{{ this.$GF.formatNumComma(data.stake) }}</span>
+                                </template>
+                            </Column>
+                            <Column :header="this.$store.getters['languageStore/translate'](`Payout`)" style="">
+                                <template #body="{ data }">
+                                    <span>{{ this.$GF.formatNumComma(data.payout) }}</span>
+                                </template>
+                            </Column>
+                            <Column :header="this.$store.getters['languageStore/translate'](`Placed On`)" style="">
+                                <template #body="{ data }">
+                                    <span>{{ this.$GF.getDateTime(data.placedOn) }}</span>
+                                </template>
+                            </Column>
+                        </DataTable>
+                    </div>
+                </template>
+                <DataTable v-if="false" :value="betDetails.participants[0].bets" class="mt-2" stripedRows>
                     <Column :header="this.$store.getters['languageStore/translate'](`Transaction ID`)" style="">
                         <template #body="{ data }">
                             <span>{{ data.transactionId }}</span>

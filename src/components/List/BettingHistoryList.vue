@@ -78,7 +78,8 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Reserve ID`)" style="min-width: 100px; text-transform: capitalize;">
             <template #body="{ data }">
-                <span>{{ data.reserveID }}</span>
+                <div>{{ data.reserveID }}</div>
+                <div>{{ data.purchaseID }}</div>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Bet Type`)" style="min-width: 100px">
@@ -200,7 +201,8 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`winningAmountLang`)" class="text-left" style="min-width: 100px">
             <template #body="{ data }">
-                <span :class="this.$GF.handleTextColor(data.winAmount)">{{ this.$GF.formatNumComma(data.winAmount) }}</span>
+                <span v-if="data.resultStatus === 'cancel'" :class="this.$GF.handleTextColor(data.cancelAmount)">{{ this.$GF.formatNumComma(data.cancelAmount) }}</span>
+                <span v-else :class="this.$GF.handleTextColor(data.winAmount)">{{ this.$GF.formatNumComma(data.winAmount) }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Win Loss`)" class="text-left" style="min-width: 100px">
@@ -242,7 +244,19 @@
                         <Button icon="mdi mdi-eye" severity="info" @click="showBetDetails(data, 'casino')" />
                     </template>
                     <Button v-if="data.resultDetails " icon="mdi mdi-send" severity="success" @click="handleSendResult(data, 'casino')" />
-                    <Button v-if="data.responseStatus == '1'" icon="mdi mdi-close" severity="danger" />
+                </div>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Response`)" style="min-width: 100px">
+            <template #body="{ data }">
+                <div class="flex align-items-center gap-2">
+                    <span class="text-sm">{{ `${$store.getters['languageStore/translate']('Bet')}:` }}</span> <span v-html="$GF.responseIcon(data.betResponse)"></span>
+                </div>
+                <div class="flex align-items-center gap-2">
+                    <span class="text-sm">{{ `${$store.getters['languageStore/translate']('Result')}:` }}</span> <span v-html="$GF.responseIcon(data.resultResponse)"></span>
+                </div>
+                <div class="flex align-items-center gap-2">
+                    <span class="text-sm">{{ `${$store.getters['languageStore/translate']('Cancel')}:` }}</span> <span v-html="$GF.responseIcon(data.cancelResponse)"></span>
                 </div>
             </template>
         </Column>

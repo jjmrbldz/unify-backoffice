@@ -265,6 +265,15 @@ const GF = {
         } else {
             return '-'
         }
+    },
+    responseIcon(x) {
+        if (x == '0') {
+            return `<span class="mdi mdi-check text-green-500"></span>`
+        } else if (x == '1') {
+            return `<span class="mdi mdi-close text-red-500"></span>`
+        } else {
+            return `<span>-</span>`
+        }
     }
 }
 

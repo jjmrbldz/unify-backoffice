@@ -1105,6 +1105,8 @@
 	"Lose" : "패",
 	"Win" : "승",
 	"Cancel" : "취소",
+	"Bet": "베팅",
+	"Response": "응답",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"
