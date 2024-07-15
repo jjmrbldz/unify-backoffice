@@ -38,11 +38,11 @@
         </template>
         <div class="field col">
             <label>{{ $store.getters['languageStore/translate']('startDateLang') }}</label>
-            <Calendar v-model="startDate" class="w-full" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :maxDate="currDate" showIcon showTime showSeconds iconDisplay="input" inputId="icondisplay" />
+            <Calendar v-model="startDate" class="w-full" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" hourFormat="24" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :maxDate="currDate" showIcon showTime showSeconds iconDisplay="input" inputId="icondisplay" />
         </div>
         <div class="field col">
             <label>{{ $store.getters['languageStore/translate']('endDateLang') }}</label>
-            <Calendar v-model="endDate" class="w-full" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :minDate="startDate" :maxDate="currDate" showIcon showTime showSeconds iconDisplay="input" inputId="icondisplay" />
+            <Calendar v-model="endDate" class="w-full" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" hourFormat="24" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :minDate="startDate" :maxDate="currDate" showIcon showTime showSeconds iconDisplay="input" inputId="icondisplay" />
         </div>
         <div class="field col-1">
             <label>&nbsp;</label>
@@ -276,6 +276,10 @@
 
 <script>
 import { api, TOKEN } from '@/axios/api';
+import GF from  '@/utils/GlobalFunctions'
+
+const defaultStartDate = new Date().setHours(0o0, 0o0, 0o0)
+const defaultEndDate = new Date().setHours(23, 59, 59)
 
 export default {
     data() {
@@ -301,37 +305,37 @@ export default {
                 page            : 1,
                 items_count     : 20,
             },
-            startDate   : new Date(),
-            endDate     : new Date()
+            startDate   : new Date(defaultStartDate),
+            endDate     : new Date(defaultEndDate)
         }
     },
     watch: {
         'params.filter_username'(){
             this.params.page    = 1
-            this.startDate      = new Date()
-            this.endDate        = new Date()
+            this.startDate      = new Date(defaultStartDate)
+            this.endDate        = new Date(defaultEndDate)
         },
         'params.filter_trans_id'(){
             this.params.page    = 1
-            this.startDate      = new Date()
-            this.endDate        = new Date()
+            this.startDate      = new Date(defaultStartDate)
+            this.endDate        = new Date(defaultEndDate)
         },
         'params.filter_agentid'(){
             this.params.page    = 1
-            this.startDate      = new Date()
-            this.endDate        = new Date()
+            this.startDate      = new Date(defaultStartDate)
+            this.endDate        = new Date(defaultEndDate)
             this.getList()
         },
         'params.filter_islive'(){
             this.params.page    = 1
-            this.startDate      = new Date()
-            this.endDate        = new Date()
+            this.startDate      = new Date(defaultStartDate)
+            this.endDate        = new Date(defaultEndDate)
             this.getList()
         },
         'params.filter_status'(){
             this.params.page    = 1
-            this.startDate      = new Date()
-            this.endDate        = new Date()
+            this.startDate      = new Date(defaultStartDate)
+            this.endDate        = new Date(defaultEndDate)
             this.getList()
         },
         'params.filter_game_id'(newVal, oldVal){
@@ -343,8 +347,8 @@ export default {
                 this.$router.replace({query: {bettype: this.$route.query.bettype === 'sport' ? 'live' : this.$route.query.bettype, filter_game_id: newVal}})
             }
             this.params.page    = 1
-            this.startDate      = new Date()
-            this.endDate        = new Date()
+            this.startDate      = new Date(defaultStartDate)
+            this.endDate        = new Date(defaultEndDate)
             // this.getList()
         },
         '$route'(data) {
@@ -551,8 +555,8 @@ export default {
             try {
                 // this.params.filter_agentid = this.params.filter_agentid ? this.params.filter_agentid : this.$store.state.userStore.username
                 this.params.filter_bettype = this.$route.query.bettype === 'sport' ? undefined : this.$route.query.bettype
-                this.params.filter_startdate = this.startDate ? `${this.$GF.getDateTime(this.startDate)}` : null;
-                this.params.filter_enddate = this.endDate ? `${this.$GF.getDateTime(this.endDate)}` : null;
+                this.params.filter_startdate = this.startDate ? `${this.$GF.getDateTime2(this.startDate)}` : null;
+                this.params.filter_enddate = this.endDate ? `${this.$GF.getDateTime2(this.endDate)}` : null;
 
                 const res   = await api[`${this.$route.query.bettype === 'sport' ? 'recordHistoryList' : 'betRecord'}`](this.params);
                 const code  = res.data.code;

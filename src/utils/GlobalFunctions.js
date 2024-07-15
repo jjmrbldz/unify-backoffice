@@ -49,6 +49,52 @@ const GF = {
             return '-'
         }
     },
+    getDateTime2 : (data, type) => {
+        if(data) {
+            try {
+                let dt          = new Date(data);
+                let newdt       = dt.toLocaleString('en-US', { hourCycle: 'h23', year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit" });
+                let str_date    = newdt.split(", ");
+                let _d          = str_date[0].split("/");
+
+                let _t          = str_date[1].split(":");
+                if(type) {
+                    if(type === 'date') {
+
+                        let datetime    = _d[2]+"-"+_d[0]+"-"+_d[1];
+                        return datetime;
+
+                    } else if(type === 'time') {
+
+                        let datetime    = _t[0]+":"+_t[1]+":"+_t[2];
+                        return datetime;
+
+                    } else if(type === 'monthDate') {
+
+                        dt = dt.toLocaleString('en-US', { hourCycle: 'h23', year: "numeric", month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit" });
+                        dt = dt.split(", ");
+                        dt = dt[0].split("/");
+                        
+                        let datetime    = _d[0];
+                    
+                        return datetime;
+                    } else {
+                        '-'
+                    }
+                } else {
+                    let datetime    = _d[2]+"-"+_d[0]+"-"+_d[1]+" "+_t[0]+":"+_t[1]+":"+_t[2];
+                    return datetime;
+                }
+
+            } catch(error) {
+                console.error(error)
+                return '-'
+            }
+            
+        } else {
+            return '-'
+        }
+    },
     scrollToTop: () => {
         window.scrollTo({
             top     : 0,
