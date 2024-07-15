@@ -135,7 +135,7 @@
             <template #body="{ data }">
                 <div class="flex align-items-center gap-2">
                     <Button icon="mdi mdi-eye" severity="info" @click="showBetDetails(data, 'sport')" />
-                    <Button v-if="data.resultDetails && data.myurl " icon="mdi mdi-send" severity="success" @click="handleSendResult(data, 'sport')" />
+                    <Button v-if="data.resultDetails && data.myurl " icon="mdi mdi-send" severity="success" @click="showResultModal(data)" />
                     <Button v-if="data.responseStatus == '1'" icon="mdi mdi-close" severity="danger" />
                 </div>
             </template>
@@ -455,6 +455,27 @@ export default {
             this.startDate      = null
             this.endDate        = null
             this.getList()
+        },
+        showResultModal(data) {
+            const {user_username, reserveID} = data
+
+            this.$dialog.open(this.$modalComponent.SportResult, {
+                props: {
+                    header: `${this.$store.getters['languageStore/translate'](`Send Result`)} - ${user_username} (${reserveID})`,
+                    style: {
+                        width: '80vw'
+                    },
+                    modal: true,
+                    maximizable: true,
+                    dismissableMask: true,
+                },
+                data: {
+                    reserveID: reserveID
+                },
+                onClose: (options) => {
+                    // this.getList();
+                }
+            });
         },
         async showBetDetails(data, type) {
             if(type === 'sport') {

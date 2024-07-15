@@ -1107,6 +1107,9 @@
 	"Cancel" : "취소",
 	"Bet": "베팅",
 	"Response": "응답",
+
+	"Balance": "잔액",
+	"Send Result": "결과 보내기",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"
