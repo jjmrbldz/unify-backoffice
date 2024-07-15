@@ -38,11 +38,11 @@
         </template>
         <div class="field col">
             <label>{{ $store.getters['languageStore/translate']('startDateLang') }}</label>
-            <Calendar v-model="startDate" class="w-full" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :maxDate="currDate" showIcon iconDisplay="input" inputId="icondisplay" />
+            <Calendar v-model="startDate" class="w-full" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :maxDate="currDate" showIcon showTime showSeconds iconDisplay="input" inputId="icondisplay" />
         </div>
         <div class="field col">
             <label>{{ $store.getters['languageStore/translate']('endDateLang') }}</label>
-            <Calendar v-model="endDate" class="w-full" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :minDate="startDate" :maxDate="currDate" showIcon iconDisplay="input" inputId="icondisplay" />
+            <Calendar v-model="endDate" class="w-full" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :minDate="startDate" :maxDate="currDate" showIcon showTime showSeconds iconDisplay="input" inputId="icondisplay" />
         </div>
         <div class="field col-1">
             <label>&nbsp;</label>
@@ -551,8 +551,8 @@ export default {
             try {
                 // this.params.filter_agentid = this.params.filter_agentid ? this.params.filter_agentid : this.$store.state.userStore.username
                 this.params.filter_bettype = this.$route.query.bettype === 'sport' ? undefined : this.$route.query.bettype
-                this.params.filter_startdate = this.startDate ? `${this.$GF.getDateTime(this.startDate, 'date')} 00:00:00` : null;
-                this.params.filter_enddate = this.endDate ? `${this.$GF.getDateTime(this.endDate, 'date')} 23:59:59` : null;
+                this.params.filter_startdate = this.startDate ? `${this.$GF.getDateTime(this.startDate)}` : null;
+                this.params.filter_enddate = this.endDate ? `${this.$GF.getDateTime(this.endDate)}` : null;
 
                 const res   = await api[`${this.$route.query.bettype === 'sport' ? 'recordHistoryList' : 'betRecord'}`](this.params);
                 const code  = res.data.code;
