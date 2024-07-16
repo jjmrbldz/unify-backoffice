@@ -108,7 +108,7 @@ export default {
             }
         },
         async handleSendResult(data, type) {
-            const { myurl, myjson } = data
+            const { myurl, myjson, id } = data
 
             if(myurl && myjson) {
                 const reqBody = {
@@ -116,7 +116,8 @@ export default {
                     username    : this.$store.state.userStore.username,
                     token       : this.$store.state.userStore.token,
                     url         : myurl,
-                    result      : myjson
+                    result      : myjson,
+                    filter_id   : id
                 }
 
                 let formData = new FormData()
@@ -126,6 +127,7 @@ export default {
                 formData.append('token', reqBody.token)
                 formData.append('url', reqBody.url)
                 formData.append('result', reqBody.result)
+                formData.append('filter_id', `${reqBody.filter_id}`)
 
                 console.log(reqBody);
                 try {
@@ -137,7 +139,7 @@ export default {
                     if(code == 0) {
                         let _msg = `${res.data.transaction_id} ${res.data.error_code ? res.data.error_code : ''} Balance: ${res.data.balance}`
                         this.$GF.customToast(1, _msg)
-                        this.getList()
+                        
                     } else {
                         this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
                     }
@@ -145,6 +147,8 @@ export default {
                 } catch (e) {
                     console.error(e)
                     this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
+                } finally {
+                    this.getList()
                 }
             } else {
                 this.$GF.customToast(-1, this.$store.getters['languageStore/translate'](`Match is not finished`))
