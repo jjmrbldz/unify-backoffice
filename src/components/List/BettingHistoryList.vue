@@ -473,7 +473,7 @@ export default {
                     reserveID: reserveID
                 },
                 onClose: (options) => {
-                    // this.getList();
+                    this.getList();
                 }
             });
         },
