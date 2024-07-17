@@ -56,7 +56,8 @@
             <template #body="{ data }">
                 <div class="flex align-items-center gap-2">
                     <!-- <Button icon="mdi mdi-eye" severity="info" @click="showBetDetails(data, 'sport')" /> -->
-                    <Button icon="mdi mdi-send" severity="success" @click="handleSendResult(data, 'sport')" />
+                    <Button icon="mdi mdi-send" severity="success" @click="handleSendResult(data, 'sport', true)" />
+                    <Button icon="mdi mdi-send-clock" severity="info" @click="handleSendResult(data, 'sport', false)" />
                 </div>
             </template>
         </Column>
@@ -107,7 +108,7 @@ export default {
                 this.loading = false
             }
         },
-        async handleSendResult(data, type) {
+        async handleSendResult(data, type, bool) {
             const { myurl, myjson, id } = data
 
             if(myurl && myjson) {
@@ -117,7 +118,8 @@ export default {
                     token       : this.$store.state.userStore.token,
                     url         : myurl,
                     result      : myjson,
-                    filter_id   : id
+                    filter_id   : id,
+                    send_agent  : bool,
                 }
 
                 let formData = new FormData()
@@ -128,6 +130,7 @@ export default {
                 formData.append('url', reqBody.url)
                 formData.append('result', reqBody.result)
                 formData.append('filter_id', `${reqBody.filter_id}`)
+                formData.append('send_agent', reqBody.send_agent)
 
                 console.log(reqBody);
                 try {

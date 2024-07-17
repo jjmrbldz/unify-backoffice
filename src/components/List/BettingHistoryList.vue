@@ -135,8 +135,7 @@
             <template #body="{ data }">
                 <div class="flex align-items-center gap-2">
                     <Button icon="mdi mdi-eye" severity="info" @click="showBetDetails(data, 'sport')" />
-                    <Button v-if="data.resultDetails && data.myurl " icon="mdi mdi-send" severity="success" @click="showResultModal(data)" />
-                    <Button v-if="data.responseStatus == '1'" icon="mdi mdi-close" severity="danger" />
+                    <Button v-if="data.resultDetails && data.myurl " icon="mdi mdi-receipt-text-send" severity="success" @click="showResultModal(data)" />
                 </div>
             </template>
         </Column>
@@ -367,7 +366,7 @@ export default {
         async handleSendResult(data, type) {
             if(type === 'sport') {
 
-                const { myurl, resultDetails } = data
+                const { myurl, resultDetails, idx } = data
     
                 if(myurl && resultDetails) {
                     const reqBody = {
@@ -375,7 +374,9 @@ export default {
                         username    : this.$store.state.userStore.username,
                         token       : this.$store.state.userStore.token,
                         url         : myurl,
-                        result      : resultDetails
+                        result      : resultDetails,
+                        send_agent  : false,
+                        filter_id   : idx
                     }
     
                     let formData = new FormData()
@@ -385,6 +386,8 @@ export default {
                     formData.append('token', reqBody.token)
                     formData.append('url', reqBody.url)
                     formData.append('result', reqBody.result)
+                    formData.append('send_agent', reqBody.send_agent)
+                    formData.append('filter_id', reqBody.filter_id)
     
                     console.log(reqBody);
                     try {
