@@ -133,7 +133,7 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Live?`)" style="text-transform: capitalize; min-width: 100px;">
             <template #body="{ data }">
-                <Tag v-if="data.matchType === 1" severity="success" :value="$store.getters['languageStore/translate'](`Live`)"></Tag>
+                <Tag v-if="data.matchType == '1'" severity="success" :value="$store.getters['languageStore/translate'](`Live`)"></Tag>
                 <Tag v-else severity="warning" :value="$store.getters['languageStore/translate'](`Not Live`)"></Tag>
             </template>
         </Column>
