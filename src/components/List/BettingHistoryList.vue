@@ -591,6 +591,7 @@ export default {
                     // this.$GF.customToast(code, this.$store.getters['languageStore/translate'](`${msg}`))
                     this.list = res.data.data;
                     this.totalCount = res.data.totalCount
+                    this.$store.dispatch('betSummStore/setBetSumm', res.data.betSumm)
                 } else {
                     this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
                     this.list = []

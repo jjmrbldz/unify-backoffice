@@ -33,6 +33,7 @@ export default {
                 {label: 'Won', value: 'Won'}, // 승
                 {label: 'Draw', value: 'Draw'}, // 무
                 {label: 'Canceled', value: 'Canceled'}, // 취소
+                {label: 'Settlement Complete', value: 'complete'}, // 정산완료
                 {label: 'Cashout', value: 'Cashout'}, // 캐시아웃
                 {label: 'Half Won', value: 'Half Won'}, // 하프 승
                 {label: 'Half Lost', value: 'Half Lost'}, // 하프 패
@@ -75,6 +76,7 @@ export default {
                 {label: 'Won', value: 'Won'}, // 승
                 {label: 'Draw', value: 'Draw'}, // 무
                 {label: 'Canceled', value: 'Canceled'}, // 취소
+                {label: 'Settlement Complete', value: 'complete'}, // 정산완료
                 {label: 'Cashout', value: 'Cashout'}, // 캐시아웃
                 {label: 'Half Won', value: 'Half Won'}, // 하프 승
                 {label: 'Half Lost', value: 'Half Lost'}, // 하프 패

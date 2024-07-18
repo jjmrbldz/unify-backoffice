@@ -1110,6 +1110,14 @@
 
 	"Balance": "잔액",
 	"Send Result": "결과 보내기",
+	"Sum": "합계",
+	"Winning": "당첨",
+	"Profit & Loss": "당첨",
+	"Total Unsettled": "미정산합계",
+	"Pending Bet": "대기중 베팅",
+	"Expected Winning": "예상당첨",
+	"Settlement Completed": "정산완료합계",
+	"Settlement Complete": "정산완료",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"
