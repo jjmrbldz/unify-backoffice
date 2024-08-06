@@ -12,11 +12,12 @@ import apidoc4 from '@/assets/KoscaApi_Seamless_2024(kr).pdf'
 import apidoc5 from '@/assets/KoscaApi_SingleWallet_2024-v1.2 (kr).pdf'
 import apidoc6 from '@/assets/KoscaApi_SingleWallet_2024-v1.3.pdf'
 import apidoc7 from '@/assets/KoscaApi_SingleWallet_2024-v1.4.pdf'
+import apidoc8 from '@/assets/KoscaApi_SingleWallet_2024-v1.4a.pdf'
 
 export default {
     data() {
         return {
-            pdfUrl: apidoc7,
+            pdfUrl: apidoc8,
         }
     },
 }
