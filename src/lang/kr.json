@@ -1121,6 +1121,8 @@
 	"Ascending": "오름차순",
 	"Descending": "내림차순",
 	"Sort by": "정렬",
+	"Expected Amount": "예상 금액",
+	"Winning Amount": "당첨금액",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"

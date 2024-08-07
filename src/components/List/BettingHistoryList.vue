@@ -276,7 +276,7 @@
         >
     </Paginator>
     <OverlayPanel ref="sortPanel">
-        <Button :label="params.filter_sort === 'desc' ? $store.getters['languageStore/translate']('Ascending') : $store.getters['languageStore/translate']('Descending')" :icon="`mdi ${params.filter_sort === 'desc' ?  'mdi-sort-ascending' : 'mdi-sort-descending'} `" @click="toggleSort" text />
+        <Button :label="params.filter_sort === 'desc' ? $store.getters['languageStore/translate']('Descending') : $store.getters['languageStore/translate']('Ascending')" :icon="`mdi ${params.filter_sort === 'desc' ?  'mdi-sort-descending' : 'mdi-sort-ascending'} `" @click="toggleSort" text />
         <div class="my-3">{{ $store.getters['languageStore/translate']('Sort by') }}:</div>
         <div class="flex align-items-center mb-2">
             <RadioButton v-model="params.filter_sortby" inputId="sortByIDX" name="idx" value="idx" />
@@ -285,6 +285,14 @@
         <div class="flex align-items-center mb-2">
             <RadioButton v-model="params.filter_sortby" inputId="sortByAmount" name="amount" :value="$route.query.bettype === 'sport' ? 'betAmount' : 'amount'" />
             <label for="sortByAmount" class="ml-2">{{ $store.getters['languageStore/translate']('Bet Amount') }}</label>
+        </div>
+        <div class="flex align-items-center mb-2">
+            <RadioButton v-model="params.filter_sortby" inputId="sortByExpectedAmount" name="expectedAmount" value="expectedAmount" />
+            <label for="sortByExpectedAmount" class="ml-2">{{ $store.getters['languageStore/translate']('Expected Amount') }}</label>
+        </div>
+        <div class="flex align-items-center mb-2">
+            <RadioButton v-model="params.filter_sortby" inputId="sortByWinningAmount" name="winningAmount" value="winningAmount" />
+            <label for="sortByWinningAmount" class="ml-2">{{ $store.getters['languageStore/translate']('Winning Amount') }}</label>
         </div>
     </OverlayPanel>
 </template>
