@@ -24,6 +24,6 @@ export default defineConfig({
     drop: ['console', 'debugger'],
   },
   build: {
-    outDir: '../../BACKOFFICEV3/src/dist',
+    outDir: '../../BACKOFFICEV2/src/dist',
   },
 })
