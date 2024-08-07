@@ -286,14 +286,16 @@
             <RadioButton v-model="params.filter_sortby" inputId="sortByAmount" name="amount" :value="$route.query.bettype === 'sport' ? 'betAmount' : 'amount'" />
             <label for="sortByAmount" class="ml-2">{{ $store.getters['languageStore/translate']('Bet Amount') }}</label>
         </div>
-        <div class="flex align-items-center mb-2">
-            <RadioButton v-model="params.filter_sortby" inputId="sortByExpectedAmount" name="expectedAmount" value="expectedAmount" />
-            <label for="sortByExpectedAmount" class="ml-2">{{ $store.getters['languageStore/translate']('Expected Amount') }}</label>
-        </div>
-        <div class="flex align-items-center mb-2">
-            <RadioButton v-model="params.filter_sortby" inputId="sortByWinningAmount" name="winningAmount" value="winningAmount" />
-            <label for="sortByWinningAmount" class="ml-2">{{ $store.getters['languageStore/translate']('Winning Amount') }}</label>
-        </div>
+        <template v-if="$route.query.bettype === 'sport'">
+            <div class="flex align-items-center mb-2">
+                <RadioButton v-model="params.filter_sortby" inputId="sortByExpectedAmount" name="expectedAmount" value="expectedAmount" />
+                <label for="sortByExpectedAmount" class="ml-2">{{ $store.getters['languageStore/translate']('Expected Amount') }}</label>
+            </div>
+            <div class="flex align-items-center mb-2">
+                <RadioButton v-model="params.filter_sortby" inputId="sortByWinningAmount" name="winningAmount" value="winningAmount" />
+                <label for="sortByWinningAmount" class="ml-2">{{ $store.getters['languageStore/translate']('Winning Amount') }}</label>
+            </div>
+        </template>
     </OverlayPanel>
 </template>
 
