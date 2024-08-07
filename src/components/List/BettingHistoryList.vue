@@ -46,7 +46,11 @@
         </div>
         <div class="field col-1">
             <label>&nbsp;</label>
-            <Button class="w-full" label="Search" @click="getList()" />
+            <div class="flex justify-content-between gap-3">
+                <Button class="w-full" icon="mdi mdi-magnify" @click="getList()" />
+                <Button class="w-full text-2xl p-0" icon="mdi mdi-filter-variant" @click="(event) => this.$refs.sortPanel.toggle(event)" text :pt="{icon: {style: {display: 'flex'}}}" />
+            </div>
+
         </div>
     </div>
     <DataTable v-if="$route.query.bettype === 'sport'" :value="list" scrollable class="mt-4" stripedRows :loading="loading" size="small">
@@ -271,6 +275,18 @@
         @page="handlePagination"
         >
     </Paginator>
+    <OverlayPanel ref="sortPanel">
+        <Button :label="params.filter_sort === 'desc' ? $store.getters['languageStore/translate']('Ascending') : $store.getters['languageStore/translate']('Descending')" :icon="`mdi ${params.filter_sort === 'desc' ?  'mdi-sort-ascending' : 'mdi-sort-descending'} `" @click="toggleSort" text />
+        <div class="my-3">{{ $store.getters['languageStore/translate']('Sort by') }}:</div>
+        <div class="flex align-items-center mb-2">
+            <RadioButton v-model="params.filter_sortby" inputId="sortByIDX" name="idx" value="idx" />
+            <label for="sortByIDX" class="ml-2">IDX</label>
+        </div>
+        <div class="flex align-items-center mb-2">
+            <RadioButton v-model="params.filter_sortby" inputId="sortByAmount" name="amount" :value="$route.query.bettype === 'sport' ? 'betAmount' : 'amount'" />
+            <label for="sortByAmount" class="ml-2">{{ $store.getters['languageStore/translate']('Bet Amount') }}</label>
+        </div>
+    </OverlayPanel>
 </template>
 
 <script>
@@ -301,6 +317,8 @@ export default {
                 filter_enddate  : null,
                 filter_islive   : null,
                 filter_status   : null,
+                filter_sortby   : 'idx',
+                filter_sort     : 'desc',
                 page            : 1,
                 items_count     : 20,
             },
@@ -309,6 +327,18 @@ export default {
         }
     },
     watch: {
+        'params.filter_sort'(){
+            this.params.page    = 1
+            // this.startDate      = new Date(defaultStartDate)
+            // this.endDate        = new Date(defaultEndDate)
+            this.getList()
+        },
+        'params.filter_sortby'(){
+            this.params.page    = 1
+            // this.startDate      = new Date(defaultStartDate)
+            // this.endDate        = new Date(defaultEndDate)
+            this.getList()
+        },
         'params.filter_username'(){
             this.params.page    = 1
             this.startDate      = new Date(defaultStartDate)
@@ -358,6 +388,13 @@ export default {
         this.getList()
     },
     methods: {
+        toggleSort() {
+            if (this.params.filter_sort === 'desc') {
+                this.params.filter_sort = 'asc'
+            } else {
+                this.params.filter_sort = 'desc'
+            }
+        },
         rowStyle(data) {
             if (data.bettype === 'slot' && data.amount === 0) {
                 return { background: 'color-mix(in srgb, var(--yellow-500), transparent 92%)' };
