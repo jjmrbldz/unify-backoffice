@@ -1045,7 +1045,7 @@
 	"Player":"플레이어",
 
 	"Bet Code":"배팅코드",
-	"Bet Amount":"베팅금",
+	"Bet Amount":"배팅금",
 	"Bet Time":"베팅시각",
 	"Bet Position":"베팅위치",
 
@@ -1118,6 +1118,9 @@
 	"Expected Winning": "예상당첨",
 	"Settlement Completed": "정산완료합계",
 	"Settlement Complete": "정산완료",
+	"Ascending": "오름차순",
+	"Descending": "내림차순",
+	"Sort by": "정렬",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"
