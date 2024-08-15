@@ -249,7 +249,7 @@ export default {
     },
     methods: {
         async showMarketBetDetails(data, bettingName) {
-            const {sportsName, leagueName, matchDateTime, eventName, matchName} = data
+            const {sportsName, leagueName, matchDateTime, eventName, matchName, isSplit, originalEventName} = data
 
             this.$dialog.open(this.$modalComponent.MarketBetDetails, {
                 props: {
@@ -266,7 +266,7 @@ export default {
                     sportsName: sportsName,
                     leagueName: leagueName,
                     matchDateTime: matchDateTime,
-                    eventName: eventName,
+                    eventName: isSplit ? originalEventName : eventName,
                     matchName: matchName,
                     bettingName: bettingName,
                 },
@@ -323,7 +323,9 @@ export default {
                             trimEventName.map(eventItem => {
                                 newList.push({
                                     ...item,
-                                    eventName: eventItem
+                                    eventName: eventItem,
+                                    originalEventName: eventName,
+                                    isSplit: true,
                                 })
                             })
                         } else {
