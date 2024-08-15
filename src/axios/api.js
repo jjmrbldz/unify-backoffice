@@ -86,6 +86,8 @@ export const api = {
   // HISTORY
   creditHIstoryList   : (data)        => axiosInstance.post('cashflow', data),
   recordHistoryList   : (data)        => axiosInstance.post('recordlist', data),
+  recordHistoryListNew: (data)        => axiosInstance.post('recordlistnew', data, {headers: {"Content-Type":"multipart/form-data"}}),
+  recordHistoryListNewDeets: (data)        => axiosInstance.post('recordlistnew_details', data, {headers: {"Content-Type":"multipart/form-data"}}),
   betRecord           : (data)        => axiosInstance.post('betrecord', data),
   sendResult          : (data)        => axiosInstance.post('sendresult', data),
   getResultLink       : (data)        => axiosInstance.post('resultlink', data, {headers: {"Content-Type":"multipart/form-data"}}),

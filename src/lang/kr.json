@@ -976,6 +976,7 @@
 	"Bet History - Slot" : "베팅 내역 - Slot",
 	"Bet History - MiniGame" : "베팅 내역 - MiniGame",
 	"Bet History - Sport" : "베팅 내역 - Sport",
+	"Bet History - By Sport Market" : "배팅 내역 – Sport 마켓별",
 
 	"Top Agent Name" : "상위 에이전트 아이디",
 	"Number of Bettors": "베팅자 수",
@@ -1123,6 +1124,8 @@
 	"Sort by": "정렬",
 	"Expected Amount": "예상 금액",
 	"Winning Amount": "당첨금액",
+
+	"Market": "마켓",
   
 	"totalPageLang": "전체",
 	"loginError Lang!": "로그인 실패!"

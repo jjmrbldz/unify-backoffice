@@ -8,6 +8,7 @@ const MODAL = {
     AgentBetLimit : defineAsyncComponent(() => import('./AgentBetLimitModal/AgentBetLimitModal.vue')),
     UserRevenueList : defineAsyncComponent(() => import('../List/UserRevenueList.vue')),
     SportResult : defineAsyncComponent(() => import('./SportResultModal/SportResultModal.vue')),
+    MarketBetDetails : defineAsyncComponent(() => import('./MarketBetDetailsModal/MarketBetDetailsModal.vue')),
 }
 
 export default MODAL

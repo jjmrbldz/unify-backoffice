@@ -112,6 +112,13 @@ const router = createRouter({
 					},
 					component: () => import('@/views/BettingHistoryView.vue')
 				},
+				{
+					path: 'betmarket',
+					meta: {
+						title: 'Bet History - By Sport Market',
+					},
+					component: () => import('@/views/BetHistoryByMarketView.vue')
+				},
 			]
 		},
 		{

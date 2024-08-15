@@ -617,6 +617,7 @@ export default {
             this.getPartnerCash()
         },
         handlePagination(data) {
+            console.log(data)
             this.params.page = data.page+1;
             this.params.items_count = data.rows;
             this.getList()

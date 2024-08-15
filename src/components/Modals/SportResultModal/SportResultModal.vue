@@ -1,5 +1,5 @@
 <template>
-    <DataTable v-if="$route.query.bettype === 'sport'" :value="list" scrollable class="mt-4" stripedRows :loading="loading" size="small">
+    <DataTable :value="list" scrollable class="mt-4" stripedRows :loading="loading" size="small">
         <Column :header="this.$store.getters['languageStore/translate'](`Number`)" style="min-width: 100px">
             <template #body="{ data }">
                 <span>{{ data.id }}</span>
@@ -52,7 +52,7 @@
                 <span >{{ this.$GF.cleanString(data.reg_datetime) }}</span>
             </template>
         </Column>
-        <Column v-if="$route.query.bettype === 'sport'" :header="this.$store.getters['languageStore/translate'](`Bet Details`)" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Bet Details`)" style="min-width: 100px">
             <template #body="{ data }">
                 <div class="flex align-items-center gap-2">
                     <!-- <Button icon="mdi mdi-eye" severity="info" @click="showBetDetails(data, 'sport')" /> -->

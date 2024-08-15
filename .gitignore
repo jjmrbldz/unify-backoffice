@@ -28,3 +28,12 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+# Ignore all .env files
+.env
+.env.local
+.env.*
+
+# Vite configuration files
+vite.config.js
+vite.config.ts
