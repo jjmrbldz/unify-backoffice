@@ -127,6 +127,7 @@ export default {
                 token               : this.$store.state.userStore.token,
                 page                : 1,
                 items_count         : 100,
+                filter_agentid      : this.dialogRef.data ? this.dialogRef.data.agentID : null,
                 filter_sportsName   : this.dialogRef.data ? this.dialogRef.data.sportsName : null,
                 filter_leagueName   : this.dialogRef.data ? this.dialogRef.data.leagueName : null,
                 filter_matchDateTime: this.dialogRef.data ? this.dialogRef.data.matchDateTime : null,

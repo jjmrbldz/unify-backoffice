@@ -266,6 +266,7 @@ export default {
                     dismissableMask: true,
                 },
                 data: {
+                    agentID: this.params.filter_agentid,
                     sportsName: sportsName,
                     leagueName: leagueName,
                     matchDateTime: matchDateTime,
