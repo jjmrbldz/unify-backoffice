@@ -37,7 +37,7 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`dateLang`)" style="min-width: 100px">
             <template #body="{ data }">
-                <span>{{ data.matchDateTime }}</span>
+                <span >{{ this.$GF.getDateTime(`${data.matchDateTime}Z`) }}</span>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`League`)" style="min-width: 100px">
