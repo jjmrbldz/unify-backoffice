@@ -9,6 +9,10 @@
             <IsLiveSelect v-model="params.filter_islive" />
         </div>
         <div class="field col">
+            <label>{{ $store.getters['languageStore/translate']('Bet Total') }}</label>
+            <BetTotalSelect v-model="params.filter_amount" />
+        </div>
+        <div class="field col">
             <label>{{ $store.getters['languageStore/translate']('startDateLang') }}</label>
             <Calendar v-model="startDate" class="w-full" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" hourFormat="24" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :maxDate="currDate" showIcon showTime showSeconds iconDisplay="input" inputId="icondisplay" />
         </div>
@@ -26,7 +30,6 @@
         </div>
     </div>
     <DataTable v-model:expandedRows="expandedRows" dataKey="betDetails" :value="list" scrollable class="mt-4"  stripedRows :loading="loading" >
-        <Column expander style="width: 3rem" />
         <Column :header="this.$store.getters['languageStore/translate'](`Sport`)" style="min-width: 100px">
             <template #body="{ data }">
                 <span>{{ data.sportsName }}</span>
@@ -42,6 +45,7 @@
                 <span>{{ data.leagueName }}</span>
             </template>
         </Column>
+        <Column expander style="width: 3rem" />
         <Column :header="this.$store.getters['languageStore/translate'](`Market`)" style="min-width: 100px">
             <template #body="{ data }">
                 <span>{{ data.eventName }}</span>
@@ -52,9 +56,6 @@
                 <div>{{ data.homeName }}</div>
                 <Divider />
                 <div v-if="data.homeBettingName" :class="betAmountClass" @click="showMarketBetDetails(data, data.homeBettingName)">
-                    <div class="">
-                        <img src="@/assets/img/icons/home-null.svg" alt="" height="34">
-                    </div>
                     <div :class="betAmountClass2">
                         <span>{{ $store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
                         <span class="font-semibold" :class="this.$GF.handleTextColor(data.homeBettingAmount)">{{ this.$GF.formatNumComma(data.homeBettingAmount) }}</span>
@@ -69,9 +70,6 @@
         <Column :header="this.$store.getters['languageStore/translate'](`VS`)" style="min-width: 100px; max-width: 300px; text-align: center;" :pt="{headerContent: {style: {display: 'block'}}}" >
             <template #body="{ data }">
                 <div v-if="data.drawBettingName" :class="betAmountClass" class="flex-wrap" @click="showMarketBetDetails(data, data.drawBettingName)" style="min-width: 300px;">
-                    <div class="opacity-50" v-if="!data.notDraw">
-                        <img src="@/assets/img/icons/draw-null.svg" alt="" height="34">
-                    </div>
                     <div class="">
                         <span>{{ $store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
                         <span class="font-semibold" :class="this.$GF.handleTextColor(data.drawBettingAmount)">{{ this.$GF.formatNumComma(data.drawBettingAmount) }}</span>
@@ -94,9 +92,6 @@
                         <span> | </span>
                         <span>{{ $store.getters['languageStore/translate'](`expectedAmountLang`) }}: </span>
                         <span class="font-semibold" :class="this.$GF.handleTextColor(data.awayBettingExpAmount)">{{ this.$GF.formatNumComma(data.awayBettingExpAmount) }}</span>
-                    </div>
-                    <div class="">
-                        <img src="@/assets/img/icons/away-null.svg" alt="" height="34">
                     </div>
                 </div>
                 <div class="" v-else>-</div>
@@ -207,6 +202,7 @@ export default {
                 filter_enddate  : null,
                 filter_islive   : '',
                 // filter_status   : null,
+                filter_amount   : null,
                 filter_sortby   : 'betSum',
                 // filter_sort     : 'desc',
                 page            : 1,
@@ -214,7 +210,7 @@ export default {
             },
             startDate   : new Date(defaultStartDate),
             endDate     : new Date(defaultEndDate),
-            betAmountClass: 'cursor-pointer hover:surface-hover p-1 border-round transition-colors transition-duration-200 flex justify-content-center align-items-center gap-2',
+            betAmountClass: 'cursor-pointer hover:surface-hover border-bottom-1 border-transparent hover:border-600 p-1 border-round border-noround-bottom transition-colors transition-duration-200 flex justify-content-center align-items-center gap-2',
             betAmountExpansionClass: 'cursor-pointer hover:surface-hover p-1 border-round transition-colors transition-duration-200 flex',
             betAmountClass2: 'flex flex-wrap justify-content-center align-items-center gap-2'
         }
