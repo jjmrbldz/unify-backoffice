@@ -60,7 +60,23 @@
             <template #body="{ data }">
                 <div class="font-bold">{{ data.homeName }}</div>
                 <Divider class="my-2" />
-                <div v-if="data.isOUParing" class="">
+                <div v-if="data.isHandicapParing" class="">
+                    <template v-for="(value, key, index) in data.handicapPair">
+                        <template v-if="value.home.length > 0" v-for="item in value.home">
+                            <div :class="betAmountClass" @click="showMarketBetDetails(data, item.bettingName)" style="height: 48px;">
+                                <div :class="betAmountClass2">
+                                    <span>{{ $store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
+                                    <span class="font-semibold" :class="this.$GF.handleTextColor(item.betAmount)">{{ this.$GF.formatNumComma(item.betAmount) }}</span>
+                                    <span> | </span>
+                                    <span>{{ $store.getters['languageStore/translate'](`expectedAmountLang`) }}: </span>
+                                    <span class="font-semibold" :class="this.$GF.handleTextColor(item.expectedWinAmount)">{{ this.$GF.formatNumComma(item.expectedWinAmount) }}</span>
+                                </div>
+                            </div>
+                        </template>
+                        <div class="flex justify-content-center align-items-center" v-else style="height: 48px;">-</div>
+                    </template>
+                </div>
+                <div v-else-if="data.isOUParing" class="">
                     <template v-for="(value, key, index) in data.overUnderPair">
                         <template v-if="value.over.length > 0" v-for="item in value.over">
                             <div :class="betAmountClass" @click="showMarketBetDetails(data, item.bettingName)" style="height: 48px;">
@@ -90,7 +106,18 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`VS`)" style="min-width: 100px; max-width: 400px; text-align: center;" :pt="{headerContent: {style: {display: 'block'}}, bodyCell: {class: 'border-300'}}" >
             <template #body="{ data }">
-                <div v-if="data.isOUParing" class="">
+                <div v-if="data.isHandicapParing" class="">
+                    <div class="font-bold">vs</div>
+                    <Divider class="my-2" />
+                    <template v-for="(value, key, index) in data.handicapPair">
+                        <div class="flex justify-content-center align-items-center" style="height: 48px;">
+                            <div :class="betAmountClass2">
+                                <span>{{ key }}</span>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+                <div v-else-if="data.isOUParing" class="">
                     <div class="font-bold">vs</div>
                     <Divider class="my-2" />
                     <template v-for="(value, key, index) in data.overUnderPair">
@@ -125,7 +152,23 @@
             <template #body="{ data }">
                 <div class="font-bold">{{ data.awayName }}</div>
                 <Divider class="my-2" />
-                <div v-if="data.isOUParing" class="">
+                <div v-if="data.isHandicapParing" class="">
+                    <template v-for="(value, key, index) in data.handicapPair">
+                        <template v-if="value.away.length > 0" v-for="item in value.away">
+                            <div :class="betAmountClass" @click="showMarketBetDetails(data, item.bettingName)" style="height: 48px;">
+                                <div :class="betAmountClass2">
+                                    <span>{{ $store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
+                                    <span class="font-semibold" :class="this.$GF.handleTextColor(item.betAmount)">{{ this.$GF.formatNumComma(item.betAmount) }}</span>
+                                    <span> | </span>
+                                    <span>{{ $store.getters['languageStore/translate'](`expectedAmountLang`) }}: </span>
+                                    <span class="font-semibold" :class="this.$GF.handleTextColor(item.expectedWinAmount)">{{ this.$GF.formatNumComma(item.expectedWinAmount) }}</span>
+                                </div>
+                            </div>
+                        </template>
+                        <div class="flex justify-content-center align-items-center" v-else style="height: 48px;">-</div>
+                    </template>
+                </div>
+                <div v-else-if="data.isOUParing" class="">
                     <template v-for="(value, key, index) in data.overUnderPair">
                         <template v-if="value.under.length > 0" v-for="item in value.under">
                             <div :class="betAmountClass" @click="showMarketBetDetails(data, item.bettingName)" style="height: 48px;">
@@ -423,6 +466,27 @@ export default {
                             }
                         })
 
+                        // GROUPING HANDICAP
+                        if (eventName == '핸디캡' || eventName == '아시안 핸디캡' || eventName.includes('핸디캡')) {
+                            const groupedBets = betDetails.reduce((acc, bet) => {
+                                const number = parseFloat(bet.bettingName.match(/-?\d+(\.\d+)?/)[0]);
+                                if (!acc[number]) {
+                                    acc[number] = { home: [], away: [] };
+                                }
+                                if (bet.bettingName.includes(item.homeName)) {
+                                    acc[number].home.push(bet);
+                                } else if (bet.bettingName.includes(item.awayName)) {
+                                    acc[number].away.push(bet);
+                                }
+                                return acc;
+                            }, {});
+
+                            console.log('Grouped Handicap', groupedBets)
+                            this.list[index].isHandicapParing = true
+                            this.list[index].handicapPair = groupedBets
+                        }
+
+                        // GROUPING OVER UNDER
                         if (eventName == '오버언더' || eventName == '아시안 오버언더' || eventName == '1-3이닝 오버언더' || eventName == '1-5이닝 오버언더' || betDetails[0].bettingName.startsWith('오버') || betDetails[0].bettingName.startsWith('언더')) {
                             let arr = []
 
