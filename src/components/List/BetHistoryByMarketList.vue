@@ -469,7 +469,8 @@ export default {
                         // GROUPING HANDICAP
                         if (eventName == '핸디캡' || eventName == '아시안 핸디캡' || eventName.includes('핸디캡')) {
                             const groupedBets = betDetails.reduce((acc, bet) => {
-                                const number = parseFloat(bet.bettingName.match(/-?\d+(\.\d+)?/)[0]);
+                                // const number = parseFloat(bet.bettingName.match(/-?\d+(\.\d+)?/)[0]);
+                                const number = parseFloat(bet.bettingName.match(/[\d\.]+/)[0]);
                                 if (!acc[number]) {
                                     acc[number] = { home: [], away: [] };
                                 }
