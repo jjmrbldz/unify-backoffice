@@ -29,33 +29,54 @@
 
         </div>
     </div>
-    <DataTable v-model:expandedRows="expandedRows" dataKey="betDetails" :value="list" scrollable class="mt-4"  stripedRows :loading="loading" >
-        <Column :header="this.$store.getters['languageStore/translate'](`Sport`)" style="min-width: 100px">
+    <DataTable v-model:expandedRows="expandedRows" dataKey="betDetails" :value="list" scrollable class="mt-4" :loading="loading" size="small" >
+        <Column :header="this.$store.getters['languageStore/translate'](`Sport`)" :pt="{bodyCell: {class: 'border-300'}}">
             <template #body="{ data }">
                 <span>{{ data.sportsName }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`dateLang`)" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`dateLang`)" :pt="{bodyCell: {class: 'border-300'}}">
             <template #body="{ data }">
                 <span >{{ this.$GF.getDateTime(`${data.matchDateTime}Z`) }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`League`)" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`League`)" :pt="{bodyCell: {class: 'border-300'}}">
             <template #body="{ data }">
                 <span>{{ data.leagueName }}</span>
             </template>
         </Column>
-        <Column expander style="width: 3rem" />
-        <Column :header="this.$store.getters['languageStore/translate'](`Market`)" style="min-width: 100px">
+        <Column expander style="width: 2rem" :pt="{bodyCell: {class: 'border-300'}}" />
+        <Column :header="this.$store.getters['languageStore/translate'](`Market`)" :pt="{bodyCell: {class: 'border-300'}}">
             <template #body="{ data }">
                 <span>{{ data.eventName }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Home`)" style="min-width: 400px; text-align: center;" :pt="{headerContent: {style: {display: 'block'}}}">
+        <Column :header="this.$store.getters['languageStore/translate'](`Bet Total`)" :pt="{bodyCell: {class: 'border-300'}}">
             <template #body="{ data }">
-                <div>{{ data.homeName }}</div>
-                <Divider />
-                <div v-if="data.homeBettingName" :class="betAmountClass" @click="showMarketBetDetails(data, data.homeBettingName)">
+                <div class="font-bold">{{ this.$GF.formatNumComma(data.betSum) }}</div>
+            </template>
+        </Column>
+        <Column :header="this.$store.getters['languageStore/translate'](`Home`)" style="min-width: 400px; text-align: center;" :pt="{headerContent: {style: {display: 'block'}}, bodyCell: {class: 'border-300'}}">
+            <template #body="{ data }">
+                <div class="font-bold">{{ data.homeName }}</div>
+                <Divider class="my-2" />
+                <div v-if="data.isOUParing" class="">
+                    <template v-for="(value, key, index) in data.overUnderPair">
+                        <template v-if="value.over.length > 0" v-for="item in value.over">
+                            <div :class="betAmountClass" @click="showMarketBetDetails(data, item.bettingName)" style="height: 48px;">
+                                <div :class="betAmountClass2">
+                                    <span>{{ $store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
+                                    <span class="font-semibold" :class="this.$GF.handleTextColor(item.betAmount)">{{ this.$GF.formatNumComma(item.betAmount) }}</span>
+                                    <span> | </span>
+                                    <span>{{ $store.getters['languageStore/translate'](`expectedAmountLang`) }}: </span>
+                                    <span class="font-semibold" :class="this.$GF.handleTextColor(item.expectedWinAmount)">{{ this.$GF.formatNumComma(item.expectedWinAmount) }}</span>
+                                </div>
+                            </div>
+                        </template>
+                        <div class="flex justify-content-center align-items-center" v-else style="height: 48px;">-</div>
+                    </template>
+                </div>
+                <div v-else-if="data.homeBettingName" :class="betAmountClass" @click="showMarketBetDetails(data, data.homeBettingName)" style="height: 48px;">
                     <div :class="betAmountClass2">
                         <span>{{ $store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
                         <span class="font-semibold" :class="this.$GF.handleTextColor(data.homeBettingAmount)">{{ this.$GF.formatNumComma(data.homeBettingAmount) }}</span>
@@ -64,13 +85,28 @@
                         <span class="font-semibold" :class="this.$GF.handleTextColor(data.homeBettingExpAmount)">{{ this.$GF.formatNumComma(data.homeBettingExpAmount) }}</span>
                     </div>
                 </div>
-                <div class="" v-else>-</div>
+                <div class="" v-else style="height: 48px;">-</div>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`VS`)" style="min-width: 100px; max-width: 300px; text-align: center;" :pt="{headerContent: {style: {display: 'block'}}}" >
+        <Column :header="this.$store.getters['languageStore/translate'](`VS`)" style="min-width: 100px; max-width: 400px; text-align: center;" :pt="{headerContent: {style: {display: 'block'}}, bodyCell: {class: 'border-300'}}" >
             <template #body="{ data }">
-                <div v-if="data.drawBettingName" :class="betAmountClass" class="flex-wrap" @click="showMarketBetDetails(data, data.drawBettingName)" style="min-width: 300px;">
+                <div v-if="data.isOUParing" class="">
+                    <div class="font-bold">vs</div>
+                    <Divider class="my-2" />
+                    <template v-for="(value, key, index) in data.overUnderPair">
+                        <div class="flex justify-content-center align-items-center" style="height: 48px;">
+                            <div :class="betAmountClass2">
+                                <span>{{ key }}</span>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+                <div v-else-if="data.drawBettingName" style="min-width: 300px;">
                     <div class="">
+                        <div class="font-bold">vs</div>
+                        <Divider class="my-2" />
+                    </div>
+                    <div :class="betAmountClass" class="flex-wrap" @click="showMarketBetDetails(data, data.drawBettingName)" style="height: 48px;">
                         <span>{{ $store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
                         <span class="font-semibold" :class="this.$GF.handleTextColor(data.drawBettingAmount)">{{ this.$GF.formatNumComma(data.drawBettingAmount) }}</span>
                         <span> | </span>
@@ -78,14 +114,34 @@
                         <span class="font-semibold" :class="this.$GF.handleTextColor(data.drawBettingExpAmount)">{{ this.$GF.formatNumComma(data.drawBettingExpAmount) }}</span>
                     </div>
                 </div>
-                <span v-else>vs</span>
+                <div v-else>
+                    <span>vs</span>
+                    <Divider class="my-2" />
+                    <div class="" style="height: 48px;"></div>
+                </div>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Away`)" style="min-width: 400px; text-align: center;" :pt="{headerContent: {style: {display: 'block'}}}">
+        <Column :header="this.$store.getters['languageStore/translate'](`Away`)" style="min-width: 400px; text-align: center;" :pt="{headerContent: {style: {display: 'block'}}, bodyCell: {class: 'border-300'}}">
             <template #body="{ data }">
-                <div>{{ data.awayName }}</div>
-                <Divider />
-                <div v-if="data.awayBettingName" :class="betAmountClass" @click="showMarketBetDetails(data, data.awayBettingName)">
+                <div class="font-bold">{{ data.awayName }}</div>
+                <Divider class="my-2" />
+                <div v-if="data.isOUParing" class="">
+                    <template v-for="(value, key, index) in data.overUnderPair">
+                        <template v-if="value.under.length > 0" v-for="item in value.under">
+                            <div :class="betAmountClass" @click="showMarketBetDetails(data, item.bettingName)" style="height: 48px;">
+                                <div :class="betAmountClass2">
+                                    <span>{{ $store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
+                                    <span class="font-semibold" :class="this.$GF.handleTextColor(item.betAmount)">{{ this.$GF.formatNumComma(item.betAmount) }}</span>
+                                    <span> | </span>
+                                    <span>{{ $store.getters['languageStore/translate'](`expectedAmountLang`) }}: </span>
+                                    <span class="font-semibold" :class="this.$GF.handleTextColor(item.expectedWinAmount)">{{ this.$GF.formatNumComma(item.expectedWinAmount) }}</span>
+                                </div>
+                            </div>
+                        </template>
+                        <div class="flex justify-content-center align-items-center" v-else style="height: 48px;">-</div>
+                    </template>
+                </div>
+                <div v-else-if="data.awayBettingName" :class="betAmountClass" @click="showMarketBetDetails(data, data.awayBettingName)" style="height: 48px;">
                     <div :class="betAmountClass2">
                         <span>{{ $store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
                         <span class="font-semibold" :class="this.$GF.handleTextColor(data.awayBettingAmount)">{{ this.$GF.formatNumComma(data.awayBettingAmount) }}</span>
@@ -94,7 +150,7 @@
                         <span class="font-semibold" :class="this.$GF.handleTextColor(data.awayBettingExpAmount)">{{ this.$GF.formatNumComma(data.awayBettingExpAmount) }}</span>
                     </div>
                 </div>
-                <div class="" v-else>-</div>
+                <div class="" v-else style="height: 48px;">-</div>
             </template>
         </Column>
         <template #expansion="slotProps">
@@ -210,7 +266,7 @@ export default {
             },
             startDate   : new Date(defaultStartDate),
             endDate     : new Date(defaultEndDate),
-            betAmountClass: 'cursor-pointer hover:surface-hover border-bottom-1 border-transparent hover:border-600 p-1 border-round border-noround-bottom transition-colors transition-duration-200 flex justify-content-center align-items-center gap-2',
+            betAmountClass: 'cursor-pointer hover:surface-200 border-bottom-1 border-transparent hover:border-600 p-1 border-round border-noround-bottom transition-colors transition-duration-200 flex justify-content-center align-items-center gap-2',
             betAmountExpansionClass: 'cursor-pointer hover:surface-hover p-1 border-round transition-colors transition-duration-200 flex',
             betAmountClass2: 'flex flex-wrap justify-content-center align-items-center gap-2'
         }
@@ -385,12 +441,15 @@ export default {
                                     return acc;
                                 }, {});
     
-                                // console.log('Grouped OverUnder', groupedBets)
-    
+                                console.log('Grouped OverUnder', groupedBets)
+                                this.list[index].isOUParing = true
+                                this.list[index].overUnderPair = groupedBets
                                 Object.keys(groupedBets).map(number => {
+
                                     if(groupedBets[number].over.length > 0 && groupedBets[number].under.length > 0) {
                                         arr.push({
                                             over: groupedBets[number].over[0],
+                                            odds: number,
                                             under: groupedBets[number].under[0],
                                         })
                                     } else {
@@ -405,18 +464,19 @@ export default {
                                             this.list[index].awayBettingExpAmount = groupedBets[number].under[0].expectedWinAmount
                                         }
                                     }
+
                                 })
     
                                 // console.log('Paired OverUnder', arr)
-                                if (arr.length > 0) {
-                                    this.list[index].homeBettingName = arr[0].over.bettingName
-                                    this.list[index].homeBettingAmount = arr[0].over.betAmount
-                                    this.list[index].homeBettingExpAmount = arr[0].over.expectedWinAmount
+                                // if (arr.length > 0) {
+                                //     this.list[index].homeBettingName = arr[0].over.bettingName
+                                //     this.list[index].homeBettingAmount = arr[0].over.betAmount
+                                //     this.list[index].homeBettingExpAmount = arr[0].over.expectedWinAmount
     
-                                    this.list[index].awayBettingName = arr[0].under.bettingName
-                                    this.list[index].awayBettingAmount = arr[0].under.betAmount
-                                    this.list[index].awayBettingExpAmount = arr[0].under.expectedWinAmount
-                                }
+                                //     this.list[index].awayBettingName = arr[0].under.bettingName
+                                //     this.list[index].awayBettingAmount = arr[0].under.betAmount
+                                //     this.list[index].awayBettingExpAmount = arr[0].under.expectedWinAmount
+                                // }
                             } else {
                                 if (betDetails[0].bettingName.split(' ').includes('오버')) {
                                     this.list[index].homeBettingName = betDetails[0].bettingName
