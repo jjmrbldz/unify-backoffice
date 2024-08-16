@@ -112,7 +112,15 @@
                     <template v-for="(value, key, index) in data.handicapPair">
                         <div class="flex justify-content-center align-items-center" style="height: 48px;">
                             <div :class="betAmountClass2">
-                                <span>{{ key }}</span>
+                                <span>
+                                    <template v-if="value.home.length > 0">
+                                        <span>{{ value.homeHandicapSign }}</span>
+                                    </template>
+                                    <template v-else>
+                                        <span>{{ reverseAwaySign(value.awayHandicapSign) }}</span>
+                                    </template>
+                                    <span>{{ key }}</span>
+                                </span>
                             </div>
                         </div>
                     </template>
@@ -347,6 +355,17 @@ export default {
         this.getList()
     },
     methods: {
+        reverseAwaySign(str) {
+            if (str) {
+                if (str == '+') {
+                    return '-'
+                } else {
+                    return '+'
+                }
+            } else {
+                return ''
+            }
+        },
         async showMarketBetDetails(data, bettingName) {
             const {sportsName, leagueName, matchDateTime, eventName, matchName, isSplit, originalEventName} = data
 
@@ -444,114 +463,128 @@ export default {
                         
                         // console.log('Item:', index, item)
                         // console.log('betDetails:', betDetails)
+                        if(betDetails) {
 
-                        betDetails.map((item) => {
-                            if (item.bettingName.includes(homeName)) {
-                                this.list[index].homeBettingName = item.bettingName
-                                this.list[index].homeBettingAmount = item.betAmount
-                                this.list[index].homeBettingExpAmount = item.expectedWinAmount
-                            }
-                            if (item.bettingName.includes(awayName)) {
-                                this.list[index].awayBettingName = item.bettingName
-                                this.list[index].awayBettingAmount = item.betAmount
-                                this.list[index].awayBettingExpAmount = item.expectedWinAmount
-                            }
-                            if (item.bettingName.includes('무승부') || item.bettingName.includes('예') || item.bettingName.includes('골')) {
-                                this.list[index].drawBettingName = item.bettingName
-                                this.list[index].drawBettingAmount = item.betAmount
-                                this.list[index].drawBettingExpAmount = item.expectedWinAmount
-                                if(item.bettingName.includes('골')) {
-                                    this.list[index].notDraw = true
+                            betDetails.map((item) => {
+                                if (item.bettingName.includes(homeName)) {
+                                    this.list[index].homeBettingName = item.bettingName
+                                    this.list[index].homeBettingAmount = item.betAmount
+                                    this.list[index].homeBettingExpAmount = item.expectedWinAmount
                                 }
-                            }
-                        })
-
-                        // GROUPING HANDICAP
-                        if (eventName == '핸디캡' || eventName == '아시안 핸디캡' || eventName.includes('핸디캡')) {
-                            const groupedBets = betDetails.reduce((acc, bet) => {
-                                // const number = parseFloat(bet.bettingName.match(/-?\d+(\.\d+)?/)[0]);
-                                const number = parseFloat(bet.bettingName.match(/[\d\.]+/)[0]);
-                                if (!acc[number]) {
-                                    acc[number] = { home: [], away: [] };
+                                if (item.bettingName.includes(awayName)) {
+                                    this.list[index].awayBettingName = item.bettingName
+                                    this.list[index].awayBettingAmount = item.betAmount
+                                    this.list[index].awayBettingExpAmount = item.expectedWinAmount
                                 }
-                                if (bet.bettingName.includes(item.homeName)) {
-                                    acc[number].home.push(bet);
-                                } else if (bet.bettingName.includes(item.awayName)) {
-                                    acc[number].away.push(bet);
+                                if (item.bettingName.includes('무승부') || item.bettingName.includes('예') || item.bettingName.includes('골')) {
+                                    this.list[index].drawBettingName = item.bettingName
+                                    this.list[index].drawBettingAmount = item.betAmount
+                                    this.list[index].drawBettingExpAmount = item.expectedWinAmount
+                                    if(item.bettingName.includes('골')) {
+                                        this.list[index].notDraw = true
+                                    }
                                 }
-                                return acc;
-                            }, {});
-
-                            console.log('Grouped Handicap', groupedBets)
-                            this.list[index].isHandicapParing = true
-                            this.list[index].handicapPair = groupedBets
-                        }
-
-                        // GROUPING OVER UNDER
-                        if (eventName == '오버언더' || eventName == '아시안 오버언더' || eventName == '1-3이닝 오버언더' || eventName == '1-5이닝 오버언더' || betDetails[0].bettingName.startsWith('오버') || betDetails[0].bettingName.startsWith('언더')) {
-                            let arr = []
-
-                            if (betDetails.length > 1) {
-
+                            })
+    
+                            // GROUPING HANDICAP
+                            if (eventName == '핸디캡' || eventName == '아시안 핸디캡' || eventName.includes('핸디캡')) {
                                 const groupedBets = betDetails.reduce((acc, bet) => {
+                                    // const number = parseFloat(bet.bettingName.match(/-?\d+(\.\d+)?/)[0]);
                                     const number = parseFloat(bet.bettingName.match(/[\d\.]+/)[0]);
                                     if (!acc[number]) {
-                                        acc[number] = { over: [], under: [] };
+                                        acc[number] = { home: [], away: [], homeHandicapSign: '', awayHandicapSign: '' };
                                     }
-                                    if (bet.bettingName.startsWith("오버")) {
-                                        acc[number].over.push(bet);
-                                    } else if (bet.bettingName.startsWith("언더")) {
-                                        acc[number].under.push(bet);
+                                    if (bet.bettingName.includes(item.homeName)) {
+                                        acc[number].home.push(bet);
+
+                                        const matchSign = bet.bettingName.match(/([+-])(\d+(\.\d+)?)/)
+                                        if (matchSign) {
+                                            acc[number].homeHandicapSign = matchSign[1]
+                                        }
+
+                                    } else if (bet.bettingName.includes(item.awayName)) {
+                                        acc[number].away.push(bet);
+
+                                        const matchSign = bet.bettingName.match(/([+-])(\d+(\.\d+)?)/)
+                                        if (matchSign) {
+                                            acc[number].awayHandicapSign = matchSign[1]
+                                        }
                                     }
+
                                     return acc;
                                 }, {});
     
-                                console.log('Grouped OverUnder', groupedBets)
-                                this.list[index].isOUParing = true
-                                this.list[index].overUnderPair = groupedBets
-                                Object.keys(groupedBets).map(number => {
-
-                                    if(groupedBets[number].over.length > 0 && groupedBets[number].under.length > 0) {
-                                        arr.push({
-                                            over: groupedBets[number].over[0],
-                                            odds: number,
-                                            under: groupedBets[number].under[0],
-                                        })
-                                    } else {
-                                        if (groupedBets[number].over.length > 0) {
-                                            this.list[index].homeBettingName = groupedBets[number].over[0].bettingName
-                                            this.list[index].homeBettingAmount = groupedBets[number].over[0].betAmount
-                                            this.list[index].homeBettingExpAmount = groupedBets[number].over[0].expectedWinAmount
+                                console.log('Grouped Handicap', groupedBets)
+                                this.list[index].isHandicapParing = true
+                                this.list[index].handicapPair = groupedBets
+                            }
+    
+                            // GROUPING OVER UNDER
+                            if (eventName == '오버언더' || eventName == '아시안 오버언더' || eventName == '1-3이닝 오버언더' || eventName == '1-5이닝 오버언더' || betDetails[0].bettingName.startsWith('오버') || betDetails[0].bettingName.startsWith('언더')) {
+                                let arr = []
+    
+                                if (betDetails.length > 1) {
+    
+                                    const groupedBets = betDetails.reduce((acc, bet) => {
+                                        const number = parseFloat(bet.bettingName.match(/[\d\.]+/)[0]);
+                                        if (!acc[number]) {
+                                            acc[number] = { over: [], under: [] };
                                         }
-                                        if (groupedBets[number].under.length > 0) {
-                                            this.list[index].awayBettingName = groupedBets[number].under[0].bettingName
-                                            this.list[index].awayBettingAmount = groupedBets[number].under[0].betAmount
-                                            this.list[index].awayBettingExpAmount = groupedBets[number].under[0].expectedWinAmount
+                                        if (bet.bettingName.startsWith("오버")) {
+                                            acc[number].over.push(bet);
+                                        } else if (bet.bettingName.startsWith("언더")) {
+                                            acc[number].under.push(bet);
                                         }
+                                        return acc;
+                                    }, {});
+        
+                                    console.log('Grouped OverUnder', groupedBets)
+                                    this.list[index].isOUParing = true
+                                    this.list[index].overUnderPair = groupedBets
+                                    Object.keys(groupedBets).map(number => {
+    
+                                        if(groupedBets[number].over.length > 0 && groupedBets[number].under.length > 0) {
+                                            arr.push({
+                                                over: groupedBets[number].over[0],
+                                                odds: number,
+                                                under: groupedBets[number].under[0],
+                                            })
+                                        } else {
+                                            if (groupedBets[number].over.length > 0) {
+                                                this.list[index].homeBettingName = groupedBets[number].over[0].bettingName
+                                                this.list[index].homeBettingAmount = groupedBets[number].over[0].betAmount
+                                                this.list[index].homeBettingExpAmount = groupedBets[number].over[0].expectedWinAmount
+                                            }
+                                            if (groupedBets[number].under.length > 0) {
+                                                this.list[index].awayBettingName = groupedBets[number].under[0].bettingName
+                                                this.list[index].awayBettingAmount = groupedBets[number].under[0].betAmount
+                                                this.list[index].awayBettingExpAmount = groupedBets[number].under[0].expectedWinAmount
+                                            }
+                                        }
+    
+                                    })
+        
+                                    // console.log('Paired OverUnder', arr)
+                                    // if (arr.length > 0) {
+                                    //     this.list[index].homeBettingName = arr[0].over.bettingName
+                                    //     this.list[index].homeBettingAmount = arr[0].over.betAmount
+                                    //     this.list[index].homeBettingExpAmount = arr[0].over.expectedWinAmount
+        
+                                    //     this.list[index].awayBettingName = arr[0].under.bettingName
+                                    //     this.list[index].awayBettingAmount = arr[0].under.betAmount
+                                    //     this.list[index].awayBettingExpAmount = arr[0].under.expectedWinAmount
+                                    // }
+                                } else {
+                                    if (betDetails[0].bettingName.split(' ').includes('오버')) {
+                                        this.list[index].homeBettingName = betDetails[0].bettingName
+                                        this.list[index].homeBettingAmount = betDetails[0].betAmount
+                                        this.list[index].homeBettingExpAmount = betDetails[0].expectedWinAmount
                                     }
-
-                                })
-    
-                                // console.log('Paired OverUnder', arr)
-                                // if (arr.length > 0) {
-                                //     this.list[index].homeBettingName = arr[0].over.bettingName
-                                //     this.list[index].homeBettingAmount = arr[0].over.betAmount
-                                //     this.list[index].homeBettingExpAmount = arr[0].over.expectedWinAmount
-    
-                                //     this.list[index].awayBettingName = arr[0].under.bettingName
-                                //     this.list[index].awayBettingAmount = arr[0].under.betAmount
-                                //     this.list[index].awayBettingExpAmount = arr[0].under.expectedWinAmount
-                                // }
-                            } else {
-                                if (betDetails[0].bettingName.split(' ').includes('오버')) {
-                                    this.list[index].homeBettingName = betDetails[0].bettingName
-                                    this.list[index].homeBettingAmount = betDetails[0].betAmount
-                                    this.list[index].homeBettingExpAmount = betDetails[0].expectedWinAmount
-                                }
-                                if (betDetails[0].bettingName.split(' ').includes('언더')) {
-                                    this.list[index].awayBettingName = betDetails[0].bettingName
-                                    this.list[index].awayBettingAmount = betDetails[0].betAmount
-                                    this.list[index].awayBettingExpAmount = betDetails[0].expectedWinAmount
+                                    if (betDetails[0].bettingName.split(' ').includes('언더')) {
+                                        this.list[index].awayBettingName = betDetails[0].bettingName
+                                        this.list[index].awayBettingAmount = betDetails[0].betAmount
+                                        this.list[index].awayBettingExpAmount = betDetails[0].expectedWinAmount
+                                    }
                                 }
                             }
                         }
