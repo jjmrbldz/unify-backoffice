@@ -303,7 +303,7 @@
                         <div class="font-bold">
                             <span>
                                 <template v-if="value.home.length > 0">
-                                    <span>{{ value.homeHandicapSign }}</span>
+                                    <span>{{ value.awayHandicapSign }}</span>
                                 </template>
                                 <template v-else>
                                     <span>{{ reverseAwaySign(value.awayHandicapSign) }}</span>
