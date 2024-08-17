@@ -262,12 +262,22 @@
         </div>
     </OverlayPanel>
 
-    <OverlayPanel ref="hHandicapPanel" :dismissable="false">
+    <OverlayPanel ref="hHandicapPanel" >
         <template v-for="(value, key, index) in overlayData.handicapPair">
             <template v-if="value.home.length > 0" v-for="item in value.home">
                 <div :class="betAmountClass" @click="showMarketBetDetails(overlayData, item.bettingName)" style="height: 48px;">
                     <div :class="betAmountClass3">
-                        <div class="font-bold">{{ key }}</div>
+                        <div class="font-bold">
+                            <span>
+                                <template v-if="value.home.length > 0">
+                                    <span>{{ value.homeHandicapSign }}</span>
+                                </template>
+                                <template v-else>
+                                    <span>{{ reverseAwaySign(value.awayHandicapSign) }}</span>
+                                </template>
+                                <span>{{ key }}</span>
+                            </span>
+                        </div>
                         <Divider class="mx-1" layout="vertical" />
                         <div class="">
                             <span>{{ $store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
@@ -285,12 +295,22 @@
         </template>
     </OverlayPanel>
 
-    <OverlayPanel ref="aHandicapPanel" :dismissable="false">
+    <OverlayPanel ref="aHandicapPanel" >
         <template v-for="(value, key, index) in overlayData.handicapPair">
             <template v-if="value.away.length > 0" v-for="item in value.away">
                 <div :class="betAmountClass" @click="showMarketBetDetails(overlayData, item.bettingName)" style="height: 48px;">
                     <div :class="betAmountClass3">
-                        <div class="font-bold">{{ key }}</div>
+                        <div class="font-bold">
+                            <span>
+                                <template v-if="value.home.length > 0">
+                                    <span>{{ value.homeHandicapSign }}</span>
+                                </template>
+                                <template v-else>
+                                    <span>{{ reverseAwaySign(value.awayHandicapSign) }}</span>
+                                </template>
+                                <span>{{ key }}</span>
+                            </span>
+                        </div>
                         <Divider class="mx-1" layout="vertical" />
                         <div class="">
                             <span>{{ $store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
@@ -308,7 +328,7 @@
         </template>
     </OverlayPanel>
 
-    <OverlayPanel ref="overPanel" :dismissable="false">
+    <OverlayPanel ref="overPanel" >
         <template v-for="(value, key, index) in overlayData.overUnderPair">
             <template v-if="value.over.length > 0" v-for="item in value.over">
                 <div :class="betAmountClass" @click="showMarketBetDetails(overlayData, item.bettingName)" style="height: 48px;">
@@ -331,7 +351,7 @@
         </template>
     </OverlayPanel>
 
-    <OverlayPanel ref="underPanel" :dismissable="false">
+    <OverlayPanel ref="underPanel" >
         <template v-for="(value, key, index) in overlayData.overUnderPair">
             <template v-if="value.under.length > 0" v-for="item in value.under">
                 <div :class="betAmountClass" @click="showMarketBetDetails(overlayData, item.bettingName)" style="height: 48px;">
