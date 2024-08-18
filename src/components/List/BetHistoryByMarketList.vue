@@ -231,34 +231,16 @@
         >
     </Paginator>
     <OverlayPanel ref="sortPanel">
+        <Button :label="params.filter_sort === 'desc' ? $store.getters['languageStore/translate']('Descending') : $store.getters['languageStore/translate']('Ascending')" :icon="`mdi ${params.filter_sort === 'desc' ?  'mdi-sort-descending' : 'mdi-sort-ascending'} `" @click="toggleSort" text />
         <div class="my-3">{{ $store.getters['languageStore/translate']('Sort by') }}:</div>
         <div class="flex align-items-center mb-2">
             <RadioButton v-model="params.filter_sortby" inputId="sortByAmount" value="betSum" />
             <label for="sortByAmount" class="ml-2">{{ $store.getters['languageStore/translate']('Bet Amount') }}</label>
         </div>
+        
         <div class="flex align-items-center mb-2">
-            <RadioButton v-model="params.filter_sortby" inputId="sortByDate" value="matchDateTime" />
-            <label for="sortByDate" class="ml-2">{{ $store.getters['languageStore/translate']('dateLang') }}</label>
-        </div>
-        <div class="flex align-items-center mb-2">
-            <RadioButton v-model="params.filter_sortby" inputId="sortBySport" value="sportsName" />
-            <label for="sortBySport" class="ml-2">{{ $store.getters['languageStore/translate']('Sport') }}</label>
-        </div>
-        <div class="flex align-items-center mb-2">
-            <RadioButton v-model="params.filter_sortby" inputId="sortByMarket" value="eventName" />
-            <label for="sortByMarket" class="ml-2">{{ $store.getters['languageStore/translate']('Market') }}</label>
-        </div>
-        <div class="flex align-items-center mb-2">
-            <RadioButton v-model="params.filter_sortby" inputId="sortByLeague" value="leagueName" />
-            <label for="sortByLeague" class="ml-2">{{ $store.getters['languageStore/translate']('League') }}</label>
-        </div>
-        <div class="flex align-items-center mb-2">
-            <RadioButton v-model="params.filter_sortby" inputId="sortByHome" value="homeName" />
-            <label for="sortByHome" class="ml-2">{{ $store.getters['languageStore/translate']('Home') }}</label>
-        </div>
-        <div class="flex align-items-center mb-2">
-            <RadioButton v-model="params.filter_sortby" inputId="sortByAway" value="awayName" />
-            <label for="sortByAway" class="ml-2">{{ $store.getters['languageStore/translate']('Away') }}</label>
+            <RadioButton v-model="params.filter_sortby" inputId="sortByHome" value="matchName" />
+            <label for="sortByHome" class="ml-2">{{ $store.getters['languageStore/translate']('Game Name') }}</label>
         </div>
     </OverlayPanel>
 
@@ -404,7 +386,7 @@ export default {
                 // filter_status   : null,
                 filter_amount   : null,
                 filter_sortby   : 'betSum',
-                // filter_sort     : 'desc',
+                filter_sort     : 'desc',
                 page            : 1,
                 items_count     : 20,
             },
@@ -417,13 +399,10 @@ export default {
         }
     },
     watch: {
-        'params.filter_sort'(){
-            this.params.page    = 1
-            // this.startDate      = new Date(defaultStartDate)
-            // this.endDate        = new Date(defaultEndDate)
-            this.getList()
-        },
-        'params.filter_sortby'(){
+        'params.filter_sortby'(newVal){
+            console.log('Sort:', newVal)
+            if (newVal === 'matchName') this.params.filter_sort = 'asc'
+            else this.params.filter_sort = 'desc'
             this.params.page    = 1
             // this.startDate      = new Date(defaultStartDate)
             // this.endDate        = new Date(defaultEndDate)
@@ -449,6 +428,18 @@ export default {
         this.getList()
     },
     methods: {
+        toggleSort() {
+            if (this.params.filter_sort === 'desc') {
+                this.params.filter_sort = 'asc'
+            } else {
+                this.params.filter_sort = 'desc'
+            }
+
+            this.params.page    = 1
+            // this.startDate      = new Date(defaultStartDate)
+            // this.endDate        = new Date(defaultEndDate)
+            this.getList()
+        },
         showBetsOverlay(event, data, side) {
             console.log('hh data', data)
             this.overlayData = data
