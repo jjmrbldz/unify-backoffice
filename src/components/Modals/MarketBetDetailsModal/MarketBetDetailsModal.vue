@@ -134,6 +134,7 @@ export default {
                 filter_eventName    : this.dialogRef.data ? this.dialogRef.data.eventName : null,
                 filter_bettingName  : this.dialogRef.data ? this.dialogRef.data.bettingName : null,
                 filter_matchName    : this.dialogRef.data ? this.dialogRef.data.matchName : null,
+                filter_enddate    : this.dialogRef.data ? this.dialogRef.data.filterEndDate : null,
             },
             list: [],
         }

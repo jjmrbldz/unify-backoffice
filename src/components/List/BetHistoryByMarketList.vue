@@ -370,6 +370,7 @@ export default {
             betType: null,
             rowCount: 20,
             totalCount: null,
+            filterEndDate: null,
             rowData : {},
             loading : false,
             list    : [],
@@ -474,6 +475,8 @@ export default {
         async showMarketBetDetails(data, bettingName) {
             const {sportsName, leagueName, matchDateTime, eventName, matchName, isSplit, originalEventName} = data
 
+            console.log(data)
+
             this.$dialog.open(this.$modalComponent.MarketBetDetails, {
                 props: {
                     header: `${this.$store.getters['languageStore/translate'](`detailLang`)} - ${matchName}`,
@@ -492,6 +495,7 @@ export default {
                     eventName: isSplit ? originalEventName : eventName,
                     matchName: matchName,
                     bettingName: bettingName,
+                    filterEndDate: this.filterEndDate,
                 },
                 onClose: (options) => {
                     // this.getList();
@@ -732,6 +736,7 @@ export default {
 
                     console.log('Final List', this.list)
                     this.totalCount = res.data.totalCount
+                    this.filterEndDate = res.data.filter_enddate
                 } else {
                     this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
                     this.list = []
