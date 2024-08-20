@@ -649,7 +649,7 @@ export default {
                             }
     
                             // GROUPING OVER UNDER
-                            if (eventName == '오버언더' || eventName == '아시안 오버언더' || eventName == '1-3이닝 오버언더' || eventName == '1-5이닝 오버언더' || betDetails[0].bettingName.startsWith('오버') || betDetails[0].bettingName.startsWith('언더')) {
+                            if (eventName == '오버언더' || eventName == '아시안 오버언더' || eventName == '1-3이닝 오버언더' || eventName == '1-5이닝 오버언더' || betDetails[0].bettingName.includes('오버') || betDetails[0].bettingName.includes('언더')) {
                                 let arr = []
                                 let overBetsum = 0
                                 let overExpsum = 0
@@ -662,9 +662,9 @@ export default {
                                         if (!acc[number]) {
                                             acc[number] = { over: [], under: [] };
                                         }
-                                        if (bet.bettingName.startsWith("오버")) {
+                                        if (bet.bettingName.includes("오버")) {
                                             acc[number].over.push(bet);
-                                        } else if (bet.bettingName.startsWith("언더")) {
+                                        } else if (bet.bettingName.includes("언더")) {
                                             acc[number].under.push(bet);
                                         }
                                         return acc;
