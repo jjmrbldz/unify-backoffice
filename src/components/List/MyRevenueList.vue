@@ -138,7 +138,7 @@ export default {
         totalwinLose() {
             let total = 0;
             for(let item of this.list) {
-               total += parseInt(item.winLose);
+               total += parseFloat(item.winLose);
             }
             console.log(this.$GF.handleTextColor(total))
             return total;
