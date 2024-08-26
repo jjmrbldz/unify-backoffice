@@ -49,6 +49,7 @@
         <Column :header="this.$store.getters['languageStore/translate'](`Market`)" style="max-width: 220px;" :pt="{bodyCell: {class: 'border-300'}}">
             <template #body="{ data }">
                 <div class="">{{ data.eventName }}</div>
+                <Button icon="mdi mdi-eye" :label="$store.getters['languageStore/translate'](`Detailed Market`)" @click="showMarketBetDetails(data)" />
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Bet Total`)" :pt="{bodyCell: {class: 'border-300'}}">
@@ -60,35 +61,7 @@
             <template #body="{ data }">
                 <div class="font-bold">{{ data.homeName }}</div>
                 <Divider class="my-2" />
-                <div v-if="data.isHandicapParing" class="">
-                    <div :class="betAmountClass" @click="(event) => showBetsOverlay(event, data, 'home')" style="height: 48px; background: color-mix(in srgb, var(--blue-500), transparent 80%)">
-                        <div :class="betAmountClass2">
-                            <div class="">
-                                <span>{{ $store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
-                                <span class="font-semibold" :class="this.$GF.handleTextColor(data.hHandicapBetSum)">{{ this.$GF.formatNumComma(data.hHandicapBetSum) }}</span>
-                            </div>
-                            <div class="">
-                                <span>{{ $store.getters['languageStore/translate'](`expectedAmountLang`) }}: </span>
-                                <span class="font-semibold" :class="this.$GF.handleTextColor(data.hHandicapExpSum)">{{ this.$GF.formatNumComma(data.hHandicapExpSum) }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div v-else-if="data.isOUParing" class="">
-                    <div :class="betAmountClass" @click="(event) => showBetsOverlay(event, data, 'home')" style="height: 48px; background: color-mix(in srgb, var(--primary-500), transparent 80%)">
-                        <div :class="betAmountClass2">
-                            <div class="">
-                                <span>{{ $store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
-                                <span class="font-semibold" :class="this.$GF.handleTextColor(data.overBetsum)">{{ this.$GF.formatNumComma(data.overBetsum) }}</span>
-                            </div>
-                            <div class="">
-                                <span>{{ $store.getters['languageStore/translate'](`expectedAmountLang`) }}: </span>
-                                <span class="font-semibold" :class="this.$GF.handleTextColor(data.overExpsum)">{{ this.$GF.formatNumComma(data.overExpsum) }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div v-else-if="data.homeBettingName" :class="betAmountClass" @click="showMarketBetDetails(data, data.homeBettingName)" style="height: 48px;">
+                <div v-if="data.homeBettingAmount" :class="betAmountClass" style="height: 48px;">
                     <div :class="betAmountClass2">
                         <div class="">
                             <span>{{ $store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
@@ -105,17 +78,7 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`VS`)" style="min-width: 100px; max-width: 200px; text-align: center;" :pt="{headerContent: {style: {display: 'block'}}, bodyCell: {class: 'border-300'}}" >
             <template #body="{ data }">
-                <div v-if="data.isHandicapParing" class="">
-                    <div class="font-bold">vs</div>
-                    <Divider class="my-2" />
-                    <div class="flex justify-content-center align-items-center" style="height: 48px;">&nbsp;</div>
-                </div>
-                <div v-else-if="data.isOUParing" class="">
-                    <div class="font-bold">vs</div>
-                    <Divider class="my-2" />
-                    <div class="flex justify-content-center align-items-center" style="height: 48px;">&nbsp;</div>
-                </div>
-                <div v-else-if="data.drawBettingName">
+                <div v-if="data.drawBettingAmount">
                     <div class="">
                         <div class="font-bold">vs</div>
                         <Divider class="my-2" />
@@ -144,35 +107,7 @@
             <template #body="{ data }">
                 <div class="font-bold">{{ data.awayName }}</div>
                 <Divider class="my-2" />
-                <div v-if="data.isHandicapParing" class="">
-                    <div :class="betAmountClass" @click="(event) => showBetsOverlay(event, data, 'away')" style="height: 48px; background: color-mix(in srgb, var(--cyan-500), transparent 80%)">
-                        <div :class="betAmountClass2">
-                            <div class="">
-                                <span>{{ $store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
-                                <span class="font-semibold" :class="this.$GF.handleTextColor(data.aHandicapBetSum)">{{ this.$GF.formatNumComma(data.aHandicapBetSum) }}</span>
-                            </div>
-                            <div class="">
-                                <span>{{ $store.getters['languageStore/translate'](`expectedAmountLang`) }}: </span>
-                                <span class="font-semibold" :class="this.$GF.handleTextColor(data.aHandicapExpSum)">{{ this.$GF.formatNumComma(data.aHandicapExpSum) }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div v-else-if="data.isOUParing" class="">
-                    <div :class="betAmountClass" @click="(event) => showBetsOverlay(event, data, 'away')" style="height: 48px; background: color-mix(in srgb, var(--green-500), transparent 80%)">
-                        <div :class="betAmountClass2">
-                            <div class="">
-                                <span>{{ $store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
-                                <span class="font-semibold" :class="this.$GF.handleTextColor(data.underBetsum)">{{ this.$GF.formatNumComma(data.underBetsum) }}</span>
-                            </div>
-                            <div class="">
-                                <span>{{ $store.getters['languageStore/translate'](`expectedAmountLang`) }}: </span>
-                                <span class="font-semibold" :class="this.$GF.handleTextColor(data.underExpsum)">{{ this.$GF.formatNumComma(data.underExpsum) }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div v-else-if="data.awayBettingName" :class="betAmountClass" @click="showMarketBetDetails(data, data.awayBettingName)" style="height: 48px;">
+                <div v-if="data.awayBettingAmount" :class="betAmountClass" style="height: 48px;">
                     <div :class="betAmountClass2">
                         <div class="">
                             <span>{{ $store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
@@ -191,6 +126,11 @@
             <div class="p-3 surface-50 border-1 border-round border-200">
                 <h5>{{ $store.getters['languageStore/translate']('Bet Details') }}</h5>
                 <DataTable :value="JSON.parse(slotProps.data.betDetails)" >
+                    <Column :header="this.$store.getters['languageStore/translate'](`Market`)">
+                        <template #body="{data}">
+                            {{ data.eventName }}
+                        </template>
+                    </Column>
                     <Column :header="this.$store.getters['languageStore/translate'](`Betting Name`)">
                         <template #body="{data}">
                             {{ data.bettingName }}
@@ -203,7 +143,7 @@
                     </Column>
                     <Column :header="this.$store.getters['languageStore/translate'](`betAmountLang`)">
                         <template #body="{data}">
-                            <div class="font-semibold" :class="`${this.$GF.handleTextColor(data.betAmount)} ${betAmountExpansionClass}`" @click="showMarketBetDetails(slotProps.data, data.bettingName)">{{ this.$GF.formatNumComma(data.betAmount) }}</div>
+                            <div class="font-semibold">{{ this.$GF.formatNumComma(data.betAmount) }}</div>
                         </template>
                     </Column>
                     <Column :header="this.$store.getters['languageStore/translate'](`expectedAmountLang`)">
@@ -242,115 +182,6 @@
             <RadioButton v-model="params.filter_sortby" inputId="sortByHome" value="matchName" />
             <label for="sortByHome" class="ml-2">{{ $store.getters['languageStore/translate']('Game Name') }}</label>
         </div>
-    </OverlayPanel>
-
-    <OverlayPanel ref="hHandicapPanel" >
-        <template v-for="(value, key, index) in overlayData.handicapPair">
-            <template v-if="value.home.length > 0" v-for="item in value.home">
-                <div :class="betAmountClass" @click="showMarketBetDetails(overlayData, item.bettingName)" style="height: 48px;">
-                    <div :class="betAmountClass3">
-                        <div class="font-bold">
-                            <span>
-                                <template v-if="value.home.length > 0">
-                                    <span>{{ value.homeHandicapSign }}</span>
-                                </template>
-                                <template v-else>
-                                    <span>{{ reverseAwaySign(value.awayHandicapSign) }}</span>
-                                </template>
-                                <span>{{ key }}</span>
-                            </span>
-                        </div>
-                        <Divider class="mx-1" layout="vertical" />
-                        <div class="">
-                            <span>{{ $store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
-                            <span class="font-semibold" :class="this.$GF.handleTextColor(item.betAmount)">{{ this.$GF.formatNumComma(item.betAmount) }}</span>
-                        </div>
-                        <Divider class="mx-1" layout="vertical" />
-                        <div class="">
-                            <span>{{ $store.getters['languageStore/translate'](`expectedAmountLang`) }}: </span>
-                            <span class="font-semibold" :class="this.$GF.handleTextColor(item.expectedWinAmount)">{{ this.$GF.formatNumComma(item.expectedWinAmount) }}</span>
-                        </div>
-                    </div>
-                </div>
-            </template>
-            <div class="flex justify-content-center align-items-center" v-else style="height: 48px;">-</div>
-        </template>
-    </OverlayPanel>
-
-    <OverlayPanel ref="aHandicapPanel" >
-        <template v-for="(value, key, index) in overlayData.handicapPair">
-            <template v-if="value.away.length > 0" v-for="item in value.away">
-                <div :class="betAmountClass" @click="showMarketBetDetails(overlayData, item.bettingName)" style="height: 48px;">
-                    <div :class="betAmountClass3">
-                        <div class="font-bold">
-                            <span>
-                                <template v-if="value.home.length > 0">
-                                    <span>{{ value.awayHandicapSign }}</span>
-                                </template>
-                                <template v-else>
-                                    <span>{{ reverseAwaySign(value.awayHandicapSign) }}</span>
-                                </template>
-                                <span>{{ key }}</span>
-                            </span>
-                        </div>
-                        <Divider class="mx-1" layout="vertical" />
-                        <div class="">
-                            <span>{{ $store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
-                            <span class="font-semibold" :class="this.$GF.handleTextColor(item.betAmount)">{{ this.$GF.formatNumComma(item.betAmount) }}</span>
-                        </div>
-                        <Divider class="mx-1" layout="vertical" />
-                        <div class="">
-                            <span>{{ $store.getters['languageStore/translate'](`expectedAmountLang`) }}: </span>
-                            <span class="font-semibold" :class="this.$GF.handleTextColor(item.expectedWinAmount)">{{ this.$GF.formatNumComma(item.expectedWinAmount) }}</span>
-                        </div>
-                    </div>
-                </div>
-            </template>
-            <div class="flex justify-content-center align-items-center" v-else style="height: 48px;">-</div>
-        </template>
-    </OverlayPanel>
-
-    <OverlayPanel ref="overPanel" >
-        <template v-for="(value, key, index) in overlayData.overUnderPair">
-            <template v-if="value.over.length > 0" v-for="item in value.over">
-                <div :class="betAmountClass" @click="showMarketBetDetails(overlayData, item.bettingName)" style="height: 48px;">
-                    <div :class="betAmountClass3">
-                        <div class="font-bold">{{ key }}</div>
-                        <Divider class="mx-1" layout="vertical" />
-                        <div class="">
-                            <span>{{ $store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
-                            <span class="font-semibold" :class="this.$GF.handleTextColor(item.betAmount)">{{ this.$GF.formatNumComma(item.betAmount) }}</span>
-                        </div>
-                        <Divider class="mx-1" layout="vertical" />
-                        <div class="">
-                            <span>{{ $store.getters['languageStore/translate'](`expectedAmountLang`) }}: </span>
-                            <span class="font-semibold" :class="this.$GF.handleTextColor(item.expectedWinAmount)">{{ this.$GF.formatNumComma(item.expectedWinAmount) }}</span>
-                        </div>
-                    </div>
-                </div>
-            </template>
-            <div class="flex justify-content-center align-items-center" v-else style="height: 48px;">-</div>
-        </template>
-    </OverlayPanel>
-
-    <OverlayPanel ref="underPanel" >
-        <template v-for="(value, key, index) in overlayData.overUnderPair">
-            <template v-if="value.under.length > 0" v-for="item in value.under">
-                <div :class="betAmountClass" @click="showMarketBetDetails(overlayData, item.bettingName)" style="height: 48px;">
-                    <div :class="betAmountClass3">
-                        <div class="">
-                            <span>{{ $store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
-                            <span class="font-semibold" :class="this.$GF.handleTextColor(item.betAmount)">{{ this.$GF.formatNumComma(item.betAmount) }}</span>
-                        </div>
-                        <div class="">
-                            <span>{{ $store.getters['languageStore/translate'](`expectedAmountLang`) }}: </span>
-                            <span class="font-semibold" :class="this.$GF.handleTextColor(item.expectedWinAmount)">{{ this.$GF.formatNumComma(item.expectedWinAmount) }}</span>
-                        </div>
-                    </div>
-                </div>
-            </template>
-            <div class="flex justify-content-center align-items-center" v-else style="height: 48px;">-</div>
-        </template>
     </OverlayPanel>
 </template>
 
@@ -393,7 +224,7 @@ export default {
             },
             startDate   : new Date(defaultStartDate),
             endDate     : new Date(defaultEndDate),
-            betAmountClass: 'cursor-pointer hover:surface-200 border-bottom-1 border-transparent hover:border-600 p-1 border-round border-noround-bottom transition-colors transition-duration-200 flex justify-content-center align-items-center gap-2',
+            betAmountClass: 'border-bottom-1 border-transparent p-1 border-round border-noround-bottom flex justify-content-center align-items-center gap-2',
             betAmountExpansionClass: 'cursor-pointer hover:surface-hover p-1 border-round transition-colors transition-duration-200 flex',
             betAmountClass2: 'flex flex-wrap flex-column justify-content-center align-items-center gap-2 text-sm',
             betAmountClass3: 'flex justify-content-center align-items-center gap-2'
@@ -473,11 +304,11 @@ export default {
             }
         },
         async showMarketBetDetails(data, bettingName) {
-            const {sportsName, leagueName, matchDateTime, eventName, matchName, isSplit, originalEventName} = data
+            const {sportsName, leagueName, matchDateTime, matchName } = data
 
             console.log(data)
 
-            this.$dialog.open(this.$modalComponent.MarketBetDetails, {
+            this.$dialog.open(this.$modalComponent.EventBetDetails, {
                 props: {
                     header: `${this.$store.getters['languageStore/translate'](`detailLang`)} - ${matchName}`,
                     style: {
@@ -488,14 +319,10 @@ export default {
                     dismissableMask: true,
                 },
                 data: {
-                    agentID: this.params.filter_agentid,
                     sportsName: sportsName,
                     leagueName: leagueName,
                     matchDateTime: matchDateTime,
-                    eventName: isSplit ? originalEventName : eventName,
                     matchName: matchName,
-                    bettingName: bettingName,
-                    filterEndDate: this.filterEndDate,
                 },
                 onClose: (options) => {
                     // this.getList();
@@ -526,212 +353,53 @@ export default {
                 this.params.filter_startdate = this.startDate ? `${this.$GF.getDateTime2(this.startDate)}` : null;
                 this.params.filter_enddate = this.endDate ? `${this.$GF.getDateTime2(this.endDate)}` : null;
 
-                const res   = await api.recordHistoryListNew(this.params);
+                const res   = await api.recordHistoryListMain(this.params);
                 const code  = res.data.code;
                 const msg   = res.data.message;
                 console.log(res.data);
 
                 if(code === 1) {
-                    // this.$GF.customToast(code, this.$store.getters['languageStore/translate'](`${msg}`))
-                    // this.list = res.data.data;
                     
                     console.log('ORIGNAL DATA', res.data.data)
 
-                    // EVENT NAME SPLITTER
-                    const resData = res.data.data
-                    let newList = []
-                    for (var [index, item] of resData.entries()) {
-                        const {eventName} = item
-
-                        if (eventName.includes('|')) {
-                            const eventNamesArr = eventName.split('|')
-                            const trimEventName = eventNamesArr.map(word => word.trim())
-
-                            trimEventName.map(eventItem => {
-                                newList.push({
-                                    ...item,
-                                    eventName: eventItem,
-                                    originalEventName: eventName,
-                                    isSplit: true,
-                                })
-                            })
-                        } else {
-                            newList.push(item)
-                        }
-                    }
-                    console.log('NEW UPDATED LIST', newList)
-                    this.list = newList
+                    this.list = res.data.data
 
                     const list = this.list
-                    // const list = res.data.data
 
                     // BET DETAILS MANIPULATOR
                     for (var [index, item] of list.entries()) {
-                        const { eventName, homeName, awayName } = item
+                        const { homeName, awayName } = item
                         const betDetails = JSON.parse(item.betDetails)
-                        
-                        // console.log('Item:', index, item)
-                        // console.log('betDetails:', betDetails)
-                        if(betDetails) {
 
+                        let homeBTotal = 0
+                        let homeETotal = 0
+                        let awayBTotal = 0
+                        let awayETotal = 0
+                        let drawBTotal = 0
+                        let drawETotal = 0
+                        if(betDetails) {
                             betDetails.map((item) => {
-                                if (item.bettingName.includes(homeName)) {
-                                    this.list[index].homeBettingName = item.bettingName
-                                    this.list[index].homeBettingAmount = item.betAmount
-                                    this.list[index].homeBettingExpAmount = item.expectedWinAmount
-                                }
-                                if (item.bettingName.includes(awayName)) {
-                                    this.list[index].awayBettingName = item.bettingName
-                                    this.list[index].awayBettingAmount = item.betAmount
-                                    this.list[index].awayBettingExpAmount = item.expectedWinAmount
-                                }
-                                if (item.bettingName.includes('무승부') || item.bettingName.includes('예') || item.bettingName.includes('골')) {
-                                    this.list[index].drawBettingName = item.bettingName
-                                    this.list[index].drawBettingAmount = item.betAmount
-                                    this.list[index].drawBettingExpAmount = item.expectedWinAmount
-                                    if(item.bettingName.includes('골')) {
-                                        this.list[index].notDraw = true
-                                    }
+                                if (item.bettingName.includes(homeName) || item.bettingName.includes('오버')) {
+                                    homeBTotal += item.betAmount
+                                    homeETotal += item.expectedWinAmount
+                                } else if (item.bettingName.includes(awayName) || item.bettingName.includes('언더')) {
+                                    awayBTotal += item.betAmount
+                                    awayETotal += item.expectedWinAmount
+                                } else if (item.bettingName.includes('무승부') || item.bettingName.includes('예') || item.bettingName.includes('골')) {
+                                    drawBTotal += item.betAmount
+                                    drawETotal += item.expectedWinAmount
+                                } else {
+                                    drawBTotal += item.betAmount
+                                    drawETotal += item.expectedWinAmount
                                 }
                             })
-    
-                            // GROUPING HANDICAP
-                            if (eventName == '핸디캡' || eventName == '아시안 핸디캡' || eventName.includes('핸디캡')) {
-                                let hHandicapBetSum = 0
-                                let hHandicapExpSum = 0
-                                let aHandicapBetSum = 0
-                                let aHandicapExpSum = 0
-                                const groupedBets = betDetails.reduce((acc, bet) => {
-                                    // const number = parseFloat(bet.bettingName.match(/-?\d+(\.\d+)?/)[0]);
-                                    const number = parseFloat(bet.bettingName.match(/[\d\.]+/)[0]);
-                                    if (!acc[number]) {
-                                        acc[number] = { home: [], away: [], homeHandicapSign: '', awayHandicapSign: '' };
-                                    }
-                                    if (bet.bettingName.includes(item.homeName)) {
-                                        acc[number].home.push(bet);
-
-                                        const matchSign = bet.bettingName.match(/([+-])(\d+(\.\d+)?)/)
-                                        if (matchSign) {
-                                            acc[number].homeHandicapSign = matchSign[1]
-                                        }
-
-                                    } else if (bet.bettingName.includes(item.awayName)) {
-                                        acc[number].away.push(bet);
-
-                                        const matchSign = bet.bettingName.match(/([+-])(\d+(\.\d+)?)/)
-                                        if (matchSign) {
-                                            acc[number].awayHandicapSign = matchSign[1]
-                                        }
-                                    }
-
-                                    return acc;
-                                }, {});
-
-                                // SUM AMOUNTS HANDICAP
-                                Object.keys(groupedBets).map(number => {
-                                    const {home, away} = groupedBets[number]
-                                        for (const x of home) {
-                                            console.log('home handicap betAmount: ', x.betAmount)
-                                            hHandicapBetSum += x.betAmount
-                                            hHandicapExpSum += x.expectedWinAmount
-                                        }
-                                        for (const x of away) {
-                                            console.log('away handicap betAmount: ', x.betAmount)
-                                            aHandicapBetSum += x.betAmount
-                                            aHandicapExpSum += x.expectedWinAmount
-                                        }
-                                })
-    
-                                console.log('Grouped Handicap', groupedBets)
-                                this.list[index].isHandicapParing = true
-                                this.list[index].handicapPair = groupedBets
-
-                                this.list[index].hHandicapBetSum = hHandicapBetSum
-                                this.list[index].hHandicapExpSum = hHandicapExpSum
-                                this.list[index].aHandicapBetSum = aHandicapBetSum
-                                this.list[index].aHandicapExpSum = aHandicapExpSum
-                            }
-    
-                            // GROUPING OVER UNDER
-                            if (eventName == '오버언더' || eventName == '아시안 오버언더' || eventName == '1-3이닝 오버언더' || eventName == '1-5이닝 오버언더' || betDetails[0].bettingName.includes('오버') || betDetails[0].bettingName.includes('언더')) {
-                                let arr = []
-                                let overBetsum = 0
-                                let overExpsum = 0
-                                let underBetsum = 0
-                                let underExpsum = 0
-                                if (betDetails.length > 1) {
-    
-                                    const groupedBets = betDetails.reduce((acc, bet) => {
-                                        const number = parseFloat(bet.bettingName.match(/[\d\.]+/)[0]);
-                                        if (!acc[number]) {
-                                            acc[number] = { over: [], under: [] };
-                                        }
-                                        if (bet.bettingName.includes("오버")) {
-                                            acc[number].over.push(bet);
-                                        } else if (bet.bettingName.includes("언더")) {
-                                            acc[number].under.push(bet);
-                                        }
-                                        return acc;
-                                    }, {});
-        
-                                    console.log('Grouped OverUnder', groupedBets)
-                                    this.list[index].isOUParing = true
-                                    this.list[index].overUnderPair = groupedBets
-
-                                    Object.keys(groupedBets).map(number => {
-                                        // SUM AMOUNT OVERUNDER
-                                        const {over, under} = groupedBets[number]
-                                        for (const x of over) {
-                                            // console.log('over betAmount: ', x.betAmount)
-                                            overBetsum += x.betAmount
-                                            overExpsum += x.expectedWinAmount
-                                        }
-                                        for (const x of under) {
-                                            // console.log('under betAmount: ', x.betAmount)
-                                            underBetsum += x.betAmount
-                                            underExpsum += x.expectedWinAmount
-                                        }
-    
-                                        if(groupedBets[number].over.length > 0 && groupedBets[number].under.length > 0) {
-                                            arr.push({
-                                                over: groupedBets[number].over[0],
-                                                odds: number,
-                                                under: groupedBets[number].under[0],
-                                            })
-                                        } else {
-                                            if (groupedBets[number].over.length > 0) {
-                                                this.list[index].homeBettingName = groupedBets[number].over[0].bettingName
-                                                this.list[index].homeBettingAmount = groupedBets[number].over[0].betAmount
-                                                this.list[index].homeBettingExpAmount = groupedBets[number].over[0].expectedWinAmount
-                                            }
-                                            if (groupedBets[number].under.length > 0) {
-                                                this.list[index].awayBettingName = groupedBets[number].under[0].bettingName
-                                                this.list[index].awayBettingAmount = groupedBets[number].under[0].betAmount
-                                                this.list[index].awayBettingExpAmount = groupedBets[number].under[0].expectedWinAmount
-                                            }
-                                        }
-    
-                                    })
-
-                                    this.list[index].overBetsum = overBetsum
-                                    this.list[index].overExpsum = overExpsum
-                                    this.list[index].underBetsum = underBetsum
-                                    this.list[index].underExpsum = underExpsum
-
-                                } else {
-                                    if (betDetails[0].bettingName.split(' ').includes('오버')) {
-                                        this.list[index].homeBettingName = betDetails[0].bettingName
-                                        this.list[index].homeBettingAmount = betDetails[0].betAmount
-                                        this.list[index].homeBettingExpAmount = betDetails[0].expectedWinAmount
-                                    }
-                                    if (betDetails[0].bettingName.split(' ').includes('언더')) {
-                                        this.list[index].awayBettingName = betDetails[0].bettingName
-                                        this.list[index].awayBettingAmount = betDetails[0].betAmount
-                                        this.list[index].awayBettingExpAmount = betDetails[0].expectedWinAmount
-                                    }
-                                }
-                            }
                         }
+                        this.list[index].homeBettingAmount      = homeBTotal
+                        this.list[index].homeBettingExpAmount   = homeETotal
+                        this.list[index].awayBettingAmount      = awayBTotal
+                        this.list[index].awayBettingExpAmount   = awayETotal
+                        this.list[index].drawBettingAmount      = drawBTotal
+                        this.list[index].drawBettingExpAmount   = drawETotal
                     }
 
                     console.log('Final List', this.list)
