@@ -83,7 +83,7 @@
                         <div class="font-bold">vs</div>
                         <Divider class="my-2" />
                     </div>
-                    <div :class="betAmountClass" @click="showMarketBetDetails(data, data.drawBettingName)" style="height: 48px;">
+                    <div :class="betAmountClass" style="height: 48px;">
                         <div :class="betAmountClass2">
                             <div class="">
                                 <span>{{ $store.getters['languageStore/translate'](`betAmountLang`) }}: </span>
