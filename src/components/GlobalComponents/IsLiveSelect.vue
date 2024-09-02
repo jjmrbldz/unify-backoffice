@@ -28,8 +28,9 @@ export default {
         return {
             list: [
                 // {label: 'All', value: null},
-                {label: 'Prematch', value: 0},
-                {label: 'Live', value: 1},
+                {label: 'Prematch', value: 2},
+                {label: 'Live', value: 3},
+                {label: 'Multiple Bet', value: 5},
             ],
         };
     },

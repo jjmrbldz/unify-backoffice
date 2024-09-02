@@ -71,15 +71,9 @@ export default {
             ]
         } else {
             this.list = [
-                {label: 'Opened', value: 'Opened'}, // 대기
-                {label: 'Lost', value: 'Lost'}, // 패 
-                {label: 'Won', value: 'Won'}, // 승
-                {label: 'Draw', value: 'Draw'}, // 무
-                {label: 'Canceled', value: 'Canceled'}, // 취소
-                {label: 'Settlement Complete', value: 'complete'}, // 정산완료
-                {label: 'Cashout', value: 'Cashout'}, // 캐시아웃
-                {label: 'Half Won', value: 'Half Won'}, // 하프 승
-                {label: 'Half Lost', value: 'Half Lost'}, // 하프 패
+                {label: 'Opened', value: 0}, // 대기
+                {label: 'Won', value: 1}, // 승
+                {label: 'Lost', value: 2}, // 패 
             ]
         }
     },
