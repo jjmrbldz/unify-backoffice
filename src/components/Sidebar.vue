@@ -48,7 +48,7 @@
                     <router-link v-ripple class="jb-item-link" :class="this.$route.query.bettype === 'minigame' ? 'custom-active' : ''" activeClass="" exactActiveClass="" :to="{path: '/history/bet', query: {bettype: 'minigame', filter_game_id: ''}}">
                         <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('Bet History - MiniGame') }} </span>
                     </router-link>
-                    <router-link v-ripple class="jb-item-link" :class="this.$route.query.bettype === 'sport' ? 'custom-active' : ''" activeClass="" exactActiveClass="" :to="{path: '/history/bet', query: {bettype: 'sport', filter_game_id: 'bti'}}">
+                    <router-link v-ripple class="jb-item-link" :class="this.$route.query.bettype === 'sport' ? 'custom-active' : ''" activeClass="" exactActiveClass="" :to="{path: '/history/bet', query: {bettype: 'sport', filter_game_id: 'esports'}}">
                         <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('Bet History - Sport') }} </span>
                     </router-link>
                 </div>

@@ -77,7 +77,7 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Vendor`)" style="min-width: 100px">
             <template #body="{ data }">
-                <ProviderID id="bti" />
+                <ProviderID id="esports" />
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Reserve ID`)" style="min-width: 100px; text-transform: capitalize;">
@@ -93,8 +93,9 @@
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Live?`)" style="min-width: 100px; text-transform: capitalize;">
             <template #body="{ data }">
-                <Tag v-if="data.isLive === 1" severity="success" :value="$store.getters['languageStore/translate'](`Live`)"></Tag>
-                <Tag v-else severity="warning" :value="$store.getters['languageStore/translate'](`Prematch`)"></Tag>
+                <Tag v-if="data.isLive == 3" severity="success" :value="$store.getters['languageStore/translate'](`Live`)"></Tag>
+                <Tag v-else-if="data.isLive == 2" severity="warning" :value="$store.getters['languageStore/translate'](`Prematch`)"></Tag>
+                <Tag v-else severity="info" :value="$store.getters['languageStore/translate'](`Multiple Bet`)"></Tag>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Odds Total`)" style="min-width: 100px">
@@ -143,11 +144,9 @@
                 </div>
             </template>
         </Column>
-        <Column field="ratio" :header="this.$store.getters['languageStore/translate'](`BTI Result`)">
+        <Column field="ratio" :header="this.$store.getters['languageStore/translate'](`Result`)">
             <template #body="{ data }">
-                <span v-if="data.resultDetails">{{ data.ratio }}</span>
-                <span v-else>-</span>
-                <!-- <span>{{ data.ratio }}</span> -->
+                <span>{{ data.ratio }}</span>
             </template>
         </Column>
         <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
@@ -378,7 +377,7 @@ export default {
             this.getList()
         },
         'params.filter_game_id'(newVal, oldVal){
-            if (newVal === 'bti') {
+            if (newVal === 'esports') {
                 this.$router.replace({query: {bettype: 'sport', filter_game_id: newVal}})
             } else if (newVal === '') {
                 this.$router.replace({query: {bettype: '', filter_game_id: newVal}})

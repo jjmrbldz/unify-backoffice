@@ -74,6 +74,14 @@ export default {
                         gameCode: '',
                         status: 1
                     })
+                    this.list.push({
+                        casinoName: 'ESports',
+                        casinoImg: null,
+                        casinoLogo: null,
+                        gameType: 'Sports',
+                        gameCode: 'esports',
+                        status: 1
+                    })
                 } else {
                     this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
                 }
