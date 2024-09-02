@@ -146,7 +146,8 @@
         </Column>
         <Column field="ratio" :header="this.$store.getters['languageStore/translate'](`Result`)">
             <template #body="{ data }">
-                <span>{{ data.ratio }}</span>
+                <span v-if="data.isLive == 5">{{ data.ratio }}</span>
+                <span v-else>1/1</span>
             </template>
         </Column>
         <template #empty> <div class="text-center text-red-500"> {{ this.$store.getters['languageStore/translate']('noResultsFoundLang') }} </div> </template>
