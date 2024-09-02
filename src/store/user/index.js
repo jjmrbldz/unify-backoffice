@@ -41,14 +41,14 @@ const mutations = {
         state.tp_level  = user.tp_level
     },
     logout(state) {
-        // state.user_id   = null
-        // state.username  = null
-        // state.token     = null
-        // state.tp_level  = null
-        // router.push('/login')
-        // setTimeout(()=> {
-        //     router.go();
-        // }, 100);
+        state.user_id   = null
+        state.username  = null
+        state.token     = null
+        state.tp_level  = null
+        router.push('/login')
+        setTimeout(()=> {
+            router.go();
+        }, 100);
     },
 }
 
