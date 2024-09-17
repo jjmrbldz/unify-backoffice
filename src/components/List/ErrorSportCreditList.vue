@@ -1,6 +1,6 @@
 <template>
     <div class="formgrid grid mt-4 mb-2">
-        <div class="field col-2" v-if="false">
+        <div class="field col-2">
             <label>{{ $store.getters['languageStore/translate']('Agent ID') }}</label>
             <PartnerSelect v-model="params.filter_agentid" />
         </div>
@@ -60,10 +60,15 @@
                 <span class="" :class="this.$GF.handleTextColor(data.cash_after)">{{ this.$GF.formatNumComma(data.cash_after) }}</span>
             </template>
         </Column>
-        <Column :header="this.$store.getters['languageStore/translate'](`Status`)" style="min-width: 100px">
+        <Column :header="this.$store.getters['languageStore/translate'](`Status`)" style="min-width: 150px">
             <template #body="{ data }">
-                <Tag v-if="JSON.parse(data.response)['status'] === 0" severity="success" :value="$store.getters['languageStore/translate'](`Success`)"></Tag>
-                <Tag v-else severity="danger" :value="$store.getters['languageStore/translate'](`Error`)"></Tag>
+                <template v-if="JSON.parse(data.response)['status'] === 0">
+                    <Tag  severity="success" :value="$store.getters['languageStore/translate'](`Success`)"></Tag>
+                </template>
+                <template v-else>
+                    <Tag severity="danger" :value="$store.getters['languageStore/translate'](`Error`)"></Tag>
+                    <div class="text-xs mt-1 ml-1">{{ JSON.parse(data.response)['error_code'] ? JSON.parse(data.response)['error_code'] : JSON.parse(data.response)['message'] }}</div>
+                </template>
             </template>
         </Column>
         <Column :header="this.$store.getters['languageStore/translate'](`Balance`)" style="min-width: 100px">
@@ -109,6 +114,7 @@ export default {
                 Authorization   : `Bearer ${TOKEN}`,
                 username        : this.$store.state.userStore.username,
                 token           : this.$store.state.userStore.token,
+                filter_agentid  : '',
                 filter_reserve_id: null,
                 filter_startdate: null,
                 filter_enddate  : null,
@@ -119,6 +125,14 @@ export default {
             endDate     : new Date(),
             list: [],
         }
+    },
+    watch: {
+        'params.filter_agentid'(){
+            this.params.page    = 1
+            this.startDate      = new Date()
+            this.endDate        = new Date()
+            this.getList()
+        },
     },
     mounted() {
         this.getList()
@@ -135,7 +149,7 @@ export default {
                     Authorization   : `Bearer ${TOKEN}`,
                     username        : this.params.username,
                     token           : this.params.token,
-                    // filter_agentid  : this.params.filter_agentid ? this.params.filter_agentid : this.$store.state.userStore.username,
+                    filter_agentid  : this.params.filter_agentid,
                     filter_startdate: this.params.filter_startdate,
                     filter_enddate  : this.params.filter_enddate,
                     page            : this.params.page,

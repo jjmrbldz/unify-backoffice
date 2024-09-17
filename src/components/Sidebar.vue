@@ -30,9 +30,6 @@
                     <router-link v-ripple class="jb-item-link" to="/history/credit">
                         <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('creditHistoryLang') }} </span>
                     </router-link>
-                    <router-link v-if="$store.state.userStore.tp_level === 'T'" v-ripple class="jb-item-link" to="/history/errorcredit">
-                        <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('Error Credit History List') }} </span>
-                    </router-link>
                 </div>
             </div>
             <div class="jb-menu-item has-submenu">
@@ -53,6 +50,9 @@
                     </router-link>
                     <router-link v-ripple class="jb-item-link" :class="this.$route.query.bettype === 'sport' ? 'custom-active' : ''" activeClass="" exactActiveClass="" :to="{path: '/history/bet', query: {bettype: 'sport', filter_game_id: 'bti'}}">
                         <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('Bet History - Sport') }} </span>
+                    </router-link>
+                    <router-link v-if="$store.state.userStore.tp_level === 'T'" v-ripple class="jb-item-link" to="/history/errorcredit">
+                        <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('Error Credit History List') }} </span>
                     </router-link>
                     <router-link v-ripple class="jb-item-link" :to="{path: '/history/betmarket'}">
                         <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('Bet History - By Sport Market') }} </span>
