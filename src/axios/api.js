@@ -95,6 +95,7 @@ export const api = {
   getBetDetails       : (data)        => axiosInstance.post('betdetails', data, {headers: {"Content-Type":"multipart/form-data"}}),
   resendResult        : (data)        => axiosInstance.post('resendresult', data, {headers: {"Content-Type":"multipart/form-data"}}),
   sportCreditList     : (data)        => axiosInstance.post('bticreditcustomer', data, {headers: {"Content-Type":"multipart/form-data"}}),
+  errorSportCreditList: (data)        => axiosInstance.post('error_bticreditcustomer', data, {headers: {"Content-Type":"multipart/form-data"}}),
 
   // REVENUE
   getMyRevenueList    : (data)        => axiosInstance.post('myrevenue', data),

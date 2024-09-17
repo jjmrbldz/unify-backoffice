@@ -106,6 +106,13 @@ const router = createRouter({
 					component: () => import('@/views/CreditHistoryView.vue')
 				},
 				{
+					path: 'errorcredit',
+					meta: {
+						title: 'Error Credit History List',
+					},
+					component: () => import('@/views/ErrorSportCreditListView.vue')
+				},
+				{
 					path: 'bet',
 					meta: {
 						title: 'Betting History List',

@@ -30,6 +30,9 @@
                     <router-link v-ripple class="jb-item-link" to="/history/credit">
                         <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('creditHistoryLang') }} </span>
                     </router-link>
+                    <router-link v-if="$store.state.userStore.tp_level === 'T'" v-ripple class="jb-item-link" to="/history/errorcredit">
+                        <span class="ml-2 fs-6">{{ this.$store.getters['languageStore/translate']('Error Credit History List') }} </span>
+                    </router-link>
                 </div>
             </div>
             <div class="jb-menu-item has-submenu">
