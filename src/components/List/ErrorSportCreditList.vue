@@ -109,6 +109,8 @@ import { api, TOKEN } from '@/axios/api';
 export default {
     data() {
         return {
+            currDate    : new Date(),
+            totalCount: null,
             loading     : false,
             params      : {
                 Authorization   : `Bearer ${TOKEN}`,
@@ -138,6 +140,15 @@ export default {
         this.getList()
     },
     methods: {
+        handleDateChange() {
+            this.params.page = 1
+            this.getPartnerCash()
+        },
+        handlePagination(data) {
+            this.params.page = data.page+1;
+            this.params.items_count = data.rows;
+            this.getList()
+        },
         async getList() {
             this.loading = true
             try {
@@ -163,6 +174,7 @@ export default {
 
                 if(code === 1) {
                     this.list = res.data.data;
+                    this.totalCount = res.data.totalCount
                 } else {
                     this.$GF.customToast(res.data.status, this.$store.getters['languageStore/translate'](`${res.data.error_code}`))
                     this.list = []
