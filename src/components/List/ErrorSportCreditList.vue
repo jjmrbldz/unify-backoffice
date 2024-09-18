@@ -5,12 +5,20 @@
             <PartnerSelect v-model="params.filter_agentid" />
         </div>
         <div class="field col-2">
+            <label>{{ $store.getters['languageStore/translate']('Reserve ID') }}</label>
+            <InputText type="search" v-model="params.filter_trans_id" class="text-base text-color p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+        </div>
+        <div class="field col-2">
+            <label>{{ $store.getters['languageStore/translate']('Purchase ID') }}</label>
+            <InputText type="search" v-model="params.filter_purchase_id" class="text-base text-color p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+        </div>
+        <div class="field col-2">
             <label>{{ $store.getters['languageStore/translate']('startDateLang') }}</label>
-            <Calendar v-model="startDate" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :maxDate="currDate" showIcon iconDisplay="input" inputId="icondisplay" />
+            <Calendar v-model="startDate" class="w-full" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :maxDate="currDate" showIcon iconDisplay="input" inputId="icondisplay" />
         </div>
         <div class="field col-2">
             <label>{{ $store.getters['languageStore/translate']('endDateLang') }}</label>
-            <Calendar v-model="endDate" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :minData="startDate" :maxDate="currDate" showIcon iconDisplay="input" inputId="icondisplay" />
+            <Calendar v-model="endDate" class="w-full" placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" @dateSelect="handleDateChange()" @keyup.enter="handleDateChange()" :minData="startDate" :maxDate="currDate" showIcon iconDisplay="input" inputId="icondisplay" />
         </div>
         <div class="field col-1">
             <label>&nbsp;</label>
@@ -117,7 +125,8 @@ export default {
                 username        : this.$store.state.userStore.username,
                 token           : this.$store.state.userStore.token,
                 filter_agentid  : '',
-                filter_reserve_id: null,
+                filter_trans_id : null,
+                filter_purchase_id : null,
                 filter_startdate: null,
                 filter_enddate  : null,
                 page            : 1,
@@ -156,18 +165,7 @@ export default {
                 this.params.filter_startdate = this.startDate ? `${this.$GF.getDateTime(this.startDate, 'date')} 00:00:00` : null;
                 this.params.filter_enddate = this.endDate ? `${this.$GF.getDateTime(this.endDate, 'date')} 23:59:59` : null;
 
-                const reqBody = {
-                    Authorization   : `Bearer ${TOKEN}`,
-                    username        : this.params.username,
-                    token           : this.params.token,
-                    filter_agentid  : this.params.filter_agentid,
-                    filter_startdate: this.params.filter_startdate,
-                    filter_enddate  : this.params.filter_enddate,
-                    page            : this.params.page,
-                    items_count     : this.params.items_count,
-                }
-
-                const res   = await api.errorSportCreditList(reqBody);
+                const res   = await api.errorSportCreditList(this.params);
                 const code  = res.data.code;
                 const msg   = res.data.message;
                 console.log(res.data);
